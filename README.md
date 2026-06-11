@@ -1,30 +1,22 @@
-# IRON KINGDOMS: WAR OF BRASS — v0.26.06.10.1954
+# Iron Kingdoms: War of Brass — v0.26.06.10.2134
 
-Premium Presentation Branch: **Coherent Tiles + Frame Animation + Music**.
+Premium Gameplay + Presentation patch for GitHub Pages.
 
-## How to play locally
+## Run
+Open `index.html` locally or host this folder on GitHub Pages. No build process or server backend is required.
 
-Open `index.html` in a desktop browser, or host this folder on GitHub Pages.
+## New in v0.26.06.10.2134
+- Solo play with up to 7 computer-controlled kingdoms.
+- Mixed Human / AI / Closed player slots in New Game.
+- Five AI difficulties: Recruit, Soldier, Captain, Warlord, Iron Tyrant.
+- Commander selection per player.
+- Unique named commander identities and portraits.
+- Squad count display tied to HP.
+- Zoomed battle scenes show squad members and visible casualties/explosions as damage removes individuals.
+- Original multi-voice MP3 soundtrack in `assets/audio/music/`.
 
-## GitHub Pages
+## Discord Play
+For human turns, press End Turn, Save Game, and post the JSON file to Discord. AI turns resolve automatically after loading or after a human ends turn.
 
-Upload the contents of this folder to your repository root. Make sure `index.html` is at the root, then enable GitHub Pages for the branch.
-
-## Multiplayer handoff
-
-Players still use the Discord JSON save flow:
-
-1. Take your turn.
-2. Click **End Turn**.
-3. Click **Save Game**.
-4. Post the JSON save in Discord.
-5. The next player loads the latest save.
-
-## This patch
-
-- Roads connect coherently using autotile masks.
-- Water/forest/hill/mountain terrain now has connected variants.
-- Ready units use 2-frame animation assets instead of floaty bobbing.
-- Music has been substantially upgraded with original rendered retro WAV tracks.
-
-No server, backend, or build process is required.
+## Audio
+Press Enable Audio once. The game uses MP3 tracks from `assets/audio/music/` and keeps SFX/music volume settings in localStorage.

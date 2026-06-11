@@ -1,26 +1,36 @@
-# Iron Kingdoms: War of Brass — Build Notes v0.26.06.10.1954
+# Build Notes — v0.26.06.10.2134
 
-## Coherent Tiles + Frame Animation + Music Patch
+Implemented from the AI / Commanders / Squads prompt plus the epic high-fidelity soundtrack mandate.
 
-This patch responds to the premium presentation request for a more coherent game map, less floaty ready-unit animation, and a stronger original score.
+## Gameplay
+- Added AI player slots and automatic AI turn resolution.
+- Added 5 difficulty levels. Higher levels receive modest gold support and stronger tactical scoring.
+- AI captures structures, recruits, evaluates attacks, protects commanders, and advances toward objectives.
+- Commander selection now happens in setup.
 
-### What changed
+## Presentation
+- Added 192x192 JRPG-inspired fantasy steampunk commander portraits.
+- Battle scenes render squads instead of one abstract figure.
+- Troop units use 10-count formations. Heavy units use 5-count formations. Commanders remain single heroes.
+- Casualties fall away or explode during zoomed battle scenes.
 
-- Added adjacency-based autotiling for roads, water, forests, hills, and mountains.
-- Roads now select from 16 connection masks and support straights, corners, T-junctions, intersections, and endpoints.
-- Water now uses edge-aware shoreline variants.
-- Forests, hills, and mountains use neighbor-aware variants so clusters feel more continuous.
-- Structures received stronger ground shadows so towns, cities, and fortresses feel seated into the map.
-- Ready units now use 2-frame PNG animation assets instead of simple up/down bobbing.
-- Exhausted units stop the lively frame animation and remain dimmed/checked.
-- Generated `_f1` and `_f2` map animation frames for each unit/commander/faction variant.
-- Re-rendered the original soundtrack with more layered retro synthesis: stronger lead melodies, bass ostinatos, chord stabs, and martial percussion.
-- Added optional commander-danger and final-kingdom music files for future triggers.
+## Soundtrack
+- Added original MP3 tracks in `assets/audio/music/`:
+  - title_theme.mp3
+  - player_turn_theme.mp3
+  - battle_theme.mp3
+  - tension_theme.mp3
+  - commander_danger_theme.mp3
+  - observer_council_theme.mp3
+  - victory_fanfare.mp3
+  - defeat_sting.mp3
+  - final_kingdom_theme.mp3
+- Tracks use layered synthesis: lead, octave support, countermelody, bass, arpeggio, pads, kick/snare, and echo.
 
-### Version
+## Known Limitations
+- AI is functional and playable, not yet expert-level.
+- Commander portraits are generated first-pass production placeholders.
+- Squad casualties are presentation-linked to HP, not separate individual simulation.
 
-Visible in-game build label, folder name, zip filename, and docs all use `v0.26.06.10.1954`.
-
-### Syntax check
-
-JavaScript syntax check passed after patching.
+## Syntax Check
+JavaScript syntax check passed with Node.

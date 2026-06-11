@@ -1,28 +1,20 @@
-# Asset Guide — v0.26.06.10.1954
+# Asset Guide — v0.26.06.10.2134
 
-## Tiles
+## Commander Portraits
+Located in `assets/commanders/portraits/`:
+- steam_marshal.png — Marshal Verena Brasswake
+- archmage.png — Archmage Aurelian Voxgear
+- sky_admiral.png — Admiral Seraphine Cloudreaver
+- iron_priest.png — Father Malrick Ironhalo
 
-Tiles are stored in `/assets/tiles/`.
+Style: original 80s/90s JRPG-inspired fantasy steampunk portraits with oversized hair, capes, shoulder armor, brass trims, gears, and arcane accents.
 
-Autotiled terrain uses 16 adjacency-mask variants:
+## Squads
+- 10-count: Infantry, Pikemen, Riflemen, Mage, Assassin.
+- 5-count: Cavalry, Artillery, Steam Tank, Airship, Gyrocopter.
+- 1-count: Commander.
 
-- `roads_0.png` through `roads_15.png`
-- `water_0.png` through `water_15.png`
-- `forest_0.png` through `forest_15.png`
-- `hills_0.png` through `hills_15.png`
-- `mountains_0.png` through `mountains_15.png`
-
-Mask bits: North = 1, East = 2, South = 4, West = 8.
-
-## Unit animation frames
-
-Each map unit now has generated frame variants:
-
-- `<unit>_f1.png`
-- `<unit>_f2.png`
-
-Ready units alternate these frames with CSS. Exhausted units only show the calm base sprite and the exhausted checkmark/dimming state.
+The zoomed battle view instantiates repeated battle sprites to represent current squad count and animates casualties when HP loss crosses count thresholds.
 
 ## Music
-
-Audio files are stored in `/assets/audio/` as original retro WAV loops. This build does not copy or derive music from the uploaded reference; it uses the reference only as a mood target for heroic adventure, danger, and fantasy war energy.
+MP3 files are in `assets/audio/music/`. They are original generated multi-voice retro-inspired compositions, not copied from any reference.

@@ -1,23 +1,12 @@
-# Iron Kingdoms Roadmap — after v0.26.06.10.1954
+# Roadmap — Iron Kingdoms: War of Brass
 
-## Completed for this branch
+## Current Build: v0.26.06.10.2134
+AI, commander selection, squad casualties, and MP3 soundtrack integration are now in place.
 
-- Premium PNG asset folder structure.
-- Zoomed battle-view framework.
-- Coherent terrain autotiling for roads and major terrain clusters.
-- Two-frame ready-unit animation pipeline.
-- Stronger original retro soundtrack files.
-
-## Recommended next patch
-
-### Sprite-Sheet Combat Animation Pass
-
-Create 3–5 frame attack/hit/defeat sprite sheets for each unit and commander, then use those in the zoomed battle view.
-
-### Music Polish Pass 2
-
-Replace or supplement WAV loops with smaller OGG files if desired, add longer compositions, and trigger commander-danger/final-kingdom themes in-game.
-
-### Map Polish Pass 2
-
-Add diagonal shoreline/corner overlays, bridges, road-over-water crossings, and hand-authored scenario maps.
+## Next Recommended Patches
+1. AI polish: better pathfinding, battle-view pacing, and long-term strategy.
+2. Commander expansion: multiple named commanders per class.
+3. Scenario editor and preset skirmish maps.
+4. Sprite-sheet battle animations with 3–5 frames per attack type.
+5. Hand-composed/DAW-produced final soundtrack replacement using the existing MP3 file slots.
+6. Optional cloud sync / shared folder save polling.

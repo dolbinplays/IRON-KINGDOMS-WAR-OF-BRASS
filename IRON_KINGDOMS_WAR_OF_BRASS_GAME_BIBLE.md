@@ -554,3 +554,8 @@ This branch adds zoomed-in battle presentation, generated PNG assets, terrain ba
 ## v0.26.06.10.1954 Premium Map/Animation/Music Update
 
 This branch adds coherent adjacency-based tiles, two-frame ready-unit animation, and a stronger original retro soundtrack. Roads now connect visually, terrain clusters feel more cohesive, and ready units no longer rely on simple floating bob animation.
+
+
+## v0.26.06.10.2134 — AI Commanders Squads + Epic Soundtrack
+
+This build adds solo/mixed AI play, five AI difficulty levels, commander selection, named commander portraits, squad-size battle presentation, visible casualties/explosions, and an original MP3 soundtrack layer.
