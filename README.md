@@ -1,3 +1,35 @@
+# IRON KINGDOMS: WAR OF BRASS — v0.26.06.10.2326
+
+This GitHub Pages build includes Supabase cloud JSON handoff and Warsong-style move-then-attack.
+
+## Play options
+
+### Local / Discord backup
+
+Use **Save Game** and **Load Game** to pass JSON files in Discord.
+
+### Cloud multiplayer
+
+Use **Cloud Setup** in the game, paste your Supabase Project URL and anon public key, then **Host Cloud Game** or **Join Cloud Game**. See `CLOUD_SYNC_SETUP.md` for the full setup.
+
+## Hosting on GitHub Pages
+
+Upload this folder so `index.html` is at the repository root, then enable GitHub Pages from the main branch root.
+
+## New tactical flow
+
+A unit can move first, then attack from the new position. After moving, choose an attack target or click **Wait / Finish Unit**.
+
+## Files
+
+- `index.html` — playable game
+- `CLOUD_SYNC_SETUP.md` — Supabase setup instructions
+- `supabase_cloud_games_setup.sql` — SQL setup script
+- `BUILD_NOTES.md` — patch notes
+- `assets/` — art and imported music assets
+
+---
+
 # Iron Kingdoms: War of Brass — v0.26.06.10.2226
 
 Complete Imported Soundtrack patch for GitHub Pages.
@@ -31,3 +63,4 @@ Press Enable Audio once. Use Music/SFX toggles, volume sliders, and Soundtrack S
 ## Complete Imported Soundtrack
 
 Build `v0.26.06.10.2226` completes the imported soundtrack pass. The uploaded `War of Brass` and `The Last War of Brass` MP3s now fill the Title Theme and Final Kingdom / Endgame Theme slots, including alternate takes.
+
