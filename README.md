@@ -1,11 +1,11 @@
-# Iron Kingdoms: War of Brass — v0.26.06.10.2208
+# Iron Kingdoms: War of Brass — v0.26.06.10.2226
 
-Imported Soundtrack patch for GitHub Pages.
+Complete Imported Soundtrack patch for GitHub Pages.
 
 ## Run
 Open `index.html` locally or host this folder on GitHub Pages. No build process or server backend is required.
 
-## New in v0.26.06.10.2208
+## New in v0.26.06.10.2226
 - Imported the user-generated ElevenLabs MP3 music set into `assets/audio/music/`.
 - Added primary and alternate takes for every uploaded cue that had two versions.
 - Added a **Soundtrack Set** selector: Main takes, Alternate takes, or Auto mix by turn.
@@ -27,3 +27,7 @@ For human turns, press End Turn, Save Game, and post the JSON file to Discord. A
 
 ## Audio
 Press Enable Audio once. Use Music/SFX toggles, volume sliders, and Soundtrack Set selector. Settings persist in localStorage.
+
+## Complete Imported Soundtrack
+
+Build `v0.26.06.10.2226` completes the imported soundtrack pass. The uploaded `War of Brass` and `The Last War of Brass` MP3s now fill the Title Theme and Final Kingdom / Endgame Theme slots, including alternate takes.

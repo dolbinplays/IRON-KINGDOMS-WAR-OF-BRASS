@@ -1,11 +1,13 @@
-# Music Track Map — v0.26.06.10.2208
+# Music Track Map — v0.26.06.10.2226
 
-This build places the uploaded MP3 files into the Iron Kingdoms audio pipeline.
+This build places the full uploaded ElevenLabs MP3 soundtrack into the Iron Kingdoms audio pipeline.
 
 ## Gameplay Track Mapping
 
 | Game slot | In-game filename | Source upload |
 |---|---|---|
+| Title Theme | `assets/audio/music/title_theme.mp3` | `War_of_Brass_2026-06-11T051247.mp3` |
+| Title Theme Alt | `assets/audio/music/title_theme_alt.mp3` | `War_of_Brass_2026-06-11T051247 (1).mp3` |
 | Player Turn Theme | `assets/audio/music/player_turn_theme.mp3` | `Banners_on_the_March_2026-06-11T051504.mp3` |
 | Player Turn Theme Alt | `assets/audio/music/player_turn_theme_alt.mp3` | `Banners_on_the_March_2026-06-11T051504 (1).mp3` |
 | Battle Theme | `assets/audio/music/battle_theme.mp3` | `Engines_of_War_2026-06-11T051632.mp3` |
@@ -20,17 +22,8 @@ This build places the uploaded MP3 files into the Iron Kingdoms audio pipeline.
 | Victory Fanfare Alt | `assets/audio/music/victory_fanfare_alt.mp3` | `Banners_Rise_2026-06-11T052421 (1).mp3` |
 | Defeat Sting | `assets/audio/music/defeat_sting.mp3` | `The_Last_Standard_Falls_2026-06-11T052524.mp3` |
 | Defeat Sting Alt | `assets/audio/music/defeat_sting_alt.mp3` | `The_Last_Standard_Falls_2026-06-11T052524 (1).mp3` |
-
-## Retained Prior Tracks
-
-The uploaded batch did not include new files clearly matching these two slots, so this build keeps the prior generated placeholders:
-
-| Game slot | In-game filename |
-|---|---|
-| Title Theme | `assets/audio/music/title_theme.mp3` |
-| Final Kingdom / Endgame Theme | `assets/audio/music/final_kingdom_theme.mp3` |
-
-To replace them later, generate new MP3s and overwrite those filenames.
+| Final Kingdom / Endgame Theme | `assets/audio/music/final_kingdom_theme.mp3` | `The_Last_War_of_Brass_2026-06-11T052624.mp3` |
+| Final Kingdom / Endgame Theme Alt | `assets/audio/music/final_kingdom_theme_alt.mp3` | `The_Last_War_of_Brass_2026-06-11T052624 (1).mp3` |
 
 ## UI Control
 
@@ -39,3 +32,5 @@ The game includes a **Soundtrack Set** selector:
 - **Main takes** uses the primary filenames.
 - **Alternate takes** uses `_alt` filenames when available.
 - **Auto mix by turn** alternates between primary and alternate takes by turn number when an alternate exists.
+
+This build now has main and alternate takes available for every major gameplay music slot.

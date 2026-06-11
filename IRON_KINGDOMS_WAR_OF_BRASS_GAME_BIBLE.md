@@ -561,7 +561,7 @@ This branch adds coherent adjacency-based tiles, two-frame ready-unit animation,
 This build adds solo/mixed AI play, five AI difficulty levels, commander selection, named commander portraits, squad-size battle presentation, visible casualties/explosions, and an original MP3 soundtrack layer.
 
 
-## Imported Soundtrack Update — v0.26.06.10.2208
+## Complete Imported Soundtrack Update — v0.26.06.10.2226
 
 The soundtrack branch now supports imported MP3 music files in `assets/audio/music/`. Uploaded ElevenLabs-generated cues were mapped to player turn, battle, tension, commander danger, observer council, victory, and defeat states. Alternate takes are preserved with `_alt` filenames and can be selected in-game using the Soundtrack Set dropdown.
 

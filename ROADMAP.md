@@ -1,4 +1,4 @@
-# Roadmap — Iron Kingdoms: War of Brass — v0.26.06.10.2208
+# Roadmap — Iron Kingdoms: War of Brass — v0.26.06.10.2226
 
 ## Current Status
 The game now supports GitHub Pages packaging, AI opponents, commander selection, squad battle presentation, coherent tiles, zoomed battle view, and imported MP3 music tracks.
