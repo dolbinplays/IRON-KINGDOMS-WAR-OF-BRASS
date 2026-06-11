@@ -79,3 +79,8 @@ supabase_cloud_games_setup.sql
 ## Supabase Setup
 
 See `CLOUD_SYNC_SETUP.md` for the SQL script and setup steps.
+
+
+## v0.26.06.11.2038 Console UI Notes
+
+This build changes the interface to a map-first retro console tactics layout. Use **Cloud** for Cloud Lobby, **Options** for audio/recruit/observer auxiliary panels, **Inspect** for unit/terrain/commander details, and the bottom message window for recent events.

@@ -1,35 +1,26 @@
-# Build Notes — v0.26.06.11.2018
+# Iron Kingdoms: War of Brass — Console Tactics UI Overhaul
 
-## Summary
+Build: v0.26.06.11.2038
 
-Genesis Retro Asset Pass for IRON KINGDOMS: WAR OF BRASS. This build uses the latest cloud/kingdom-claim working branch as its source, preserves Supabase cloud sync and manual JSON save/load, and replaces the visual asset set with a more coherent 1990s Sega Genesis / Mega Drive inspired fantasy-steampunk pixel-art pass.
+This patch implements the aggressive retro-console UI mandate from the uploaded prompt.
 
-## Changed
+## Major UI changes
 
-- Rebuilt all unit map PNGs for all 8 player colors.
-- Rebuilt all `_f1` / `_f2` ready animation frames.
-- Rebuilt all battle-view unit PNGs.
-- Rebuilt all commander sprites, battle sprites, and 192x192 portraits.
-- Rebuilt terrain tiles with a stronger limited-palette 16-bit look.
-- Rebuilt road/water/forest/hill/mountain 16-mask autotile variants.
-- Rebuilt town, city, and fortress structure sprites for all 8 player colors.
-- Rebuilt combat/effect UI PNGs in a pixel style.
-- Rebuilt battle backgrounds in low-res pixel art scaled to 320x180.
-- Added optional sprite sheets under `assets/sheets/`.
-- Added CSS overrides for pixelated rendering.
-- Updated the visible in-game build label to `v0.26.06.11.2018`.
+- Reframed the default screen around a map-first, console-tactics layout.
+- Hid persistent left/right dashboard panels by default and turned them into slide-out drawers.
+- Added a compact top HUD with essential actions only.
+- Added a console-style bottom message window that shows recent war-log lines without dominating the screen.
+- Added a contextual unit command popup near the selected unit.
+- Added map-focused command flow for Move / Attack / Wait / Capture / Recruit / Cancel.
+- Moved Cloud Multiplayer into a modal-style Cloud Lobby overlay.
+- Moved utility controls into slide-out/overlay style menus instead of always-open panels.
+- Added a full War Log modal for reviewing event history.
+- Added fast SNES/Genesis-style menu motion and pixel/brass UI framing.
 
 ## Preserved
 
-- Supabase cloud sync and kingdom claiming.
-- Manual JSON save/load.
-- Imported MP3 soundtrack and music overlap fixes.
-- AI players and commander selection.
-- Move-then-attack tactical flow.
-- Squad-size battle representation and zoomed battle view.
-- Coherent tiles / autotile logic.
-- Fog of war, economy, recruitment, observer system, terrain defense, and victory logic.
+- Local play, AI play, Supabase cloud multiplayer, kingdom claims, JSON save/load, imported MP3 soundtrack, move-then-attack, recruitment, fog of war, observer system, battle view, Genesis asset pass, and current victory rules.
 
-## Testing
+## Notes
 
-JavaScript syntax check passed. Visual asset paths were preserved to match the existing code.
+This is a UI/UX transformation patch. The old panels still exist for compatibility but are hidden behind Inspector / Options / Cloud controls so the map remains dominant.
