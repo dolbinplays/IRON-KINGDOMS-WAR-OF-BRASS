@@ -1,65 +1,37 @@
-# Iron Kingdoms: War of Brass — Genesis Retro Asset Pass
-
-Build: v0.26.06.11.2018
-
-This is a GitHub Pages-ready package. Upload the contents of this folder so `index.html` is at the repository root.
-
-This build preserves the current cloud multiplayer/kingdom claim branch and replaces the art assets with a 16-bit Sega Genesis / Mega Drive inspired fantasy-steampunk pixel-art pass.
-
-See `ASSET_GUIDE.md` and `BUILD_NOTES.md` for details.
-
-## Hosting
-
-1. Upload this folder's contents to your GitHub repository.
-2. Make sure `index.html` is at repo root.
-3. Enable GitHub Pages from the main branch/root.
-4. Hard refresh the page after uploading: Ctrl+F5.
-
-## Cloud multiplayer
-
-Use the same Supabase setup from the previous build. This patch does not require database schema changes.
-
----
-
 # Iron Kingdoms: War of Brass
 
-Build `v0.26.06.11.0758` — Cloud Lobby + Kingdom Claim
+Build: v0.26.06.11.2205
 
-A browser-playable fantasy steampunk turn-based strategy game with local play, AI players, Discord JSON save handoff, and Supabase cloud sync.
+Iron Kingdoms: War of Brass is a browser-playable fantasy steampunk turn-based strategy game with local play, AI players, manual Discord JSON save handoff, and Supabase cloud sync.
+
+This GitHub Pages package preserves the current cloud multiplayer/kingdom claim branch, manual JSON save/load backup, imported MP3 soundtrack, move-then-attack flow, fog of war, battle view, AI turns, and Genesis/Mega Drive inspired pixel-art presentation.
+
+See `BUILD_NOTES.md`, `UI_LAYOUT_GUIDE.md`, `CLOUD_SYNC_SETUP.md`, and `ASSET_GUIDE.md` for details.
 
 ## Quick Start
 
-1. Open `index.html` locally or host the package on GitHub Pages.
+1. Open `index.html` locally or host this folder on GitHub Pages.
 2. Click **New Game**.
 3. Set player slots to Human / AI / Closed.
-4. Pre-name Human slots for your friends if using cloud multiplayer.
-5. Start the game.
-6. Click **Cloud Setup** and paste your Supabase Project URL + anon/publishable key.
-7. Click **Host Cloud Game**.
-8. Share the game code and secret in Discord.
-9. Friends click **Join Cloud Game**, enter the code/secret, then claim their kingdom slot.
+4. Start the game.
+5. Use **Save Game** and **Load Game** for manual JSON handoff, or use **Cloud** for Supabase sync.
 
-## Cloud Kingdom Claim Flow
+## Cloud Multiplayer
 
-The host creates the match and names the Human slots. Example:
+Cloud play uses Supabase as a lightweight full-state JSON handoff. This patch does not require database schema changes.
 
-- Red Kingdom — Joshua
-- Blue Kingdom — Derek
-- Green Kingdom — Alex
-- Brass Kingdom — AI Captain
+1. Open **Cloud**.
+2. If needed, open **Cloud Setup** and paste the Supabase Project URL plus anon/publishable key.
+3. Host clicks **Host Cloud Game**.
+4. Share the generated game code and secret in Discord.
+5. Friends click **Join Cloud Game**, enter the code and secret, then claim their kingdom slot.
 
-When friends join the cloud game, they should click **Claim Slot** next to their assigned kingdom.
+Once a browser claims a kingdom:
 
-Once a player claims a kingdom:
-
-- Only that browser can act for that kingdom on its turn.
-- While waiting, they see their own kingdom’s fog-of-war view.
-- The UI shows whose turn it is.
-- Waiting music plays from the existing soundtrack selection.
-
-## Manual Save Backup
-
-Manual **Save Game** and **Load Game** remain available. If Supabase is unavailable, you can still pass JSON files through Discord.
+- Only that claimed kingdom can act on its own turn.
+- Waiting players cannot move, recruit, or end turn.
+- Waiting players can view their own fog-of-war perspective.
+- Manual JSON save/load remains available if cloud sync is unavailable.
 
 ## GitHub Pages Hosting
 
@@ -76,11 +48,8 @@ CLOUD_SYNC_SETUP.md
 supabase_cloud_games_setup.sql
 ```
 
-## Supabase Setup
+After uploading, hard refresh the page with Ctrl+F5.
 
-See `CLOUD_SYNC_SETUP.md` for the SQL script and setup steps.
+## v0.26.06.11.2205 Console UI Notes
 
-
-## v0.26.06.11.2038 Console UI Notes
-
-This build changes the interface to a map-first retro console tactics layout. Use **Cloud** for Cloud Lobby, **Options** for audio/recruit/observer auxiliary panels, **Inspect** for unit/terrain/commander details, and the bottom message window for recent events.
+This build tightens the map-first retro console tactics layout. Use **Cloud** for Cloud Lobby, claims, and diagnostics; **Options** for audio/recruit/observer auxiliary panels; **Inspect** for unit/terrain/commander details; and the bottom message window for recent events. Cloud and Options both include visible Close buttons, and Escape closes console overlays.
