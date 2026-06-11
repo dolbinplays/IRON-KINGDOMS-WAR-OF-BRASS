@@ -1,4 +1,4 @@
-# Asset Guide — v0.26.06.10.2134
+# Asset Guide — v0.26.06.10.2147
 
 ## Commander Portraits
 Located in `assets/commanders/portraits/`:
@@ -18,3 +18,8 @@ The zoomed battle view instantiates repeated battle sprites to represent current
 
 ## Music
 MP3 files are in `assets/audio/music/`. They are original generated multi-voice retro-inspired compositions, not copied from any reference.
+
+
+## Imported ElevenLabs Music
+
+This build uses MP3 files in `assets/audio/music/`. Primary and alternate takes are documented in `MUSIC_TRACK_MAP.md`. The current imported soundtrack preserves all uploaded cues and keeps prior generated placeholder tracks for Title Theme and Final Kingdom until new user-generated replacements are available.

@@ -1,36 +1,40 @@
-# Build Notes — v0.26.06.10.2134
+# Build Notes — v0.26.06.10.2208
 
-Implemented from the AI / Commanders / Squads prompt plus the epic high-fidelity soundtrack mandate.
+## Imported Soundtrack Patch
 
-## Gameplay
-- Added AI player slots and automatic AI turn resolution.
-- Added 5 difficulty levels. Higher levels receive modest gold support and stronger tactical scoring.
-- AI captures structures, recruits, evaluates attacks, protects commanders, and advances toward objectives.
-- Commander selection now happens in setup.
+This build imports the uploaded MP3 soundtrack cues generated from the Iron Kingdoms music prompts and places them into the game audio pipeline.
 
-## Presentation
-- Added 192x192 JRPG-inspired fantasy steampunk commander portraits.
-- Battle scenes render squads instead of one abstract figure.
-- Troop units use 10-count formations. Heavy units use 5-count formations. Commanders remain single heroes.
-- Casualties fall away or explode during zoomed battle scenes.
+## Audio Changes
+- Added `assets/audio/music/` for user-generated MP3 soundtrack files.
+- Mapped all uploaded cues to gameplay states.
+- Preserved alternate takes using `_alt` filenames.
+- Added soundtrack set selection in the UI:
+  - Main takes
+  - Alternate takes
+  - Auto mix by turn
+- Kept the fixed single-track music controller so theme changes, battle views, AI turns, and stingers do not layer multiple tracks.
 
-## Soundtrack
-- Added original MP3 tracks in `assets/audio/music/`:
-  - title_theme.mp3
-  - player_turn_theme.mp3
-  - battle_theme.mp3
-  - tension_theme.mp3
-  - commander_danger_theme.mp3
-  - observer_council_theme.mp3
-  - victory_fanfare.mp3
-  - defeat_sting.mp3
-  - final_kingdom_theme.mp3
-- Tracks use layered synthesis: lead, octave support, countermelody, bass, arpeggio, pads, kick/snare, and echo.
+## Gameplay Preserved
+- Solo play with AI-controlled kingdoms.
+- Mixed Human / AI / Closed player slots.
+- Five AI difficulties.
+- Commander selection.
+- Commander portraits.
+- Squad-count battle view.
+- Casualty/explosion presentation.
+- Coherent autotiles.
+- JSON save/load Discord handoff.
 
-## Known Limitations
-- AI is functional and playable, not yet expert-level.
-- Commander portraits are generated first-pass production placeholders.
-- Squad casualties are presentation-linked to HP, not separate individual simulation.
+## Track Slots
+- Title Theme: prior generated placeholder retained because no new uploaded title track was provided.
+- Player Turn Theme: Banners on the March.
+- Battle Theme: Engines of War.
+- Enemy/Tension Theme: The Brass Legion Advances.
+- Commander Danger Theme: The Crown Under Fire.
+- Observer Theme: Ghosts in the War Room.
+- Victory Fanfare: Banners Rise.
+- Defeat Sting: The Last Standard Falls.
+- Final Kingdom Theme: prior generated placeholder retained because no new uploaded final/endgame track was provided.
 
 ## Syntax Check
 JavaScript syntax check passed with Node.

@@ -1,22 +1,29 @@
-# Iron Kingdoms: War of Brass — v0.26.06.10.2134
+# Iron Kingdoms: War of Brass — v0.26.06.10.2208
 
-Premium Gameplay + Presentation patch for GitHub Pages.
+Imported Soundtrack patch for GitHub Pages.
 
 ## Run
 Open `index.html` locally or host this folder on GitHub Pages. No build process or server backend is required.
 
-## New in v0.26.06.10.2134
-- Solo play with up to 7 computer-controlled kingdoms.
-- Mixed Human / AI / Closed player slots in New Game.
-- Five AI difficulties: Recruit, Soldier, Captain, Warlord, Iron Tyrant.
-- Commander selection per player.
-- Unique named commander identities and portraits.
-- Squad count display tied to HP.
-- Zoomed battle scenes show squad members and visible casualties/explosions as damage removes individuals.
-- Original multi-voice MP3 soundtrack in `assets/audio/music/`.
+## New in v0.26.06.10.2208
+- Imported the user-generated ElevenLabs MP3 music set into `assets/audio/music/`.
+- Added primary and alternate takes for every uploaded cue that had two versions.
+- Added a **Soundtrack Set** selector: Main takes, Alternate takes, or Auto mix by turn.
+- Kept the fixed single-track music controller from the overlap-fix build so tracks do not stack over each other.
+- Preserved AI players, commander selection, squad battle presentation, coherent tiles, zoomed battle view, and Discord JSON handoff.
+
+## Track Mapping
+See `MUSIC_TRACK_MAP.md` for exactly where each uploaded MP3 was placed.
+
+## Missing Generated Slots
+The uploaded set did not include a new Title Theme or Final Kingdom / Endgame Theme. This build keeps the prior generated tracks in those slots:
+- `assets/audio/music/title_theme.mp3`
+- `assets/audio/music/final_kingdom_theme.mp3`
+
+If you generate new versions later, replace those filenames directly.
 
 ## Discord Play
 For human turns, press End Turn, Save Game, and post the JSON file to Discord. AI turns resolve automatically after loading or after a human ends turn.
 
 ## Audio
-Press Enable Audio once. The game uses MP3 tracks from `assets/audio/music/` and keeps SFX/music volume settings in localStorage.
+Press Enable Audio once. Use Music/SFX toggles, volume sliders, and Soundtrack Set selector. Settings persist in localStorage.
