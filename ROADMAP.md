@@ -1,8 +1,27 @@
+# Roadmap — Iron Kingdoms: War of Brass
+
+Current build: v0.26.06.11.2018
+
+## Completed in this build
+
+- 1990s Genesis/Mega Drive inspired asset pass.
+- Rebuilt tactical map units, commanders, portraits, terrain, structures, effects, and battle backgrounds.
+- Preserved cloud multiplayer and kingdom claim functionality.
+
+## Recommended next art patches
+
+1. Hand-tuned portrait pass for named commanders.
+2. 4-frame attack / hurt / defeat sprite sheet pass for battle scenes.
+3. UI frame skin pass to match the Genesis-era art more closely.
+4. Scenario map authoring tools and handcrafted maps.
+
+---
+
 # Iron Kingdoms Roadmap
 
 ## Current Build
 
-`v0.26.06.11.0713` — Cloud Lobby + Kingdom Claim
+`v0.26.06.11.0758` — Cloud Lobby + Kingdom Claim
 
 ## Completed Recent Milestones
 

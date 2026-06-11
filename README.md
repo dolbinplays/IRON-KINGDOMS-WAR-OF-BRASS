@@ -1,6 +1,29 @@
+# Iron Kingdoms: War of Brass — Genesis Retro Asset Pass
+
+Build: v0.26.06.11.2018
+
+This is a GitHub Pages-ready package. Upload the contents of this folder so `index.html` is at the repository root.
+
+This build preserves the current cloud multiplayer/kingdom claim branch and replaces the art assets with a 16-bit Sega Genesis / Mega Drive inspired fantasy-steampunk pixel-art pass.
+
+See `ASSET_GUIDE.md` and `BUILD_NOTES.md` for details.
+
+## Hosting
+
+1. Upload this folder's contents to your GitHub repository.
+2. Make sure `index.html` is at repo root.
+3. Enable GitHub Pages from the main branch/root.
+4. Hard refresh the page after uploading: Ctrl+F5.
+
+## Cloud multiplayer
+
+Use the same Supabase setup from the previous build. This patch does not require database schema changes.
+
+---
+
 # Iron Kingdoms: War of Brass
 
-Build `v0.26.06.11.0713` — Cloud Lobby + Kingdom Claim
+Build `v0.26.06.11.0758` — Cloud Lobby + Kingdom Claim
 
 A browser-playable fantasy steampunk turn-based strategy game with local play, AI players, Discord JSON save handoff, and Supabase cloud sync.
 

@@ -1,1 +1,1 @@
-JavaScript syntax check passed for v0.26.06.11.0713.
+JavaScript syntax check passed.
