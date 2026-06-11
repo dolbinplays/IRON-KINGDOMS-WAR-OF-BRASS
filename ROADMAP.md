@@ -1,33 +1,41 @@
-# Roadmap Update — v0.26.06.10.2326
+# Iron Kingdoms Roadmap
 
-## Completed in this patch
+## Current Build
 
-- Supabase cloud handoff MVP
-- Polling cloud update detection
-- Cloud invite code and secret
-- Turn lock MVP
-- Move-then-attack tactical flow
+`v0.26.06.11.0713` — Cloud Lobby + Kingdom Claim
 
-## Recommended next patches
+## Completed Recent Milestones
 
-1. Realtime Supabase subscriptions after polling is proven stable.
-2. Stronger authenticated cloud security for public release.
-3. Cloud lobby/player claiming UI.
-4. Browser notifications when your cloud turn is ready.
-5. Better AI planning around move-then-attack threat ranges.
+- Premium PNG asset branch.
+- Imported MP3 soundtrack.
+- Music overlap fix.
+- Supabase polling cloud sync.
+- Move-then-attack tactical flow.
+- Visible Cloud Setup before game start.
+- Kingdom Claim system for cloud multiplayer.
+- Per-player fog-of-war view while waiting.
 
----
+## Recommended Next Patches
 
-# Roadmap — Iron Kingdoms: War of Brass — v0.26.06.10.2226
+1. **Cloud Lobby Pre-Game Ready Screen**
+   - Join before match starts.
+   - Claim slot before host launches.
+   - Ready / Not Ready.
+   - Host starts when ready.
 
-## Current Status
-The game now supports GitHub Pages packaging, AI opponents, commander selection, squad battle presentation, coherent tiles, zoomed battle view, and imported MP3 music tracks.
+2. **Cloud Turn Notifications**
+   - Browser notification when your claimed kingdom is up.
+   - Sound cue for “your turn.”
 
-## Next Recommended Steps
-1. Generate final replacement tracks for `title_theme.mp3` and `final_kingdom_theme.mp3`.
-2. Decide which alternate takes should become the default soundtrack.
-3. Add per-commander musical stingers if desired.
-4. Improve AI tactical evaluation and pathfinding.
-5. Add scenario presets and hand-built maps.
-6. Continue polishing commander portraits and battle animation frames.
+3. **Stronger Cloud Conflict Recovery**
+   - Clear stale claims.
+   - Host admin controls.
+   - Reclaim abandoned kingdom.
 
+4. **True Secure Fog of War**
+   - Supabase Edge Function or backend server.
+   - Send each player only filtered visible map state.
+
+5. **Scenario / Map Editor**
+   - Curated multiplayer maps.
+   - Better balance than pure random generation.

@@ -1,35 +1,82 @@
-# Iron Kingdoms Supabase Cloud Sync Setup — v0.26.06.10.2326
+# Cloud Sync Setup — Iron Kingdoms: War of Brass
 
-This build adds polling-based Supabase cloud handoff while preserving manual JSON Save/Load.
+Build `v0.26.06.11.0713`
 
-## Fast setup
+## 1. Create Supabase Project
 
-1. Create a free Supabase project.
-2. Open **SQL Editor**.
-3. Paste and run `supabase_cloud_games_setup.sql`.
-4. In Supabase, go to **Project Settings → API**.
-5. Copy your **Project URL** and **anon public key**.
-6. Open the game, click **Cloud Setup**, paste both values, and click **Save Cloud Config**.
-7. Start or load a game, then click **Host Cloud Game**.
-8. Copy the invite code and secret to Discord.
-9. Friends click **Join Cloud Game**, paste the code and secret, and the game downloads the current state.
+Create a free Supabase project. Keep **Data API** enabled. For this weekend prototype, automatic exposure of new tables and RLS enabled are fine because the provided SQL creates explicit policies.
 
-## How cloud turns work
+## 2. Run SQL Script
 
-The game uploads the full JSON game state to Supabase when a turn ends. Other clients poll every 7 seconds. When a newer `cloud_revision` appears, they download it and update the game.
+Open Supabase → **SQL Editor** → **New Query**.
 
-Manual **Save Game** and **Load Game** still work as backups.
+Paste the contents of:
 
-## Security note
+```text
+supabase_cloud_games_setup.sql
+```
 
-This is a weekend prototype setup. It uses the public anon key and permissive RLS policies so friends can play without accounts. The game code and join secret provide light friction, not strong security.
+Click **Run Query**.
 
-For a public release, add authentication, memberships per game, and stricter RLS policies.
+Confirm the table exists:
 
-## Troubleshooting
+```text
+cloud_games
+```
 
-- **Supabase config missing**: paste Project URL and anon public key in Cloud Setup.
-- **No cloud game found**: check the game code and join secret exactly.
-- **Another player appears to be taking this turn**: someone else has a temporary turn lock. Wait or override if needed.
-- **New cloud turn detected but local unit is pending**: finish the moved unit by attacking or clicking Wait / Finish Unit.
-- **CORS/fetch error**: confirm the Supabase URL starts with `https://` and the anon key is complete.
+## 3. Find Project URL and Public Key
+
+Use the base project URL only:
+
+```text
+https://your-project-id.supabase.co
+```
+
+Do not include `/rest/v1/`.
+
+For the key, use the **anon public** or **publishable** key. Never paste the service role key into the game.
+
+## 4. Configure the Game
+
+Open the game and click **Cloud Setup**.
+
+Paste:
+
+```text
+SUPABASE_URL = https://your-project-id.supabase.co
+SUPABASE_ANON_KEY = your anon/publishable key
+```
+
+Click **Save Cloud Config**.
+
+## 5. Host a Cloud Game
+
+1. Start a New Game.
+2. Set Human/AI slots and commander choices.
+3. Name Human player slots for your friends.
+4. Click **Host Cloud Game**.
+5. Share the game code and secret in Discord.
+
+## 6. Join and Claim a Kingdom
+
+1. Click **Join Cloud Game**.
+2. Enter the game code and secret.
+3. Find your named kingdom in **Kingdom Claims**.
+4. Click **Claim Slot**.
+
+Only the player who claimed the current kingdom can control units on that kingdom’s turn.
+
+## 7. Waiting View
+
+If it is not your turn:
+
+- You can still view the map.
+- Fog of war is shown from your claimed kingdom’s perspective.
+- You cannot move, attack, recruit, or end turn.
+- The game displays whose turn it is and plays waiting/observer-style music.
+
+## 8. Security Notes
+
+This is a weekend prototype. The cloud game syncs the full JSON state to browsers, so fog of war is enforced by the UI, not by a private server. This is fine for trusted friends but not secure against cheating.
+
+A public release should add authenticated users and a server/edge function that only returns filtered player-visible state.

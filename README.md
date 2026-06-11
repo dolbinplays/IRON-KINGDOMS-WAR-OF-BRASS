@@ -1,66 +1,58 @@
-# IRON KINGDOMS: WAR OF BRASS — v0.26.06.10.2326
+# Iron Kingdoms: War of Brass
 
-This GitHub Pages build includes Supabase cloud JSON handoff and Warsong-style move-then-attack.
+Build `v0.26.06.11.0713` — Cloud Lobby + Kingdom Claim
 
-## Play options
+A browser-playable fantasy steampunk turn-based strategy game with local play, AI players, Discord JSON save handoff, and Supabase cloud sync.
 
-### Local / Discord backup
+## Quick Start
 
-Use **Save Game** and **Load Game** to pass JSON files in Discord.
+1. Open `index.html` locally or host the package on GitHub Pages.
+2. Click **New Game**.
+3. Set player slots to Human / AI / Closed.
+4. Pre-name Human slots for your friends if using cloud multiplayer.
+5. Start the game.
+6. Click **Cloud Setup** and paste your Supabase Project URL + anon/publishable key.
+7. Click **Host Cloud Game**.
+8. Share the game code and secret in Discord.
+9. Friends click **Join Cloud Game**, enter the code/secret, then claim their kingdom slot.
 
-### Cloud multiplayer
+## Cloud Kingdom Claim Flow
 
-Use **Cloud Setup** in the game, paste your Supabase Project URL and anon public key, then **Host Cloud Game** or **Join Cloud Game**. See `CLOUD_SYNC_SETUP.md` for the full setup.
+The host creates the match and names the Human slots. Example:
 
-## Hosting on GitHub Pages
+- Red Kingdom — Joshua
+- Blue Kingdom — Derek
+- Green Kingdom — Alex
+- Brass Kingdom — AI Captain
 
-Upload this folder so `index.html` is at the repository root, then enable GitHub Pages from the main branch root.
+When friends join the cloud game, they should click **Claim Slot** next to their assigned kingdom.
 
-## New tactical flow
+Once a player claims a kingdom:
 
-A unit can move first, then attack from the new position. After moving, choose an attack target or click **Wait / Finish Unit**.
+- Only that browser can act for that kingdom on its turn.
+- While waiting, they see their own kingdom’s fog-of-war view.
+- The UI shows whose turn it is.
+- Waiting music plays from the existing soundtrack selection.
 
-## Files
+## Manual Save Backup
 
-- `index.html` — playable game
-- `CLOUD_SYNC_SETUP.md` — Supabase setup instructions
-- `supabase_cloud_games_setup.sql` — SQL setup script
-- `BUILD_NOTES.md` — patch notes
-- `assets/` — art and imported music assets
+Manual **Save Game** and **Load Game** remain available. If Supabase is unavailable, you can still pass JSON files through Discord.
 
----
+## GitHub Pages Hosting
 
-# Iron Kingdoms: War of Brass — v0.26.06.10.2226
+Upload the package contents so `index.html` is at the root of the repository. Keep the `assets/` folder beside it.
 
-Complete Imported Soundtrack patch for GitHub Pages.
+Required structure:
 
-## Run
-Open `index.html` locally or host this folder on GitHub Pages. No build process or server backend is required.
+```text
+index.html
+assets/
+README.md
+BUILD_NOTES.md
+CLOUD_SYNC_SETUP.md
+supabase_cloud_games_setup.sql
+```
 
-## New in v0.26.06.10.2226
-- Imported the user-generated ElevenLabs MP3 music set into `assets/audio/music/`.
-- Added primary and alternate takes for every uploaded cue that had two versions.
-- Added a **Soundtrack Set** selector: Main takes, Alternate takes, or Auto mix by turn.
-- Kept the fixed single-track music controller from the overlap-fix build so tracks do not stack over each other.
-- Preserved AI players, commander selection, squad battle presentation, coherent tiles, zoomed battle view, and Discord JSON handoff.
+## Supabase Setup
 
-## Track Mapping
-See `MUSIC_TRACK_MAP.md` for exactly where each uploaded MP3 was placed.
-
-## Missing Generated Slots
-The uploaded set did not include a new Title Theme or Final Kingdom / Endgame Theme. This build keeps the prior generated tracks in those slots:
-- `assets/audio/music/title_theme.mp3`
-- `assets/audio/music/final_kingdom_theme.mp3`
-
-If you generate new versions later, replace those filenames directly.
-
-## Discord Play
-For human turns, press End Turn, Save Game, and post the JSON file to Discord. AI turns resolve automatically after loading or after a human ends turn.
-
-## Audio
-Press Enable Audio once. Use Music/SFX toggles, volume sliders, and Soundtrack Set selector. Settings persist in localStorage.
-
-## Complete Imported Soundtrack
-
-Build `v0.26.06.10.2226` completes the imported soundtrack pass. The uploaded `War of Brass` and `The Last War of Brass` MP3s now fill the Title Theme and Final Kingdom / Endgame Theme slots, including alternate takes.
-
+See `CLOUD_SYNC_SETUP.md` for the SQL script and setup steps.
