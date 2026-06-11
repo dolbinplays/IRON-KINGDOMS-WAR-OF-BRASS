@@ -549,3 +549,8 @@ Air/gyro attackers partially ignore terrain cover so air units remain tactically
 ## Premium Presentation Branch v0.26.06.10.1912
 
 This branch adds zoomed-in battle presentation, generated PNG assets, terrain battle backdrops, and original generated retro WAV music while preserving Discord JSON multiplayer.
+
+
+## v0.26.06.10.1954 Premium Map/Animation/Music Update
+
+This branch adds coherent adjacency-based tiles, two-frame ready-unit animation, and a stronger original retro soundtrack. Roads now connect visually, terrain clusters feel more cohesive, and ready units no longer rely on simple floating bob animation.

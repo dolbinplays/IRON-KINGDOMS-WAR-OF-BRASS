@@ -1,18 +1,23 @@
-# Roadmap — Iron Kingdoms: War of Brass
+# Iron Kingdoms Roadmap — after v0.26.06.10.1954
 
-## Current branch: Premium Battle Art + Audio
+## Completed for this branch
 
-v0.26.06.10.1912 establishes the folder-based premium presentation branch.
+- Premium PNG asset folder structure.
+- Zoomed battle-view framework.
+- Coherent terrain autotiling for roads and major terrain clusters.
+- Two-frame ready-unit animation pipeline.
+- Stronger original retro soundtrack files.
 
-## Recommended next patches
+## Recommended next patch
 
-1. **Battle Sprite Sheet Pass** — add 3–5 frame attack/idle/hit PNG sheets for each unit.
-2. **Commander Portrait UI** — use the generated 192x192 portraits in a richer commander panel.
-3. **Scenario Setup** — prebuilt weekend scenarios with named maps and starting armies.
-4. **Balance Pass** — test 2P, 4P, and 6P games for economy pacing.
-5. **Music Replacement Pass** — replace generated WAV loops with final OGG compositions.
-6. **Cloud Sync Branch** — optional Google Drive or lightweight file polling for smoother handoffs.
+### Sprite-Sheet Combat Animation Pass
 
-## Stable branch note
+Create 3–5 frame attack/hit/defeat sprite sheets for each unit and commander, then use those in the zoomed battle view.
 
-The older single-file build remains the safest ultra-portable branch. This premium branch is better for GitHub Pages hosting and presentation polish.
+### Music Polish Pass 2
+
+Replace or supplement WAV loops with smaller OGG files if desired, add longer compositions, and trigger commander-danger/final-kingdom themes in-game.
+
+### Map Polish Pass 2
+
+Add diagonal shoreline/corner overlays, bridges, road-over-water crossings, and hand-authored scenario maps.

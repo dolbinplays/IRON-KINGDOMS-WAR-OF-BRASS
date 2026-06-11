@@ -1,28 +1,26 @@
-# Build Notes — v0.26.06.10.1912
+# Iron Kingdoms: War of Brass — Build Notes v0.26.06.10.1954
 
-## Premium presentation branch
+## Coherent Tiles + Frame Animation + Music Patch
 
-This build moves beyond the strict single-file prototype into a GitHub Pages folder build so that higher-quality PNG assets and audio loops can be used without bloating `index.html`.
+This patch responds to the premium presentation request for a more coherent game map, less floaty ready-unit animation, and a stronger original score.
 
-## Major changes
+### What changed
 
-- Added optional zoomed-in battle view.
-- Added Battle View setting: On / Fast / Off.
-- Added generated PNG sprites for every unit and commander, including larger battle versions.
-- Added faction-colored PNG variants for 2–8 players.
-- Added PNG terrain tiles and structure sprites.
-- Added battle backgrounds by terrain/structure type.
-- Added hit burst, explosion, muzzle flash, spell burst, smoke, fog, aura, ready/exhausted, and range indicator PNGs.
-- Added original generated retro WAV music loops in `/assets/audio/`.
-- Preserved the existing WebAudio SFX and fallback music logic.
-- Preserved JSON save/load Discord multiplayer.
+- Added adjacency-based autotiling for roads, water, forests, hills, and mountains.
+- Roads now select from 16 connection masks and support straights, corners, T-junctions, intersections, and endpoints.
+- Water now uses edge-aware shoreline variants.
+- Forests, hills, and mountains use neighbor-aware variants so clusters feel more continuous.
+- Structures received stronger ground shadows so towns, cities, and fortresses feel seated into the map.
+- Ready units now use 2-frame PNG animation assets instead of simple up/down bobbing.
+- Exhausted units stop the lively frame animation and remain dimmed/checked.
+- Generated `_f1` and `_f2` map animation frames for each unit/commander/faction variant.
+- Re-rendered the original soundtrack with more layered retro synthesis: stronger lead melodies, bass ostinatos, chord stabs, and martial percussion.
+- Added optional commander-danger and final-kingdom music files for future triggers.
 
-## Known limitations
+### Version
 
-- PNG assets are a generated first premium pass, not final hand-painted production art.
-- Zoomed battle view uses one attack pose per unit and CSS animation rather than full multi-frame character sheets.
-- Audio loops are generated retro-style WAVs; final itch.io polish could replace them with hand-composed OGG loops.
+Visible in-game build label, folder name, zip filename, and docs all use `v0.26.06.10.1954`.
 
-## JavaScript check
+### Syntax check
 
-A syntax check was run against the script extracted from `index.html`.
+JavaScript syntax check passed after patching.
