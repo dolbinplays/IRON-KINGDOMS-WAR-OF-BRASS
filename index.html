@@ -44,7 +44,7 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 .miniSprite.pngSprite{width:34px;height:34px;vertical-align:middle;margin-right:4px;object-fit:contain}.recruitBtn .miniSprite.pngSprite{width:26px;height:26px}.tilePng,.structPng{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}.structPng{z-index:2;object-fit:contain;filter:drop-shadow(0 2px 2px #000)}
 #battleOverlay{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(2px)}#battleOverlay.show{display:flex}.battleBox{width:min(900px,92vw);height:min(510px,82vh);border:4px solid #d6a84f;border-radius:16px;background:#17100b;box-shadow:0 20px 80px #000;position:relative;overflow:hidden;color:#ffe8be}.battleBg{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(1.08) contrast(1.08)}.battleShade{position:absolute;inset:0;background:linear-gradient(90deg,#0008,#0001,#0008),linear-gradient(0deg,#130b08aa,transparent 55%)}.battleTop{position:absolute;left:16px;right:16px;top:12px;display:flex;justify-content:space-between;gap:12px;z-index:3}.battlePlate{background:#160f0add;border:2px solid #9b7440;border-radius:10px;padding:8px 10px;min-width:220px}.battleName{font-weight:900;color:#fff2bd}.battleHp{height:10px;background:#2a130f;border:1px solid #000;margin-top:6px}.battleHp span{display:block;height:100%;background:linear-gradient(90deg,#5ee16a,#d6ff7a)}.battleStage{position:absolute;left:0;right:0;bottom:32px;top:70px;z-index:2}.battleUnit{position:absolute;bottom:22px;width:190px;height:190px;image-rendering:auto;filter:drop-shadow(0 8px 7px #000)}.battleUnit.left{left:86px}.battleUnit.right{right:86px;transform:scaleX(-1)}.battleUnit.attack.left{animation:battleLungeL .55s ease-in-out}.battleUnit.attack.right{animation:battleLungeR .55s ease-in-out}.battleUnit.hit{animation:battleHit .45s linear}.battleDamage{position:absolute;z-index:5;font-size:36px;font-weight:900;color:#ffd478;text-shadow:0 3px 0 #4b1d12,0 0 18px #000;animation:battleFloat .85s ease-out forwards}.battleMsg{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:4;background:#130c08e8;border:2px solid #d6a84f;border-radius:999px;padding:8px 16px;font-weight:bold}.battleFxImg{position:absolute;z-index:4;width:110px;height:110px;object-fit:contain;animation:battleBurst .55s ease-out forwards}.skipBattle{position:absolute;right:14px;bottom:12px;z-index:6}.battleFast .battleUnit.attack.left{animation-duration:.28s}.battleFast .battleUnit.attack.right{animation-duration:.28s}.battleFast .battleDamage{animation-duration:.45s}@keyframes battleLungeL{0%{transform:translateX(0) scale(1)}45%{transform:translateX(130px) scale(1.08)}100%{transform:translateX(0) scale(1)}}@keyframes battleLungeR{0%{transform:scaleX(-1) translateX(0) scale(1)}45%{transform:scaleX(-1) translateX(130px) scale(1.08)}100%{transform:scaleX(-1) translateX(0) scale(1)}}@keyframes battleHit{0%,100%{filter:drop-shadow(0 8px 7px #000)}25%,65%{filter:brightness(2.5) drop-shadow(0 0 18px #fff)}}@keyframes battleFloat{from{opacity:0;transform:translateY(20px) scale(.8)}20%{opacity:1}to{opacity:0;transform:translateY(-42px) scale(1.05)}}@keyframes battleBurst{from{opacity:0;transform:scale(.35) rotate(0)}25%{opacity:1}to{opacity:0;transform:scale(1.55) rotate(18deg)}}
 
-/* v0.26.06.11.2038 coherent map + frame animation pass */
+/* v0.26.06.11.2126 coherent map + frame animation pass */
 .tilePng{image-rendering:auto;filter:saturate(1.08) contrast(1.04)}
 .structPng{width:100%;height:100%;}
 .unit.ready{animation:none!important;filter:drop-shadow(0 0 4px #ffd47855)}
@@ -69,7 +69,7 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 @keyframes shadowStep{0%{transform:translateX(-1px);opacity:.35}50%{transform:translateX(2px);opacity:.65}100%{transform:translateX(-1px);opacity:.35}}
 
 
-/* v0.26.06.11.2038 AI + commanders + squads + MP3 soundtrack pass */
+/* v0.26.06.11.2126 AI + commanders + squads + MP3 soundtrack pass */
 .setupGrid{display:grid;grid-template-columns:.7fr .8fr 1fr 1fr 1.2fr;gap:6px;align-items:center;margin-top:8px;font-size:13px}.setupGrid .head{color:#ffd478;font-weight:bold;border-bottom:1px solid #604221;padding-bottom:3px}.slotRow{display:contents}.slotRow select,.slotRow input{width:100%;font-size:12px}.setupNote{border:1px dashed #9b7440;border-radius:8px;padding:8px;background:#150f0b;color:#e7c991;margin-top:8px}.portraitSmall{width:74px;height:74px;object-fit:cover;border:2px solid #b98945;border-radius:10px;background:#080604;box-shadow:0 3px 10px #0008}.portraitWide{width:100%;max-width:190px;border:2px solid #b98945;border-radius:12px;margin:4px 0;background:#080604;box-shadow:0 4px 14px #0008}.playerLine.ai{background:#24160e}.playerLine.human{background:#12140d}.aiThinking{border:1px solid #6ec7ff;background:#071620;color:#aee8ff;border-radius:8px;padding:6px;margin-top:6px}.squadBadge{display:inline-block;padding:2px 6px;border-radius:99px;border:1px solid #b98945;background:#100b08;color:#ffe8be;margin:2px}.battleSquad{position:absolute;bottom:18px;width:310px;min-height:190px;display:flex;align-items:flex-end;gap:4px;z-index:4;pointer-events:none}.battleSquad.left{left:38px;justify-content:flex-start;flex-wrap:wrap-reverse}.battleSquad.right{right:38px;justify-content:flex-start;flex-wrap:wrap-reverse;transform:scaleX(-1)}.battleMember{width:58px;height:58px;object-fit:contain;filter:drop-shadow(0 5px 4px #000);animation:squadReady .7s steps(2,end) infinite}.battleMember.large{width:72px;height:72px}.battleMember.hero{width:140px;height:140px}.battleSquad.attack .battleMember{animation:squadStrike .58s ease-in-out}.battleSquad.hit .battleMember{filter:brightness(2.1) drop-shadow(0 0 12px #fff)}.battleMember.casualty{animation:casualtyDrop .9s ease-in forwards!important}.battleMember.machine.casualty{animation:machineBurst .9s ease-in forwards!important}.battleUnit{display:none}.battlePortrait{position:absolute;top:92px;width:92px;height:92px;border:2px solid #d6a84f;border-radius:12px;object-fit:cover;z-index:5;box-shadow:0 4px 18px #000}.battlePortrait.left{left:22px}.battlePortrait.right{right:22px}.musicCredit{font-size:12px;color:#c9ab7c;margin-top:4px;line-height:1.25}.turnBadgeAI{box-shadow:0 0 10px #6ec7ff;border-color:#6ec7ff!important}.commanderName{font-size:15px;color:#fff2bd;font-weight:900}.difficultyPill{border-color:#6ec7ff;color:#aee8ff}.closedSlot{opacity:.5}
 @keyframes squadReady{0%,49%{transform:translateY(0)}50%,100%{transform:translateY(-2px)}}
 @keyframes squadStrike{0%{transform:translateX(0)}45%{transform:translateX(50px) scale(1.06)}100%{transform:translateX(0)}}
@@ -78,20 +78,20 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 
 
 
-/* v0.26.06.11.2038 Cloud Lobby + Kingdom Claim + Per-Player Fog */
+/* v0.26.06.11.2126 Cloud Lobby + Kingdom Claim + Per-Player Fog */
 .cloudPanel{background:linear-gradient(90deg,#101721,#1d2f3d);border:2px solid #6ec7ff;border-radius:10px;padding:8px;color:#dff5ff;font-size:13px;display:grid;grid-template-columns:1.2fr 1fr;gap:8px;align-items:start}.cloudPanel b{color:#bff1ff}.cloudPanel .cloudCode{font-family:monospace;background:#061018;border:1px solid #4fa9d2;border-radius:6px;padding:4px;word-break:break-all;color:#e8fbff}.cloudGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}.cloudGrid button{font-size:12px;padding:6px}.cloudStatus{border:1px solid #386f8f;background:#07121a;border-radius:8px;padding:6px;margin-top:6px;color:#c8f2ff}.cloudStatus.good{border-color:#56d28f;color:#baffd4}.cloudStatus.warn{border-color:#ffd478;color:#ffe8be}.cloudStatus.bad{border-color:#ff7676;color:#ffd0d0}.cloudConfigBox{display:none;margin-top:7px;border:1px dashed #6ec7ff;border-radius:8px;padding:7px;background:#07121a}.cloudConfigBox.show{display:block}.cloudConfigBox input{width:100%;margin:3px 0;font-family:monospace;font-size:12px}.pendingActionBox{border:1px solid #ffd478;background:#1b1308;border-radius:8px;padding:7px;margin-top:7px;color:#ffe8be}.waitBtn{width:100%;margin-top:6px;background:linear-gradient(#82602e,#4d3518)}.pendingMark{outline:3px solid #ffd478!important;box-shadow:inset 0 0 12px #ffd47866}.attackAfterMoveMark{outline:3px solid #ff9b68!important}.unit.pending{box-shadow:0 0 0 2px #ffd478,0 0 16px #ffd478,inset 0 0 10px #fff2}.moveAfterHint{font-size:12px;color:#ffd478;margin-top:4px;line-height:1.25}.cloudTurnNotice{display:inline-block;border:1px solid #6ec7ff;border-radius:99px;padding:2px 6px;margin-left:4px;color:#bff1ff;background:#07121a}
 .claimList{margin-top:8px;border:1px solid #386f8f;border-radius:8px;overflow:hidden;background:#07121a}.claimRow{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;padding:6px;border-bottom:1px solid #244e67}.claimRow:last-child{border-bottom:0}.claimRow.mine{background:#123019;border-color:#56d28f}.claimRow.current{box-shadow:inset 0 0 0 1px #ffd478}.claimName{font-weight:bold;color:#e8fbff}.claimMeta{font-size:11px;color:#a9d8e8}.claimBtn{font-size:11px;padding:4px 6px}.waitingBanner{border:2px solid #6ec7ff;background:linear-gradient(90deg,#07121a,#142636);border-radius:10px;padding:8px;margin-bottom:7px;color:#dff5ff;box-shadow:0 2px 12px #0008}.waitingBanner.yourTurn{border-color:#56d28f;background:linear-gradient(90deg,#0d2415,#172f19);color:#d6ffe0}.waitingBanner.needClaim{border-color:#ffd478;background:linear-gradient(90deg,#211608,#2a1d0b);color:#ffe8be}.lockedControl{opacity:.55;filter:grayscale(.25)}
 
 
 
-/* v0.26.06.11.2038 Genesis retro asset pass */
+/* v0.26.06.11.2126 Genesis retro asset pass */
 .tilePng,.structPng,.pngSprite,.unitFrame,.battleMember,.battlePortrait{image-rendering:pixelated; image-rendering:crisp-edges;}
 .tilePng{filter:saturate(1.18) contrast(1.18);} 
 .unitAnim,.asset-sprite{filter:drop-shadow(2px 2px 0 #000);} 
 .unit.ready{filter:drop-shadow(0 0 5px #ffd47888);} 
 .unit.exhausted{opacity:.78;filter:grayscale(.45) brightness(.68) saturate(.58);} 
 
-/* Console Tactics UI Overhaul v0.26.06.11.2038 */
+/* Console Tactics UI Overhaul v0.26.06.11.2126 */
 body.console-remake{overflow:hidden;background:#050403;color:#ffe8be;}
 body.console-remake #app{height:100vh;display:grid;grid-template-columns:1fr;grid-template-rows:46px 1fr;gap:0;padding:0;background:radial-gradient(circle at 50% 30%,#1b130d 0,#070504 70%);}
 body.console-remake header{grid-column:1;grid-row:1;border-radius:0;border-width:0 0 2px 0;padding:5px 10px;min-height:46px;background:linear-gradient(#4a2f18,#1a0f09 55%,#090604);box-shadow:0 3px 0 #000,0 0 18px #000 inset;}
@@ -125,6 +125,7 @@ body.console-remake #recruitMenu:empty:after{content:'Select a city/fortress or 
 .commandPopup h3{margin:0 0 6px;color:#ffd478;font-size:14px;text-transform:uppercase;letter-spacing:.7px;}
 .commandPopup .cmdBtns{display:grid;grid-template-columns:1fr;gap:5px;}
 .commandPopup .cmdBtns button{text-align:left;padding:6px 9px;}
+.commandPopup.targeting{display:none!important}.commandPopup{pointer-events:none}.commandPopup button{pointer-events:auto}
 .contextBubble{display:none;position:absolute;right:16px;top:16px;z-index:62;max-width:300px;background:#0b0705e8;border:2px solid #9ed7ff;border-radius:6px;padding:8px;color:#e5f5ff;box-shadow:0 8px 24px #000;font-size:12px;}
 .contextBubble.show{display:block;}
 body.console-remake .modal{backdrop-filter:blur(1px);}
@@ -180,7 +181,7 @@ body.console-remake .modal.show{animation:retroFade .12s ease-out;}
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.11.2038</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.11.2126</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -271,7 +272,7 @@ body.console-remake .modal.show{animation:retroFade .12s ease-out;}
 
 <script>
 'use strict';
-const VERSION='v0.26.06.11.2038';
+const VERSION='v0.26.06.11.2126';
 const TERRAIN={plains:{name:'Plains',move:1,def:0,icon:'·'},forest:{name:'Forest',move:2,def:2,icon:'♣'},hills:{name:'Hills',move:2,def:1,icon:'⌂'},mountains:{name:'Mountains',move:3,def:3,icon:'▲'},water:{name:'Water',move:99,def:0,icon:'≈'},roads:{name:'Road',move:1,def:0,icon:'═'}};
 const STRUCTS={town:{name:'Town',income:150,icon:'⌂'},city:{name:'City',income:300,icon:'⚙'},fortress:{name:'Fortress',income:200,icon:'▣'}};
 const COLORS=['#b94a42','#4688c7','#4a9b62','#8c5eb8','#c77734','#4da5a8','#bd5d86','#8a8a8a'];
@@ -308,7 +309,7 @@ const AI_LEVELS={
 const DEFAULT_SLOT_KINDS=['Human','AI','AI','AI','Closed','Closed','Closed','Closed'];
 const DEFAULT_AI_LEVELS=['Captain','Soldier','Captain','Warlord','Soldier','Captain','Warlord','Iron Tyrant'];
 const COMMANDER_ORDER=Object.keys(COMMANDERS);
-let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null;
+let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null, commandTargetMode=null;
 let cloud={enabled:false,busy:false,gameCode:'',joinSecret:'',lastUpdated:'',pollTimer:null,status:'Not connected',statusClass:'',row:null,localPlayerId:'',displayName:'',setupOpen:false,lastSeenRevision:0,activeLock:null,claimNoticeDismissed:false};
 const SUPABASE_URL_DEFAULT='';
 const SUPABASE_ANON_KEY_DEFAULT='';
@@ -441,6 +442,7 @@ function structureArt(s,owner){let idx=owner!==null?ownerAssetIndex(owner):0; re
 function unitIcon(u){return unitSprite(u,'miniSprite');}
 function tileClick(x,y){if(!state)return; enableAudio(); lastTile={x,y}; let u=unitAt(x,y); let h=highlights.find(h=>h.x==x&&h.y==y);
  if(!localCanControlCurrent(true)){
+   commandTargetMode=null;
    if(u&&u.owner===viewPlayerIndex()){selected=u; highlights=[];} else {selected=null; highlights=[];}
    if(cloud.enabled)showTurnToast(cloudClaimStatusText()||`Waiting for ${player().name}.`); else if(player().kind==='AI')showTurnToast(`${player().name} is computer controlled.`);
    render(); renderPanels(); return;
@@ -448,6 +450,7 @@ function tileClick(x,y){if(!state)return; enableAudio(); lastTile={x,y}; let u=u
  if(selected&&selected.owner===state.current&&!selected.acted){ if(!cloudCanAct())return; }
  if(h&&selected){
    if(h.type==='move'){
+     commandTargetMode=null;
      if(selected.moved){showTurnToast('This unit has already moved. Choose an attack or Wait.'); return;}
      selected.x=x;selected.y=y;selected.moved=true;selected.acted=false;
      log(`${player().name}'s ${selected.type} moves to ${x},${y}.`); sfx('move');
@@ -457,17 +460,18 @@ function tileClick(x,y){if(!state)return; enableAudio(); lastTile={x,y}; let u=u
      else showTurnToast('Moved — choose an attack target or Wait.');
      render(); renderPanels(); return;
    }
-   if(h.type==='attack'&&u&&u.owner!==selected.owner){attack(selected,u); selected=null; highlights=[]; return;}
+   if(h.type==='attack'&&u&&u.owner!==selected.owner){commandTargetMode=null; attack(selected,u); selected=null; highlights=[]; return;}
  }
  if(u&&u.owner===state.current&&player().alive&&!u.acted){
+   commandTargetMode=null;
    if(selected&&selected.id!==u.id&&selected.moved&&!selected.acted){showTurnToast('Finish the moved unit first: attack or Wait.'); return;}
    if(!cloudCanAct())return;
    selected=u; makeHighlights(u); render(); renderPanels(); return;
  }
  if(selected&&selected.moved&&!selected.acted){showTurnToast('Moved — choose attack or Wait / Finish Unit.'); renderPanels(); return;}
- selected=u||null; highlights=[]; render(); renderPanels();}
+ commandTargetMode=null; selected=u||null; highlights=[]; render(); renderPanels();}
 function makeHighlights(u){highlights=[]; if(!u||u.acted)return; for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++){let d=Math.abs(x-u.x)+Math.abs(y-u.y); if(!u.moved&&d>0&&d<=UNITS[u.type].mv&&canEnter(u,x,y))highlights.push({x,y,type:'move'}); let enemy=unitAt(x,y); if(enemy&&enemy.owner!==u.owner&&d<=UNITS[u.type].range)highlights.push({x,y,type:u.moved?'attackAfterMove':'attack'});} highlights.forEach(h=>{if(h.type==='attackAfterMove')h.type='attack'});}
-function waitSelectedUnit(){if(!selected||!state)return; if(selected.owner!==state.current||selected.acted)return; selected.acted=true; selected.moved=true; log(`${player().name}'s ${selected.type} waits.`); selected=null; highlights=[]; render();}
+function waitSelectedUnit(){commandTargetMode=null; if(!selected||!state)return; if(selected.owner!==state.current||selected.acted)return; selected.acted=true; selected.moved=true; log(`${player().name}'s ${selected.type} waits.`); selected=null; highlights=[]; render();}
 function hasPendingAction(){return !!(selected&&selected.owner===state.current&&selected.moved&&!selected.acted)}
 function finishPendingActionForSave(reason='continue'){if(hasPendingAction()){let ok=confirm(`${selected.type} has moved but has not attacked. Finish it as Wait before ${reason}?`); if(!ok)return false; waitSelectedUnit();} return true;}
 function finishAllCurrentActions(){if(!state)return; state.units.filter(u=>u.owner===state.current&&u.moved&&!u.acted).forEach(u=>{u.acted=true;}); selected=null; highlights=[];}
@@ -583,12 +587,14 @@ function openOptionsDrawer(){document.body.classList.add('showDeck'); document.b
 function openCloudLobby(){document.body.classList.add('showCloud'); renderCloudPanel();}
 function closeCloudLobby(){document.body.classList.remove('showCloud');}
 function openLogModal(){let el=$('fullLogContent'); if(el){el.innerHTML=(state?state.log:[]).map(l=>`<div class="logLine">${l}</div>`).join('')||'<div class="small">No war log yet.</div>';} openModal('logModal');}
-function cancelSelectedUnit(){selected=null; highlights=[]; render();}
-function commandAttackMode(){if(!selected||selected.acted)return; makeHighlights(selected); let attacks=highlights.filter(h=>h.type==='attack').length; showTurnToast(attacks?`Choose an attack target. ${attacks} target${attacks===1?'':'s'} in range.`:'No attack targets in range.'); render();}
+function cancelSelectedUnit(){commandTargetMode=null; selected=null; highlights=[]; render();}
+function hideCommandPopupForTargeting(mode){commandTargetMode=mode; let el=$('commandPopup'); if(el){el.classList.remove('show'); el.classList.add('targeting'); el.innerHTML='';}}
+function commandMoveMode(){if(!selected||selected.acted)return; makeHighlights(selected); let moves=highlights.filter(h=>h.type==='move').length; hideCommandPopupForTargeting('move'); showTurnToast(moves?`Move mode — select a highlighted destination. ${moves} tile${moves===1?'':'s'} available.`:'No valid move tiles.'); renderContextBubble();}
+function commandAttackMode(){if(!selected||selected.acted)return; makeHighlights(selected); let attacks=highlights.filter(h=>h.type==='attack').length; hideCommandPopupForTargeting('attack'); showTurnToast(attacks?`Choose an attack target. ${attacks} target${attacks===1?'':'s'} in range.`:'No attack targets in range.'); if(!attacks){commandTargetMode=null; render();} else renderContextBubble();}
 function commandRecruitMode(){document.body.classList.add('showDeck'); showTurnToast('Recruitment window opened. Select an affordable unit.');}
-function captureSelectedStructure(){if(!selected||!state)return; let tt=tile(selected.x,selected.y); if(tt&&tt.s&&tt.owner!==selected.owner&&canCapture(selected)){tt.owner=selected.owner; selected.acted=true; selected.moved=true; log(`${state.players[selected.owner].name}'s ${selected.type} captures ${STRUCTS[tt.s].name}.`); selected=null; highlights=[]; render();}else showTurnToast('This unit cannot capture here.');}
-function renderCommandPopup(){let el=$('commandPopup'); if(!el)return; if(!state||!selected||selected.owner!==state.current||selected.acted||!localCanControlCurrent(false)){el.classList.remove('show'); el.innerHTML=''; return;} let tt=tile(selected.x,selected.y); let attacks=highlights.filter(h=>h.type==='attack').length; let canCap=!!(tt&&tt.s&&tt.owner!==selected.owner&&canCapture(selected)); let canRec=!!(tt&&tt.s&&(tt.s==='city'||tt.s==='fortress')&&tt.owner===selected.owner); let phase=selected.moved?'Moved — choose action':'Ready for orders'; let html=`<h3>${selected.type}</h3><div class="small">${phase}</div><div class="cmdBtns">`;
- if(!selected.moved) html+=`<button onclick="showTurnToast('Select a highlighted destination on the map.')">Move</button>`;
+function captureSelectedStructure(){commandTargetMode=null; if(!selected||!state)return; let tt=tile(selected.x,selected.y); if(tt&&tt.s&&tt.owner!==selected.owner&&canCapture(selected)){tt.owner=selected.owner; selected.acted=true; selected.moved=true; log(`${state.players[selected.owner].name}'s ${selected.type} captures ${STRUCTS[tt.s].name}.`); selected=null; highlights=[]; render();}else showTurnToast('This unit cannot capture here.');}
+function renderCommandPopup(){let el=$('commandPopup'); if(!el)return; if(commandTargetMode==='move'||commandTargetMode==='attack'){el.classList.remove('show'); el.classList.add('targeting'); el.innerHTML=''; return;} el.classList.remove('targeting'); if(!state||!selected||selected.owner!==state.current||selected.acted||!localCanControlCurrent(false)){el.classList.remove('show'); el.innerHTML=''; return;} let tt=tile(selected.x,selected.y); let attacks=highlights.filter(h=>h.type==='attack').length; let canCap=!!(tt&&tt.s&&tt.owner!==selected.owner&&canCapture(selected)); let canRec=!!(tt&&tt.s&&(tt.s==='city'||tt.s==='fortress')&&tt.owner===selected.owner); let phase=selected.moved?'Moved — choose action':'Ready for orders'; let html=`<h3>${selected.type}</h3><div class="small">${phase}</div><div class="cmdBtns">`;
+ if(!selected.moved) html+=`<button onclick="commandMoveMode()">Move</button>`;
  html+=`<button ${attacks?'':'disabled'} onclick="commandAttackMode()">Attack${attacks?` (${attacks})`:''}</button>`;
  if(canCap) html+=`<button onclick="captureSelectedStructure()">Capture</button>`;
  if(canRec) html+=`<button onclick="commandRecruitMode()">Recruit</button>`;
