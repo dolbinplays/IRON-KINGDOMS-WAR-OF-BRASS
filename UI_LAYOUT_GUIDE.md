@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.2246
+# UI Layout Guide - v0.26.06.12.0013
 
 ## Design goal
 
@@ -44,9 +44,10 @@ Tile highlight PNGs are layered with `pointer-events: none`, so movement and att
 
 ## Battle Presentation
 
-- Infantry-scale units render as squad formations, using the squad counts in the unit definitions.
+- Infantry-scale units render as larger squad formations, using the squad counts in the unit definitions.
 - Commanders and Steam Tanks remain single feature combatants for hero-vs-squad and vehicle-vs-squad scenes.
 - Rifle, cannon, magic, melee, and casualty visuals are action-linked and anchored to the acting side and target side.
+- Battle-side facing uses per-unit overrides so left and right formations face each other even when source crops are inconsistent.
 - The battle background stays behind all combatants, projectiles, and damage numbers.
 
 ## Philosophy

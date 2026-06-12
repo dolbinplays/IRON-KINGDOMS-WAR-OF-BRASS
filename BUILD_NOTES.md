@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - AI Pacing and Battle Visibility
 
-Build: v0.26.06.12.2246
+Build: v0.26.06.12.0013
 
 This patch improves AI turn readability and battle-scene unit visibility while preserving the existing local, manual JSON, and Supabase cloud multiplayer flows.
 
@@ -43,6 +43,13 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - Anchored rifle/cannon/magic effects to the acting side and target side instead of using a fixed generic burst over the background.
 - Hid the legacy fixed-position battle burst so visual effects now come from the anchored skirmish layer.
 - Moved battle damage numbers closer to the defending side of the battlefield.
+- Doubled battle-scene squad sprite size and expanded the skirmish lane so infantry-scale units read more clearly.
+- Slowed battle-scene foreground, squad, projectile, muzzle, impact, casualty, and auto-close timing by roughly 25 percent.
+- Standardized battle facing rules: left-side combatants use base art facing right, right-side squad and feature combatants are CSS-flipped to face left.
+- Doubled infantry-scale battle sprites again for a larger console-RPG battle read, with the skirmish lane nudged up to stay clear of the lower console.
+- Added per-unit facing overrides for Infantry, Cavalry, Airship, Gyrocopter, Assassin, Steam Marshal, and Archmage battle art.
+- Strengthened map unit ownership borders to a persistent 3px team-color frame and removed exhaustion/enemy opacity fading.
+- Kept casualty fade/fall behavior active for melee and ranged individual losses.
 
 ## Preserved
 
