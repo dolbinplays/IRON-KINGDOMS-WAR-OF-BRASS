@@ -87,6 +87,11 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 /* v0.26.06.11.2126 Genesis retro asset pass */
 .tilePng,.structPng,.pngSprite,.unitFrame,.battleMember,.battlePortrait{image-rendering:pixelated; image-rendering:crisp-edges;}
 .tilePng{filter:saturate(1.18) contrast(1.18);} 
+.structureSprite.structPng{width:46px!important;height:46px!important;right:-3px!important;top:-9px!important;object-fit:contain!important;filter:drop-shadow(2px 3px 0 #000b) drop-shadow(0 0 3px #000)!important;}
+.unit{left:2px!important;right:2px!important;top:1px!important;bottom:5px!important;background:radial-gradient(circle,#fff4 0 24%,#17100ab8 58%,#050302d9 100%)!important;border-width:1px!important;}
+.unit .asset-sprite.pngSprite{width:132%;height:132%;max-width:none;object-fit:contain;transform:translateY(-10%);filter:drop-shadow(2px 2px 0 #000) drop-shadow(0 0 3px #000);}
+.unit.commander .asset-sprite.pngSprite{width:145%;height:145%;transform:translateY(-15%);}
+.air .unit .asset-sprite.pngSprite,.gyro .unit .asset-sprite.pngSprite,.steam .unit .asset-sprite.pngSprite{width:142%;height:142%;transform:translateY(-12%);}
 .unitAnim,.asset-sprite{filter:drop-shadow(2px 2px 0 #000);} 
 .unit.ready{filter:drop-shadow(0 0 5px #ffd47888);} 
 .unit.exhausted{opacity:.78;filter:grayscale(.45) brightness(.68) saturate(.58);} 
@@ -166,23 +171,49 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleSpritePanel.right .battleMapSprite{transform:scaleX(-1);}
 .battleMapSprite{width:176px;height:176px;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 8px 6px #000);}
 .battlePanelName{font-size:13px;font-weight:900;color:#fff2bd;text-shadow:0 2px 0 #000;max-width:220px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.battleForegroundLayer{position:absolute;inset:0;z-index:18;pointer-events:none;display:none;}
+.battleBox{height:min(620px,86vh)!important;border-radius:4px!important;border-color:#f0c15d!important;background:#031052!important;}
+.battleBg{inset:0 0 164px 0!important;background-size:cover!important;background-position:center!important;image-rendering:pixelated;image-rendering:crisp-edges;}
+.battleShade{inset:0 0 164px 0!important;background:linear-gradient(180deg,#5db7ff33 0 46%,#173f0a44 47% 100%),linear-gradient(90deg,#0005,#0000 45%,#0005)!important;}
+.battleStage{top:0!important;bottom:164px!important;z-index:10;}
+.battleSquad{display:none!important;}
+.battleForegroundLayer{position:absolute;inset:0 0 164px 0;z-index:18;pointer-events:none;display:none;}
 #battleOverlay.show .battleForegroundLayer{display:block;}
-.battleHudFighter{position:absolute;bottom:94px;width:210px;height:224px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;background:transparent;border:0;border-radius:0;box-shadow:none;color:#fff2bd;}
-.battleHudFighter.left{left:calc(50% - 245px);animation:battleForegroundLungeL .62s ease-in-out;}
-.battleHudFighter.right{right:calc(50% - 245px);animation:battleForegroundLungeR .62s ease-in-out;}
-.battleHudFighter.right .battleHudArt{transform:scaleX(-1);}
-.battleHudFighter.right .battleMapSprite{transform:none;}
-.battleHudFighter .battleMapSprite{width:156px;height:156px;}
-.battleHudArt{position:relative;width:156px;height:156px;background-position:center;background-size:contain;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 8px 6px #000);}
+.battleHudFighter{position:absolute;bottom:10px;width:260px;height:285px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;background:transparent;border:0;border-radius:0;box-shadow:none;color:#fff2bd;}
+.battleHudFighter.attacker{left:calc(50% - 295px);animation:battleForegroundLungeL .62s ease-in-out;}
+.battleHudFighter.defender{right:calc(50% - 295px);animation:battleForegroundLungeR .62s ease-in-out;}
+.battleHudFighter.defender .battleHudArt{transform:none;}
+.battleHudFighter.defender .battleMapSprite{transform:none;}
+.battleHudFighter .battleMapSprite{width:260px;height:260px;}
+.battleHudArt{position:relative;width:260px;height:260px;background-position:center;background-size:contain;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 10px 0 #0008) drop-shadow(0 0 10px #000);}
 .battleHudArt .battleMapSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;}
-.battleHudFallback{position:absolute;inset:28px;z-index:1;display:flex;align-items:center;justify-content:center;border:4px solid #ffd478;background:linear-gradient(180deg,#4c2812,#160a04);box-shadow:inset 0 0 0 6px #0006,0 0 16px #ffd47855;color:#fff2bd;font-size:30px;font-weight:900;text-shadow:0 3px 0 #000;}
-.battleHudName{max-width:210px;text-align:center;font-size:13px;font-weight:900;text-shadow:0 2px 0 #000,0 0 8px #000;background:#120904d9;border:2px solid #d6a84f;border-radius:999px;padding:3px 9px;}
-@keyframes battleForegroundLungeL{0%,100%{transform:translateX(0)}45%{transform:translateX(58px) scale(1.04)}}
-@keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-58px) scale(1.04)}}
+.battleHudFallback{display:none;}
+.battleHudName{display:none;}
+.battleSkirmishLayer{position:absolute;left:0;right:0;bottom:38px;height:142px;z-index:23;pointer-events:none;overflow:visible;}
+.battleSkirmishUnit{position:absolute;bottom:calc(var(--row,0) * 15px);width:46px;height:46px;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(2px 3px 0 #000) drop-shadow(0 0 4px #000);}
+.battleSkirmishUnit.heavy{width:64px;height:64px;}
+.battleSkirmishUnit.attacker{left:calc(9% + var(--i,0) * 18px);animation:skirmishChargeA 2.05s ease-in-out forwards;animation-delay:calc(var(--i,0) * .025s);}
+.battleSkirmishUnit.defender{right:calc(9% + var(--i,0) * 18px);animation:skirmishChargeD 2.05s ease-in-out forwards;animation-delay:calc(var(--i,0) * .025s);}
+.battleSkirmishUnit.loser{animation-duration:2.05s;filter:brightness(1.15) drop-shadow(2px 3px 0 #000) drop-shadow(0 0 7px #ffdd8a);}
+@keyframes skirmishChargeA{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(235px) scale(1)}48%,62%{transform:translateX(252px) scale(1.04) rotate(-2deg)}56%{transform:translateX(244px) scale(1.02) rotate(2deg)}72%{opacity:1}100%{transform:translateX(0) scale(.9);opacity:1}}
+@keyframes skirmishChargeD{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(-235px) scale(1)}48%,62%{transform:translateX(-252px) scale(1.04) rotate(2deg)}56%{transform:translateX(-244px) scale(1.02) rotate(-2deg)}72%{opacity:1}100%{transform:translateX(0) scale(.9);opacity:1}}
+.battleSkirmishUnit.loser.defender{animation-name:skirmishLoseD}.battleSkirmishUnit.loser.attacker{animation-name:skirmishLoseA}
+@keyframes skirmishLoseD{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(-235px) scale(1)}52%{transform:translateX(-252px) translateY(0) scale(1.04)}75%,100%{transform:translateX(-252px) translateY(26px) rotate(22deg) scale(.78);opacity:0}}
+@keyframes skirmishLoseA{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(235px) scale(1)}52%{transform:translateX(252px) translateY(0) scale(1.04)}75%,100%{transform:translateX(252px) translateY(26px) rotate(-22deg) scale(.78);opacity:0}}
+.battleTop{top:auto!important;left:0!important;right:0!important;bottom:0!important;height:164px;z-index:22!important;display:grid!important;grid-template-columns:1fr 230px 1fr;gap:0!important;align-items:stretch!important;padding:8px;background:#061d75!important;border-top:5px solid #f0c15d;box-shadow:inset 0 0 0 3px #02083c,inset 0 0 0 6px #2c61c8;color:#fff2bd;}
+.battlePlate{min-width:0!important;border:3px solid #f0c15d!important;border-radius:2px!important;background:#082b9a!important;box-shadow:inset 0 0 0 3px #03104c,0 0 0 2px #02051c;padding:8px!important;display:grid;grid-template-columns:78px 1fr 50px;gap:8px;align-items:center;}
+.battleConsolePortrait{width:72px;height:72px;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;background:#02083c;border:3px solid #f0c15d;box-shadow:inset 0 0 0 2px #000;}
+.battleConsoleText{min-width:0;line-height:1.1}.battleName{font-size:15px;color:#fff2bd;text-shadow:2px 2px 0 #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.battlePlate .small{font-size:11px;color:#f4d68a;text-shadow:1px 1px 0 #000;}
+.battleHp{height:9px;background:#170707;border:2px solid #000;margin-top:5px}.battleSquadBig{font-size:42px;line-height:1;color:#f0c15d;text-shadow:3px 3px 0 #8a3f16,4px 4px 0 #000;text-align:center;font-weight:900;}
+.battleConsoleCore{border:3px solid #f0c15d;background:#082b9a;box-shadow:inset 0 0 0 3px #03104c,0 0 0 2px #02051c;margin:0 8px;padding:7px 8px;display:grid;grid-template-rows:auto 1fr auto;align-items:center;text-align:center;}
+.battleAbilityTitle{background:#f0c15d;color:#5b3511;text-shadow:none;border:2px solid #6c431b;font-weight:900;padding:2px 4px;font-size:15px;}
+.battleCenterStats{font-size:13px;line-height:1.35;color:#fff2bd;text-shadow:1px 1px 0 #000;align-self:center}.battleVs{font-size:18px;color:#f0c15d;text-shadow:2px 2px 0 #000;font-weight:900;}
+.battleMsg{bottom:16px!important;max-width:420px;border-radius:2px!important;border:3px solid #f0c15d!important;background:#02083cee!important;color:#fff2bd;z-index:24!important;text-shadow:1px 1px 0 #000;}
+.skipBattle{z-index:25!important;bottom:18px!important;right:16px!important;border-radius:2px!important;}
+@keyframes battleForegroundLungeL{0%,100%{transform:translateX(0)}45%{transform:translateX(72px) scale(1.05)}}
+@keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-72px) scale(1.05)}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.0135 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.2206 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -253,7 +284,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.0135</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.2206</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -316,7 +347,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <div id="battleOverlay"><div class="battleBox" id="battleBox">
   <div class="battleBg" id="battleBg"></div><div class="battleShade"></div>
-  <div class="battleTop"><div class="battlePlate"><div class="battleName" id="battleAttackerName">Attacker</div><div id="battleAttackerMeta" class="small"></div><div class="battleHp"><span id="battleAttackerHp" style="width:100%"></span></div></div><div class="battlePlate"><div class="battleName" id="battleDefenderName">Defender</div><div id="battleDefenderMeta" class="small"></div><div class="battleHp"><span id="battleDefenderHp" style="width:100%"></span></div></div></div>
+  <div class="battleTop"><div class="battlePlate"><img id="battleAttackerCardImg" class="battleConsolePortrait" alt="attacker"><div class="battleConsoleText"><div class="battleName" id="battleAttackerName">Attacker</div><div id="battleAttackerMeta" class="small"></div><div class="battleHp"><span id="battleAttackerHp" style="width:100%"></span></div></div><div id="battleAttackerSquadBig" class="battleSquadBig">10</div></div><div class="battleConsoleCore"><div class="battleAbilityTitle">Basic Ability</div><div id="battleCenterStats" class="battleCenterStats">AT 0<br>DF 0</div><div class="battleVs">VS</div></div><div class="battlePlate"><img id="battleDefenderCardImg" class="battleConsolePortrait" alt="defender"><div class="battleConsoleText"><div class="battleName" id="battleDefenderName">Defender</div><div id="battleDefenderMeta" class="small"></div><div class="battleHp"><span id="battleDefenderHp" style="width:100%"></span></div></div><div id="battleDefenderSquadBig" class="battleSquadBig">10</div></div></div>
   <div class="battleStage"><img id="battleAttackerPortrait" class="battlePortrait left" alt="attacker commander" style="display:none"><img id="battleDefenderPortrait" class="battlePortrait right" alt="defender commander" style="display:none"><div id="battleAttackerSquad" class="battleSquad left"></div><div id="battleDefenderSquad" class="battleSquad right"></div><img id="battleAttackerImg" class="battleUnit left" alt="attacker"><img id="battleDefenderImg" class="battleUnit right" alt="defender"><div id="battleAttackerPanel" class="battleSpritePanel left"></div><div id="battleDefenderPanel" class="battleSpritePanel right"></div><img id="battleFxImg" class="battleFxImg" alt="effect" style="display:none"><div id="battleDamage" class="battleDamage" style="display:none"></div></div>
   <div id="battleForegroundLayer" class="battleForegroundLayer"></div><div class="battleMsg" id="battleMsg">Battle!</div><button class="skipBattle" onclick="hideBattleView()">Skip</button>
 </div></div>
@@ -345,7 +376,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.0135';
+const VERSION='v0.26.06.12.2206';
 const TERRAIN={plains:{name:'Plains',move:1,def:0,icon:'·'},forest:{name:'Forest',move:2,def:2,icon:'♣'},hills:{name:'Hills',move:2,def:1,icon:'⌂'},mountains:{name:'Mountains',move:3,def:3,icon:'▲'},water:{name:'Water',move:99,def:0,icon:'≈'},roads:{name:'Road',move:1,def:0,icon:'═'}};
 const STRUCTS={town:{name:'Town',income:150,icon:'⌂'},city:{name:'City',income:300,icon:'⚙'},fortress:{name:'Fortress',income:200,icon:'▣'}};
 const COLORS=['#b94a42','#8c5eb8','#4688c7','#f1d78a','#4a9b62','#d65a2f','#1c9e9a','#8fcff1'];
@@ -353,7 +384,11 @@ const COMMANDERS={
  'Steam Marshal':{name:'Marshal Verena Brasswake',icon:'🎖️',atk:3,def:1,heal:12,ai:'aggressive',desc:'Marshal Verena Brasswake — big-caped offensive commander. Aura: +3 Atk / +1 Def / +12 Heal. Favors disciplined advances and finishing blows.'},
  'Archmage':{name:'Archmage Aurelian Voxgear',icon:'🔮',atk:1,def:1,heal:20,ai:'arcane',desc:'Archmage Aurelian Voxgear — impossible hair, rune-engine mantle, and arcane artillery instincts. Aura: +1 Atk / +1 Def / +20 Heal.'},
  'Sky Admiral':{name:'Admiral Seraphine Cloudreaver',icon:'🪽',atk:2,def:0,heal:10,moveBias:1,ai:'mobile',desc:'Admiral Seraphine Cloudreaver — skyfleet duelist with a giant storm cape. Aura: +2 Atk / +0 Def / +10 Heal. Favors mobility and air power.'},
- 'Iron Priest':{name:'Father Malrick Ironhalo',icon:'⚒️',atk:0,def:3,heal:16,ai:'defensive',desc:'Father Malrick Ironhalo — brass-haloed war priest in impossible shoulder armor. Aura: +0 Atk / +3 Def / +16 Heal. Favors fortresses and survival.'}
+ 'Iron Priest':{name:'Father Malrick Ironhalo',icon:'⚒️',atk:0,def:3,heal:16,ai:'defensive',desc:'Father Malrick Ironhalo — brass-haloed war priest in impossible shoulder armor. Aura: +0 Atk / +3 Def / +16 Heal. Favors fortresses and survival.'},
+ 'Thorn Regent':{name:'Thorn Regent',icon:'🌿',atk:0,def:3,heal:12,ai:'defensive',desc:'Thorn Regent — emerald frontier warden of brass, vines, and rugged border armies. Aura: +0 Atk / +3 Def / +12 Heal. Favors terrain, cities, and defensive holds.'},
+ 'Cinder Khan':{name:'Cinder Khan',icon:'🔥',atk:3,def:0,heal:8,ai:'aggressive',desc:'Cinder Khan — furnace war-chief and siege lord. Aura: +3 Atk / +0 Def / +8 Heal. Favors artillery, tanks, and relentless pressure.'},
+ 'Dusk Corsair':{name:'Dusk Corsair',icon:'☄️',atk:2,def:0,heal:10,moveBias:1,ai:'mobile',desc:'Dusk Corsair — teal sky-raider prince of speed, misdirection, and precision strikes. Aura: +2 Atk / +0 Def / +10 Heal. Favors raids, air units, and flanks.'},
+ 'Frost Matriarch':{name:'Frost Matriarch',icon:'❄️',atk:1,def:2,heal:14,ai:'arcane',desc:'Frost Matriarch — ice-blue northern noble and battlefield control arcanist. Aura: +1 Atk / +2 Def / +14 Heal. Favors ranged pressure and disciplined defense.'}
 };
 const UNITS={
  Infantry:{cost:300,hp:100,mv:3,atk:26,def:8,range:1,icon:'⚔️',class:'banner',capture:true,tags:['infantry'],squad:10},
@@ -477,7 +512,7 @@ function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
 function scatterStructures(p){let spots=[]; for(let y=1;y<state.h-1;y++)for(let x=1;x<state.w-1;x++) if(tile(x,y).t!=='water'&&tile(x,y).t!=='mountains') spots.push({x,y});
  for(let i=0;i<Math.floor(state.w*state.h/18);i++){let s=spots.splice(Math.floor(rng()*spots.length),1)[0]; if(!s)break; let rr=rng(); tile(s.x,s.y).s=rr<.18?'fortress':rr<.55?'city':'town';}
 }
-function createPlayers(configs){state.players=[]; configs.forEach((cfg,i)=>{let cls=cfg.commanderClass||COMMANDER_ORDER[i%COMMANDER_ORDER.length], cmd=COMMANDERS[cls]; state.players.push({id:i,name:cfg.name||`Kingdom ${i+1}`,color:COLORS[i],gold:1000+(cfg.kind==='AI'?(AI_LEVELS[cfg.aiDifficulty||'Soldier']?.bonusGold||0):0),alive:true,observer:false,influence:0,kind:cfg.kind||'Human',aiDifficulty:cfg.aiDifficulty||'Soldier',commanderClass:cls,commanderName:cmd.name});});}
+function createPlayers(configs){state.players=[]; configs.forEach((cfg,i)=>{let cls=COMMANDERS[cfg.commanderClass]?cfg.commanderClass:COMMANDER_ORDER[i%COMMANDER_ORDER.length], cmd=COMMANDERS[cls]||COMMANDERS['Steam Marshal']; state.players.push({id:i,name:cfg.name||`Kingdom ${i+1}`,color:COLORS[i],gold:1000+(cfg.kind==='AI'?(AI_LEVELS[cfg.aiDifficulty||'Soldier']?.bonusGold||0):0),alive:true,observer:false,influence:0,kind:cfg.kind||'Human',aiDifficulty:cfg.aiDifficulty||'Soldier',commanderClass:cls,commanderName:cmd.name});});}
 function placeStarts(){let starts=[{x:1,y:1},{x:state.w-2,y:state.h-2},{x:state.w-2,y:1},{x:1,y:state.h-2},{x:Math.floor(state.w/2),y:1},{x:Math.floor(state.w/2),y:state.h-2},{x:1,y:Math.floor(state.h/2)},{x:state.w-2,y:Math.floor(state.h/2)}];
  state.players.forEach((p,i)=>{let pos=nearestOpen(starts[i]); for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){let x=pos.x+dx,y=pos.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h&&Math.abs(dx)+Math.abs(dy)<=3&&tile(x,y).t==='water')tile(x,y).t='plains';} let home=tile(pos.x,pos.y); home.t='roads'; home.s='city'; home.owner=p.id; addUnit('Commander',p.id,pos.x,pos.y,{commanderClass:p.commanderClass}); let near=nearestOpen({x:pos.x+1,y:pos.y}); addUnit('Infantry',p.id,near.x,near.y); let near2=nearestOpen({x:pos.x,y:pos.y+1}); addUnit(i%2?'Riflemen':'Pikemen',p.id,near2.x,near2.y); let town=nearestOpen({x:pos.x+(pos.x<state.w/2?3:-3),y:pos.y+(pos.y<state.h/2?2:-2)}); tile(town.x,town.y).t='roads'; tile(town.x,town.y).s='town'; tile(town.x,town.y).owner=null;});
  let center=nearestOpen({x:Math.floor(state.w/2),y:Math.floor(state.h/2)}); tile(center.x,center.y).t='hills'; tile(center.x,center.y).s='fortress'; tile(center.x,center.y).owner=null; for(let x=1;x<state.w-1;x++) if(tile(x,Math.floor(state.h/2)).t!=='water') tile(x,Math.floor(state.h/2)).t='roads'; for(let y=1;y<state.h-1;y++) if(tile(Math.floor(state.w/2),y).t!=='water') tile(Math.floor(state.w/2),y).t='roads'; }
@@ -515,15 +550,23 @@ function turnBadgeMarkup(){let p=player(); let stateText=p?`Turn ${state.turn} �
 function unitStatusIcons(u,ready,aura,pending){let html=''; if(aura)html+='<img class="statusIcon auraStatus" src="assets/fx/status/status_aura_active.png" alt="aura active" loading="eager">'; if(pending)html+='<img class="statusIcon" src="assets/fx/status/status_waiting.png" alt="pending action" loading="eager">'; else if(!ready)html+='<img class="statusIcon" src="assets/fx/status/status_exhausted.png" alt="exhausted" loading="eager">'; return html;}
 function commanderAssetSlug(cls){return assetSlug(cls);}
 function unitSpriteBase(u){let owner=ownerAssetIndex(u?.owner||0), type=u?.type||'Infantry'; return type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal')}`:`assets/units/p${owner}/${assetSlug(type)}`;}
-function unitSpriteSrc(u,suffix=''){return `${unitSpriteBase(u)}${suffix}.png`;}
-function unitSprite(u,cls='asset-sprite',animated=false){let base=unitSpriteBase(u), type=u?.type||'Unit'; if(animated&&cls==='asset-sprite')return `<span class="unitAnim"><img class="unitFrame frameA" src="${base}_f1.png" alt="${type}" loading="eager"><img class="unitFrame frameB" src="${base}_f2.png" alt="${type}" loading="eager"></span>`; return `<img class="${cls} pngSprite" src="${base}.png" alt="${type}" loading="eager">`; }
-function battleUnitSrc(u){return unitSpriteSrc(u,'_battle');}
-function battleFallbackSrc(u){return unitSpriteSrc(u);}
+function battleConsoleSpriteSrc(u,mirrored=false){let owner=ownerAssetIndex(u?.owner||0), type=u?.type||'Infantry', suffix=mirrored?'_mirrored':''; if(type==='Commander')return `assets/battle_console/commanders/${commanderAssetSlug(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal')}${suffix}.png`; return `assets/battle_console/units/p${owner}/${assetSlug(type)}${suffix}.png`;}
+function unitSpriteSrc(u,suffix=''){return suffix?`${unitSpriteBase(u)}${suffix}.png`:battleConsoleSpriteSrc(u);}
+function unitSprite(u,cls='asset-sprite',animated=false){let src=battleConsoleSpriteSrc(u), fallback=`${unitSpriteBase(u)}.png`, type=u?.type||'Unit'; return `<img class="${cls} pngSprite" src="${src}" alt="${type}" loading="eager" onerror="this.onerror=null;this.src='${fallback}'">`; }
+function battleUnitSrc(u,mirrored=false){return battleConsoleSpriteSrc(u,mirrored);}
+function battleFallbackSrc(u){return `${unitSpriteBase(u)}.png`;}
 function battlePanelHtml(u){return `${unitSprite(u,'battleMapSprite',false)}<div class="battlePanelName">${escapeHtml(state.players[u.owner]?.name||'Kingdom')} ${escapeHtml(u.type)}</div>`;}
 function battleUnitInitials(u){return String(u?.type||'Unit').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
-function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, src=unitSpriteSrc(u); return `<div class="battleHudFighter ${side}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div>${unitSprite(u,'battleMapSprite',false)}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, mirrored=side!=='left', src=battleConsoleSpriteSrc(u,mirrored), cls=side==='left'?'attacker':'defender'; return `<div class="battleHudFighter ${cls}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'"></div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleSkirmishHtml(a,d,detail){
+ let aMax=squadMax(a.type), dMax=squadMax(d.type), aCount=Math.min(10,squadCount(a),aMax), dBefore=Math.min(10,squadCount(d),dMax), dAfter=Math.min(10,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
+ let aHeavy=aMax<=5||machineLike(a), dHeavy=dMax<=5||machineLike(d), lost=Math.max(0,dBefore-dAfter), html='<div class="battleSkirmishLayer">';
+ for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker ${aHeavy?'heavy':''}" style="--i:${i};--row:${row}" src="${battleConsoleSpriteSrc(a)}" alt="${escapeHtml(a.type)}">`;}
+ for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row}" src="${battleConsoleSpriteSrc(d,true)}" alt="${escapeHtml(d.type)}">`;}
+ return html+'</div>';
+}
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
-function commanderClassSprite(cls,owner=state?state.current:0,svgCls='miniSprite'){return `<img class="${svgCls} pngSprite" src="assets/commanders/p${ownerAssetIndex(owner)}/${commanderAssetSlug(cls)}.png" alt="${cls}" loading="eager">`;}
+function commanderClassSprite(cls,owner=state?state.current:0,svgCls='miniSprite'){let fake={type:'Commander',owner,commanderClass:cls}; return `<img class="${svgCls} pngSprite" src="${battleConsoleSpriteSrc(fake)}" alt="${cls}" loading="eager" onerror="this.onerror=null;this.src='assets/commanders/p${ownerAssetIndex(owner)}/${commanderAssetSlug(cls)}.png'">`;}
 function terrainMask(t){let mask=0, type=t.t; [[0,-1,1],[1,0,2],[0,1,4],[-1,0,8]].forEach(([dx,dy,bit])=>{let x=t.x+dx,y=t.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h){let nt=tile(x,y); if(nt.t===type||(type==='roads'&&nt.s))mask|=bit;}}); return mask;}
 function tileArt(t){let slug=assetSlug(t.t); if(['roads','water','forest','hills','mountains'].includes(t.t)){return `<img class="tilePng" src="assets/tiles/${slug}_${terrainMask(t)}.png" alt="${t.t}" loading="eager">`;} return `<img class="tilePng" src="assets/tiles/${slug}.png" alt="${t.t}" loading="eager">`; }
 function structureArt(s,owner){let idx=owner!==null?ownerAssetIndex(owner):0; return `<img class="structureSprite structPng" src="assets/structures/p${idx}/${assetSlug(s)}.png" alt="${STRUCTS[s].name}" loading="eager">`;}
@@ -589,7 +632,46 @@ function squadMax(type){return UNITS[type]?.squad||1;}
 function squadCount(u,hp=u.hp){let m=u.squadMax||squadMax(u.type); if(m<=1)return hp>0?1:0; return Math.max(0,Math.min(m,Math.ceil(Math.max(0,hp)/u.maxHp*m)));}
 function machineLike(u){return ['Artillery','Steam Tank','Airship','Gyrocopter'].includes(u.type);}
 function renderBattleSquad(el,u,beforeHp,afterHp,side){if(!el)return; let before=squadCount(u,beforeHp), after=squadCount(u,afterHp), lost=Math.max(0,before-after); let src=battleUnitSrc(u), cls=machineLike(u)?'machine':''; let hero=u.type==='Commander'; let html=''; for(let i=0;i<before;i++){let casualty=i>=after; html+=`<img class="battleMember ${hero?'hero':(before<=5?'large':'')} ${cls} ${casualty?'pendingCasualty':''}" src="${src}" alt="${u.type}">`;} el.innerHTML=html; el.classList.remove('attack','hit'); void el.offsetWidth; if(side==='attacker')el.classList.add('attack'); else el.classList.add('hit'); setTimeout(()=>{el.querySelectorAll('.pendingCasualty').forEach(x=>x.classList.add('casualty'));},360);}
-function showBattleView(a,d,detail,isCounter){let mode=battleViewSetting(); if(mode==='Off')return; let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return; let token=++battleViewToken; startMusic('battle'); box.classList.toggle('battleFast',mode==='Fast'); $('battleBg').style.backgroundImage=`url(assets/battle_backgrounds/${battleTerrainKey(d)}.png)`; let ap=state.players[a.owner], dp=state.players[d.owner]; $('battleAttackerName').textContent=`${ap.name} ${a.type}`; $('battleDefenderName').textContent=`${dp.name} ${d.type}`; $('battleAttackerMeta').textContent=`${isCounter?'Counterattack':'Attack'} · HP ${Math.max(0,a.hp)}/${a.maxHp} · Squad ${squadCount(a)}/${squadMax(a.type)}`; $('battleDefenderMeta').textContent=`${detail.coverName} Cover +${detail.terrainDef}${detail.counter?' · '+detail.counter:''} · Squad ${squadCount(d)}/${squadMax(d.type)}`; $('battleAttackerHp').style.width=Math.max(0,Math.min(100,a.hp/a.maxHp*100))+'%'; $('battleDefenderHp').style.width=Math.max(0,Math.min(100,d.hp/d.maxHp*100))+'%'; let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer'); if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];} if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];} if(fg)fg.innerHTML=battleHudFighterHtml(a,'left')+battleHudFighterHtml(d,'right'); let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg'); attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}; attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d); attImg.style.display='block'; defImg.style.display='block'; let attPortrait=$('battleAttackerPortrait'), defPortrait=$('battleDefenderPortrait'); if(a.type==='Commander'){attPortrait.src=commanderPortraitSrc(ap.commanderClass);attPortrait.style.display='block'}else attPortrait.style.display='none'; if(d.type==='Commander'){defPortrait.src=commanderPortraitSrc(dp.commanderClass);defPortrait.style.display='block'}else defPortrait.style.display='none'; renderBattleSquad($('battleAttackerSquad'),a,a.hp,a.hp,'attacker'); renderBattleSquad($('battleDefenderSquad'),d,d.hp,Math.max(0,d.hp-detail.damage),'defender'); $('battleMsg').textContent=`${isCounter?'Counterattack!':'Strike!'} ${detail.coverName}${detail.terrainReduction>0?' absorbs '+detail.terrainReduction:' provides no cover'} · casualties visible.`; let fx=$('battleFxImg'), dmg=$('battleDamage'); fx.src=detail.heavy?'assets/effects/explosion.png':(a.type==='Mage'||a.type==='Commander'&&ap.commanderClass==='Archmage'?'assets/effects/spell_burst.png':'assets/effects/hit_burst.png'); fx.style.left='calc(50% + 125px)'; fx.style.top='120px'; fx.style.display='block'; dmg.textContent='-'+detail.damage; dmg.style.left='calc(50% + 155px)'; dmg.style.top='118px'; dmg.style.display='block'; ov.classList.add('show'); let closeDelay=mode==='Fast'?1200:2400; setTimeout(()=>{if(token!==battleViewToken)return; fx.style.display='none';dmg.style.display='none';hideBattleView(token);},closeDelay);}
+function showBattleView(a,d,detail,isCounter){
+ let mode=battleViewSetting(); if(mode==='Off')return;
+ let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return;
+ let token=++battleViewToken; startMusic('battle'); box.classList.toggle('battleFast',mode==='Fast');
+ $('battleBg').style.backgroundImage=`url(assets/battle_backgrounds/${battleTerrainKey(d)}.png)`;
+ let ap=state.players[a.owner], dp=state.players[d.owner], atkBase=UNITS[a.type]||UNITS.Infantry, defBase=UNITS[d.type]||UNITS.Infantry;
+ $('battleAttackerName').textContent=`${ap.name} ${a.type}`;
+ $('battleDefenderName').textContent=`${dp.name} ${d.type}`;
+ $('battleAttackerMeta').textContent=`${isCounter?'Counter':'Attack'} · HP ${Math.max(0,a.hp)}/${a.maxHp}`;
+ $('battleDefenderMeta').textContent=`${detail.coverName} +${detail.terrainDef}${detail.counter?' · '+detail.counter:''} · HP ${Math.max(0,d.hp)}/${d.maxHp}`;
+ $('battleAttackerHp').style.width=Math.max(0,Math.min(100,a.hp/a.maxHp*100))+'%';
+ $('battleDefenderHp').style.width=Math.max(0,Math.min(100,d.hp/d.maxHp*100))+'%';
+ let aSquad=squadCount(a), dSquad=squadCount(d), dAfter=squadCount(d,Math.max(0,d.hp-detail.damage));
+ let aBig=$('battleAttackerSquadBig'), dBig=$('battleDefenderSquadBig'), center=$('battleCenterStats');
+ if(aBig)aBig.textContent=aSquad;
+ if(dBig)dBig.textContent=dAfter;
+ if(center)center.innerHTML=`AT ${atkBase.atk} &nbsp; DF ${atkBase.def}<br>MV ${atkBase.mv} &nbsp; RNG ${atkBase.range}<br>${escapeHtml(detail.coverName)} cover`;
+ let aCard=$('battleAttackerCardImg'), dCard=$('battleDefenderCardImg');
+ if(aCard){aCard.onerror=()=>{aCard.onerror=null;aCard.src=battleFallbackSrc(a)};aCard.src=battleUnitSrc(a);}
+ if(dCard){dCard.onerror=()=>{dCard.onerror=null;dCard.src=battleFallbackSrc(d)};dCard.src=battleUnitSrc(d,true);}
+ let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer');
+ if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];}
+ if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];}
+ if(fg)fg.innerHTML=battleHudFighterHtml(a,'left')+battleHudFighterHtml(d,'right')+battleSkirmishHtml(a,d,detail);
+ let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg');
+ attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}
+ attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d,true); attImg.style.display='none'; defImg.style.display='none';
+ let attPortrait=$('battleAttackerPortrait'), defPortrait=$('battleDefenderPortrait');
+ if(attPortrait)attPortrait.style.display='none'; if(defPortrait)defPortrait.style.display='none';
+ renderBattleSquad($('battleAttackerSquad'),a,a.hp,a.hp,'attacker');
+ renderBattleSquad($('battleDefenderSquad'),d,d.hp,Math.max(0,d.hp-detail.damage),'defender');
+ $('battleMsg').textContent=`${isCounter?'Counterattack!':'Strike!'} ${detail.coverName}${detail.terrainReduction>0?' absorbs '+detail.terrainReduction:' provides no cover'} · -${detail.damage}`;
+ let fx=$('battleFxImg'), dmg=$('battleDamage');
+ fx.src=detail.heavy?'assets/effects/explosion.png':(a.type==='Mage'||a.type==='Commander'&&ap.commanderClass==='Archmage'?'assets/effects/spell_burst.png':'assets/effects/hit_burst.png');
+ fx.style.left='calc(50% + 92px)'; fx.style.top='142px'; fx.style.display='block';
+ dmg.textContent='-'+detail.damage; dmg.style.left='calc(50% + 125px)'; dmg.style.top='138px'; dmg.style.display='block';
+ ov.classList.add('show');
+ let closeDelay=mode==='Fast'?1200:2400;
+ setTimeout(()=>{if(token!==battleViewToken)return; fx.style.display='none';dmg.style.display='none';hideBattleView(token);},closeDelay);
+}
 
 function animateCombat(a,d,detail,isCounter){showBattleView(a,d,detail,isCounter);let speed=$('animSpeed')?.value||'Normal'; if(speed==='Off')return; setTimeout(()=>{let attacker=document.querySelector(`[data-unit-id="${a.id}"]`); if(attacker){attacker.classList.add('attackLunge'); setTimeout(()=>attacker.classList.remove('attackLunge'),420)}},isCounter?320:40); setTimeout(()=>{let defender=document.querySelector(`[data-unit-id="${d.id}"]`); if(defender){defender.classList.add('hitFlash'); setTimeout(()=>defender.classList.remove('hitFlash'),420)} burstFx(d.x,d.y,detail.heavy); floatingText(d.x,d.y,`${isCounter?'Counter ':''}-${detail.damage}`,'damage'); if(detail.terrainReduction>0)floatingText(d.x,d.y,`Cover -${detail.terrainReduction}`,'terrain'); if(detail.counter)floatingText(d.x,d.y,'Counter bonus','counter'); if(detail.heavy){let m=$('map'); if(m){m.classList.add('shake'); setTimeout(()=>m.classList.remove('shake'),260)}}},isCounter?520:220);}
 function removeDead(){state.units=state.units.filter(u=>u.hp>0)} function vetCheck(u){if(u.xp>=100){u.xp-=100;u.veteran++;u.maxHp+=8;u.hp+=8;log(`${u.type} becomes Veteran ${u.veteran}.`)}}

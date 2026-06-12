@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - AI Pacing and Battle Visibility
 
-Build: v0.26.06.12.0135
+Build: v0.26.06.12.2206
 
 This patch improves AI turn readability and battle-scene unit visibility while preserving the existing local, manual JSON, and Supabase cloud multiplayer flows.
 
@@ -14,6 +14,11 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - Added background-image backed battle standees with text fallbacks so combatants remain visible even if an image layer fails.
 - Re-anchored battle standees inside the battle box so they no longer appear off-screen or over the side HUD.
 - Reworked the battle rescue layer into center-stage fighters on the background, hiding the older side duplicate unit layers.
+- Fixed a console side-panel CSS collision by renaming battle fighter side classes away from generic left/right names.
+- Added a Langrisser-inspired battle presentation pass with center-stage generated sprites, a blue/gold lower combat console, squad counters, AT/DF readout, and inward-facing mirrored defender sprites.
+- Sliced true-transparent generated unit/vehicle/commander battle crops into `assets/battle_console/` and used them for both map-level units and battle scenes, with fallbacks to existing assets.
+- Added the 8-commander roster options: Thorn Regent, Cinder Khan, Dusk Corsair, and Frost Matriarch now appear alongside the original four commanders.
+- Sliced the true-transparent building trio into map town/city/fortress structure assets for all player folders.
 - Battle scenes remain visible slightly longer so the units and damage moment are easier to read.
 - Sliced Pass C heraldry into large/small crests, lobby badges, ownership markers, and turn chips for all eight kingdoms.
 - Added kingdom crests to the Cloud Lobby claim list and the player info panel.

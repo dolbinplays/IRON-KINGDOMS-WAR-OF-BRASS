@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass
 
-Build: v0.26.06.12.0135
+Build: v0.26.06.12.2206
 
 Iron Kingdoms: War of Brass is a browser-playable fantasy steampunk turn-based strategy game with local play, AI players, manual Discord JSON save handoff, and Supabase cloud sync.
 
@@ -50,6 +50,6 @@ supabase_cloud_games_setup.sql
 
 After uploading, hard refresh the page with Ctrl+F5.
 
-## v0.26.06.12.0135 AI Pacing Notes
+## v0.26.06.12.2206 AI Pacing Notes
 
 This build keeps the map-first retro console tactics layout, the first generated-asset integration pass, and adds slower AI turn pacing. AI units now visibly pause while thinking and walk through each square they pass through. Battle scenes force duel sprites above the background/shade and include fallback map sprites if a battle PNG does not load.
