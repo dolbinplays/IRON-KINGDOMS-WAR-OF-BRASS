@@ -1,6 +1,6 @@
 # Iron Kingdoms Asset Slice Manifest
 
-Build: v0.26.06.12.0105
+Build: v0.26.06.12.0135
 
 Generated first-pass slices from D:/JoshGameFiles/IronKingdoms/UpdatedArt.
 

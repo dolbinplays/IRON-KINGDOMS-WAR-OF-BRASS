@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - AI Pacing and Battle Visibility
 
-Build: v0.26.06.12.0105
+Build: v0.26.06.12.0135
 
 This patch improves AI turn readability and battle-scene unit visibility while preserving the existing local, manual JSON, and Supabase cloud multiplayer flows.
 
@@ -10,6 +10,10 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - AI movement now uses the same tile-by-tile movement animation as human movement, including every square passed through before attacking or ending the unit.
 - Battle scenes now force attacker/defender duel sprites onto the top combat layer, add a subtle frame behind them, and fall back to map sprites if a battle PNG fails to load.
 - Added explicit foreground fighter panels in battle scenes using the known-visible map sprite path, so units are no longer dependent on the older battle image layer.
+- Added a battle foreground layer above the scene art so combatant sprites cannot be hidden by the battle background or battle box stacking.
+- Added background-image backed battle standees with text fallbacks so combatants remain visible even if an image layer fails.
+- Re-anchored battle standees inside the battle box so they no longer appear off-screen or over the side HUD.
+- Reworked the battle rescue layer into center-stage fighters on the background, hiding the older side duplicate unit layers.
 - Battle scenes remain visible slightly longer so the units and damage moment are easier to read.
 - Sliced Pass C heraldry into large/small crests, lobby badges, ownership markers, and turn chips for all eight kingdoms.
 - Added kingdom crests to the Cloud Lobby claim list and the player info panel.

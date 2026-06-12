@@ -155,28 +155,34 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleStage{z-index:10;}
 .battleSquad{z-index:9;opacity:.82;}
 .battleMember{position:relative;z-index:9;}
-.battleUnit{display:block!important;z-index:12!important;width:250px!important;height:250px!important;bottom:0!important;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;background:radial-gradient(circle,#2a170b99 0 42%,#070403cc 70%);border:3px solid #d6a84f99;border-radius:14px;padding:8px;filter:drop-shadow(0 10px 8px #000) drop-shadow(0 0 10px #ffd47855)!important;}
+.battleUnit{display:none!important;}
 .battleUnit.left{left:94px!important;}
 .battleUnit.right{right:94px!important;}
 .battlePortrait{z-index:13;}
 .battleFxImg,.battleDamage{z-index:14!important;}
-.battleSpritePanel{position:absolute;bottom:10px;width:260px;height:260px;z-index:16;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:radial-gradient(circle,#26170dcc 0 44%,#070403e6 76%);border:4px solid #ffd478;border-radius:16px;box-shadow:0 12px 22px #000,0 0 0 2px #120904,0 0 18px #ffd47866;pointer-events:none;}
+.battleSpritePanel{display:none!important;}
 .battleSpritePanel.left{left:88px;}
 .battleSpritePanel.right{right:88px;}
 .battleSpritePanel.right .battleMapSprite{transform:scaleX(-1);}
 .battleMapSprite{width:176px;height:176px;object-fit:contain;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 8px 6px #000);}
 .battlePanelName{font-size:13px;font-weight:900;color:#fff2bd;text-shadow:0 2px 0 #000;max-width:220px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.battleForegroundLayer{position:fixed;inset:0;z-index:1300;pointer-events:none;display:none;}
+.battleForegroundLayer{position:absolute;inset:0;z-index:18;pointer-events:none;display:none;}
 #battleOverlay.show .battleForegroundLayer{display:block;}
-.battleHudFighter{position:fixed;top:50%;width:260px;height:300px;margin-top:-130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#090503e8;border:5px solid #ffd478;border-radius:18px;box-shadow:0 14px 32px #000,0 0 24px #ffd47888;color:#fff2bd;}
-.battleHudFighter.left{left:calc(50% - 390px);}
-.battleHudFighter.right{right:calc(50% - 390px);}
-.battleHudFighter.right .battleMapSprite{transform:scaleX(-1);}
-.battleHudFighter .battleMapSprite{width:190px;height:190px;}
-.battleHudName{max-width:230px;text-align:center;font-size:14px;font-weight:900;text-shadow:0 2px 0 #000;}
+.battleHudFighter{position:absolute;bottom:94px;width:210px;height:224px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;background:transparent;border:0;border-radius:0;box-shadow:none;color:#fff2bd;}
+.battleHudFighter.left{left:calc(50% - 245px);animation:battleForegroundLungeL .62s ease-in-out;}
+.battleHudFighter.right{right:calc(50% - 245px);animation:battleForegroundLungeR .62s ease-in-out;}
+.battleHudFighter.right .battleHudArt{transform:scaleX(-1);}
+.battleHudFighter.right .battleMapSprite{transform:none;}
+.battleHudFighter .battleMapSprite{width:156px;height:156px;}
+.battleHudArt{position:relative;width:156px;height:156px;background-position:center;background-size:contain;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 8px 6px #000);}
+.battleHudArt .battleMapSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;}
+.battleHudFallback{position:absolute;inset:28px;z-index:1;display:flex;align-items:center;justify-content:center;border:4px solid #ffd478;background:linear-gradient(180deg,#4c2812,#160a04);box-shadow:inset 0 0 0 6px #0006,0 0 16px #ffd47855;color:#fff2bd;font-size:30px;font-weight:900;text-shadow:0 3px 0 #000;}
+.battleHudName{max-width:210px;text-align:center;font-size:13px;font-weight:900;text-shadow:0 2px 0 #000,0 0 8px #000;background:#120904d9;border:2px solid #d6a84f;border-radius:999px;padding:3px 9px;}
+@keyframes battleForegroundLungeL{0%,100%{transform:translateX(0)}45%{transform:translateX(58px) scale(1.04)}}
+@keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-58px) scale(1.04)}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.0105 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.0135 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -247,7 +253,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.0105</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.0135</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -312,8 +318,8 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
   <div class="battleBg" id="battleBg"></div><div class="battleShade"></div>
   <div class="battleTop"><div class="battlePlate"><div class="battleName" id="battleAttackerName">Attacker</div><div id="battleAttackerMeta" class="small"></div><div class="battleHp"><span id="battleAttackerHp" style="width:100%"></span></div></div><div class="battlePlate"><div class="battleName" id="battleDefenderName">Defender</div><div id="battleDefenderMeta" class="small"></div><div class="battleHp"><span id="battleDefenderHp" style="width:100%"></span></div></div></div>
   <div class="battleStage"><img id="battleAttackerPortrait" class="battlePortrait left" alt="attacker commander" style="display:none"><img id="battleDefenderPortrait" class="battlePortrait right" alt="defender commander" style="display:none"><div id="battleAttackerSquad" class="battleSquad left"></div><div id="battleDefenderSquad" class="battleSquad right"></div><img id="battleAttackerImg" class="battleUnit left" alt="attacker"><img id="battleDefenderImg" class="battleUnit right" alt="defender"><div id="battleAttackerPanel" class="battleSpritePanel left"></div><div id="battleDefenderPanel" class="battleSpritePanel right"></div><img id="battleFxImg" class="battleFxImg" alt="effect" style="display:none"><div id="battleDamage" class="battleDamage" style="display:none"></div></div>
-  <div class="battleMsg" id="battleMsg">Battle!</div><button class="skipBattle" onclick="hideBattleView()">Skip</button>
-</div><div id="battleForegroundLayer" class="battleForegroundLayer"></div></div>
+  <div id="battleForegroundLayer" class="battleForegroundLayer"></div><div class="battleMsg" id="battleMsg">Battle!</div><button class="skipBattle" onclick="hideBattleView()">Skip</button>
+</div></div>
 
 <div class="modal" id="newGameModal"><div class="modalBox">
   <h2>New War of Brass</h2>
@@ -339,7 +345,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.0105';
+const VERSION='v0.26.06.12.0135';
 const TERRAIN={plains:{name:'Plains',move:1,def:0,icon:'·'},forest:{name:'Forest',move:2,def:2,icon:'♣'},hills:{name:'Hills',move:2,def:1,icon:'⌂'},mountains:{name:'Mountains',move:3,def:3,icon:'▲'},water:{name:'Water',move:99,def:0,icon:'≈'},roads:{name:'Road',move:1,def:0,icon:'═'}};
 const STRUCTS={town:{name:'Town',income:150,icon:'⌂'},city:{name:'City',income:300,icon:'⚙'},fortress:{name:'Fortress',income:200,icon:'▣'}};
 const COLORS=['#b94a42','#8c5eb8','#4688c7','#f1d78a','#4a9b62','#d65a2f','#1c9e9a','#8fcff1'];
@@ -508,11 +514,14 @@ function ownershipMarkerHtml(owner){let p=state?.players?.[owner]; let color=p?.
 function turnBadgeMarkup(){let p=player(); let stateText=p?`Turn ${state.turn} — ${p.name}${p.observer?' (Observer)':p.kind==='AI'?' (AI)':cloud.enabled&&!isMyCloudTurn()?' (Waiting)':''}`:'No active kingdom'; return `${kingdomImg(state?.current||0,'turn_chip','turnChip',p?.name||'kingdom')}<span>${escapeHtml(stateText)}</span>`;}
 function unitStatusIcons(u,ready,aura,pending){let html=''; if(aura)html+='<img class="statusIcon auraStatus" src="assets/fx/status/status_aura_active.png" alt="aura active" loading="eager">'; if(pending)html+='<img class="statusIcon" src="assets/fx/status/status_waiting.png" alt="pending action" loading="eager">'; else if(!ready)html+='<img class="statusIcon" src="assets/fx/status/status_exhausted.png" alt="exhausted" loading="eager">'; return html;}
 function commanderAssetSlug(cls){return assetSlug(cls);}
-function unitSprite(u,cls='asset-sprite',animated=false){let owner=ownerAssetIndex(u.owner); let base=u.type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner].commanderClass)}`:`assets/units/p${owner}/${assetSlug(u.type)}`; if(animated&&cls==='asset-sprite')return `<span class="unitAnim"><img class="unitFrame frameA" src="${base}_f1.png" alt="${u.type}" loading="eager"><img class="unitFrame frameB" src="${base}_f2.png" alt="${u.type}" loading="eager"></span>`; return `<img class="${cls} pngSprite" src="${base}.png" alt="${u.type}" loading="eager">`; }
-function battleUnitSrc(u){let owner=ownerAssetIndex(u.owner); return u.type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner].commanderClass)}_battle.png`:`assets/units/p${owner}/${assetSlug(u.type)}_battle.png`;}
-function battleFallbackSrc(u){let owner=ownerAssetIndex(u.owner); return u.type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner].commanderClass)}.png`:`assets/units/p${owner}/${assetSlug(u.type)}.png`;}
+function unitSpriteBase(u){let owner=ownerAssetIndex(u?.owner||0), type=u?.type||'Infantry'; return type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal')}`:`assets/units/p${owner}/${assetSlug(type)}`;}
+function unitSpriteSrc(u,suffix=''){return `${unitSpriteBase(u)}${suffix}.png`;}
+function unitSprite(u,cls='asset-sprite',animated=false){let base=unitSpriteBase(u), type=u?.type||'Unit'; if(animated&&cls==='asset-sprite')return `<span class="unitAnim"><img class="unitFrame frameA" src="${base}_f1.png" alt="${type}" loading="eager"><img class="unitFrame frameB" src="${base}_f2.png" alt="${type}" loading="eager"></span>`; return `<img class="${cls} pngSprite" src="${base}.png" alt="${type}" loading="eager">`; }
+function battleUnitSrc(u){return unitSpriteSrc(u,'_battle');}
+function battleFallbackSrc(u){return unitSpriteSrc(u);}
 function battlePanelHtml(u){return `${unitSprite(u,'battleMapSprite',false)}<div class="battlePanelName">${escapeHtml(state.players[u.owner]?.name||'Kingdom')} ${escapeHtml(u.type)}</div>`;}
-function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}; return `<div class="battleHudFighter ${side}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}">${unitSprite(u,'battleMapSprite',false)}<div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleUnitInitials(u){return String(u?.type||'Unit').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
+function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, src=unitSpriteSrc(u); return `<div class="battleHudFighter ${side}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div>${unitSprite(u,'battleMapSprite',false)}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
 function commanderClassSprite(cls,owner=state?state.current:0,svgCls='miniSprite'){return `<img class="${svgCls} pngSprite" src="assets/commanders/p${ownerAssetIndex(owner)}/${commanderAssetSlug(cls)}.png" alt="${cls}" loading="eager">`;}
 function terrainMask(t){let mask=0, type=t.t; [[0,-1,1],[1,0,2],[0,1,4],[-1,0,8]].forEach(([dx,dy,bit])=>{let x=t.x+dx,y=t.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h){let nt=tile(x,y); if(nt.t===type||(type==='roads'&&nt.s))mask|=bit;}}); return mask;}
