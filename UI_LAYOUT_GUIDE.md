@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.2206
+# UI Layout Guide - v0.26.06.12.2246
 
 ## Design goal
 
@@ -41,6 +41,13 @@ Movement now animates through each intermediate square before the post-move comm
 AI movement uses the same intermediate-square animation, with a short thinking pulse before each AI unit acts.
 
 Tile highlight PNGs are layered with `pointer-events: none`, so movement and attack target selection still goes through the underlying tile.
+
+## Battle Presentation
+
+- Infantry-scale units render as squad formations, using the squad counts in the unit definitions.
+- Commanders and Steam Tanks remain single feature combatants for hero-vs-squad and vehicle-vs-squad scenes.
+- Rifle, cannon, magic, melee, and casualty visuals are action-linked and anchored to the acting side and target side.
+- The battle background stays behind all combatants, projectiles, and damage numbers.
 
 ## Philosophy
 

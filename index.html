@@ -179,6 +179,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleForegroundLayer{position:absolute;inset:0 0 164px 0;z-index:18;pointer-events:none;display:none;}
 #battleOverlay.show .battleForegroundLayer{display:block;}
 .battleHudFighter{position:absolute;bottom:10px;width:260px;height:285px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;background:transparent;border:0;border-radius:0;box-shadow:none;color:#fff2bd;}
+.battleHudFighter.squadOnly{display:none;}
 .battleHudFighter.attacker{left:calc(50% - 295px);animation:battleForegroundLungeL .62s ease-in-out;}
 .battleHudFighter.defender{right:calc(50% - 295px);animation:battleForegroundLungeR .62s ease-in-out;}
 .battleHudFighter.defender .battleHudArt{transform:none;}
@@ -193,9 +194,32 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleSkirmishUnit.heavy{width:64px;height:64px;}
 .battleSkirmishUnit.attacker{left:calc(9% + var(--i,0) * 18px);animation:skirmishChargeA 2.05s ease-in-out forwards;animation-delay:calc(var(--i,0) * .025s);}
 .battleSkirmishUnit.defender{right:calc(9% + var(--i,0) * 18px);animation:skirmishChargeD 2.05s ease-in-out forwards;animation-delay:calc(var(--i,0) * .025s);}
+.battleSkirmishLayer.rangedAttacker .battleSkirmishUnit.attacker{animation:skirmishRangedA 2.05s ease-in-out forwards;}
+.battleSkirmishLayer.rangedDefender .battleSkirmishUnit.defender{animation:skirmishRangedD 2.05s ease-in-out forwards;}
+.battleProjectile{position:absolute;z-index:24;width:22px;height:4px;background:#ffe8a8;border-radius:99px;box-shadow:0 0 8px #fff,0 0 2px #000;top:var(--shot-y,58px);opacity:0;pointer-events:none;}
+.battleProjectile.attacker{left:var(--a-origin-x,31%);animation:projectileA .72s ease-in forwards .58s;}
+.battleProjectile.defender{right:var(--d-origin-x,31%);animation:projectileD .72s ease-in forwards .58s;}
+.battleProjectile.cannon{width:34px;height:10px;background:#ff9b45;box-shadow:0 0 12px #ffcf7a,0 0 3px #000;}
+.battleProjectile.magic{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff 0 16%,#b47cff 28%,#5d20d0 58%,transparent 74%);box-shadow:0 0 16px #bd8cff;}
+.battleMuzzle{position:absolute;z-index:25;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#fff 0 18%,#ffd478 25%,#ff6b33 48%,transparent 72%);opacity:0;top:var(--muzzle-y,45px);pointer-events:none;}
+.battleMuzzle.attacker{left:var(--a-origin-x,31%);animation:muzzleFlash .18s steps(2,end) 3 .48s;}
+.battleMuzzle.defender{right:var(--d-origin-x,31%);animation:muzzleFlash .18s steps(2,end) 3 .48s;}
+.battleMuzzle.cannon{width:32px;height:32px;background:radial-gradient(circle,#fff 0 12%,#ffd478 22%,#ff5a24 46%,transparent 72%);}
+.battleMuzzle.magic{width:30px;height:30px;background:radial-gradient(circle,#fff 0 15%,#b88cff 32%,#5d20d0 56%,transparent 74%);box-shadow:0 0 16px #bd8cff;}
+.battleImpact{position:absolute;left:var(--impact-x,50%);top:var(--impact-y,36px);z-index:26;width:58px;height:58px;border-radius:50%;opacity:0;transform:translateX(-50%);pointer-events:none;}
+.battleImpact.clash{background:radial-gradient(circle,#fff 0 10%,#ffd478 18%,#0000 52%);animation:impactFlash .45s ease-out .92s;}
+.battleImpact.rifle{background:radial-gradient(circle,#fff 0 8%,#ffe8a8 18%,#0000 56%);animation:impactFlash .38s ease-out .95s;}
+.battleImpact.cannon{background:radial-gradient(circle,#fff 0 8%,#ffd478 18%,#d65a2f 38%,#0000 70%);animation:impactFlash .58s ease-out .95s;}
+.battleImpact.magic{background:radial-gradient(circle,#fff 0 10%,#c5a0ff 22%,#6622cc 45%,#0000 72%);animation:impactFlash .62s ease-out .95s;}
 .battleSkirmishUnit.loser{animation-duration:2.05s;filter:brightness(1.15) drop-shadow(2px 3px 0 #000) drop-shadow(0 0 7px #ffdd8a);}
 @keyframes skirmishChargeA{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(235px) scale(1)}48%,62%{transform:translateX(252px) scale(1.04) rotate(-2deg)}56%{transform:translateX(244px) scale(1.02) rotate(2deg)}72%{opacity:1}100%{transform:translateX(0) scale(.9);opacity:1}}
 @keyframes skirmishChargeD{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(-235px) scale(1)}48%,62%{transform:translateX(-252px) scale(1.04) rotate(2deg)}56%{transform:translateX(-244px) scale(1.02) rotate(-2deg)}72%{opacity:1}100%{transform:translateX(0) scale(.9);opacity:1}}
+@keyframes skirmishRangedA{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}34%,70%{transform:translateX(26px) scale(1)}44%,54%{transform:translateX(18px) scale(1.02)}100%{transform:translateX(0) scale(.9);opacity:1}}
+@keyframes skirmishRangedD{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}34%,70%{transform:translateX(-26px) scale(1)}44%,54%{transform:translateX(-18px) scale(1.02)}100%{transform:translateX(0) scale(.9);opacity:1}}
+@keyframes projectileA{0%{opacity:0;transform:translateX(0)}12%{opacity:1}100%{opacity:0;transform:translateX(var(--a-shot-distance,315px))}}
+@keyframes projectileD{0%{opacity:0;transform:translateX(0)}12%{opacity:1}100%{opacity:0;transform:translateX(var(--d-shot-distance,-315px))}}
+@keyframes muzzleFlash{0%,100%{opacity:0;transform:scale(.35)}50%{opacity:1;transform:scale(1)}}
+@keyframes impactFlash{0%{opacity:0;transform:translateX(-50%) scale(.35)}35%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(1.7)}}
 .battleSkirmishUnit.loser.defender{animation-name:skirmishLoseD}.battleSkirmishUnit.loser.attacker{animation-name:skirmishLoseA}
 @keyframes skirmishLoseD{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(-235px) scale(1)}52%{transform:translateX(-252px) translateY(0) scale(1.04)}75%,100%{transform:translateX(-252px) translateY(26px) rotate(22deg) scale(.78);opacity:0}}
 @keyframes skirmishLoseA{0%{transform:translateX(0) scale(.9);opacity:0}12%{opacity:1}38%{transform:translateX(235px) scale(1)}52%{transform:translateX(252px) translateY(0) scale(1.04)}75%,100%{transform:translateX(252px) translateY(26px) rotate(-22deg) scale(.78);opacity:0}}
@@ -213,7 +237,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 @keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-72px) scale(1.05)}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.2206 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.2246 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -284,7 +308,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.2206</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.2246</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -376,7 +400,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.2206';
+const VERSION='v0.26.06.12.2246';
 const TERRAIN={plains:{name:'Plains',move:1,def:0,icon:'·'},forest:{name:'Forest',move:2,def:2,icon:'♣'},hills:{name:'Hills',move:2,def:1,icon:'⌂'},mountains:{name:'Mountains',move:3,def:3,icon:'▲'},water:{name:'Water',move:99,def:0,icon:'≈'},roads:{name:'Road',move:1,def:0,icon:'═'}};
 const STRUCTS={town:{name:'Town',income:150,icon:'⌂'},city:{name:'City',income:300,icon:'⚙'},fortress:{name:'Fortress',income:200,icon:'▣'}};
 const COLORS=['#b94a42','#8c5eb8','#4688c7','#f1d78a','#4a9b62','#d65a2f','#1c9e9a','#8fcff1'];
@@ -487,7 +511,7 @@ function noteFreq(n){return 440*Math.pow(2,(n-69)/12)}
 function tone(freq,t,dur,type='square',vol=.2){if(!audio.ctx)return; let ctx=audio.ctx,o=ctx.createOscillator(),g=ctx.createGain(); o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*audio.musicVol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+dur+.02); audio.activeSources.push(o); o.onended=()=>{audio.activeSources=audio.activeSources.filter(x=>x!==o)}}
 function drum(t,kind='tick',vol=.25){if(!audio.ctx)return; let ctx=audio.ctx,osc=ctx.createOscillator(),g=ctx.createGain(); osc.type=kind==='kick'?'sine':'triangle'; osc.frequency.setValueAtTime(kind==='kick'?110:220,t); osc.frequency.exponentialRampToValueAtTime(kind==='kick'?45:90,t+.12); g.gain.setValueAtTime(vol*audio.musicVol,t); g.gain.exponentialRampToValueAtTime(.0001,t+.16); osc.connect(g).connect(ctx.destination); osc.start(t); osc.stop(t+.18); audio.activeSources.push(osc); osc.onended=()=>{audio.activeSources=audio.activeSources.filter(x=>x!==osc)}}
 function scheduleMusic(token){if(token!==audio.fallbackToken||!audio.ctx||!audio.musicOn)return; const ctx=audio.ctx,tempo=.18; const patterns={title:[57,60,64,67,69,67,64,60],turn:[60,64,67,72,71,67,64,62],battle:[64,67,71,76,74,71,69,67],tension:[55,58,62,65,67,65,62,58],observer:[52,55,59,62,64,62,59,55],danger:[55,59,62,67,70,67,62,59]}; let pat=patterns[audio.theme]||patterns.turn; while(audio.next<ctx.currentTime+.45){let i=audio.step%16,root=pat[i%pat.length]; if(i%2===0)tone(noteFreq(root),audio.next,.14,'square',.12); if(i%4===0)tone(noteFreq(root-12),audio.next,.18,'sawtooth',.08); if(i%4===2)tone(noteFreq(root+7),audio.next,.12,'triangle',.07); if(i%4===0)drum(audio.next,'kick',.16); else if(i%2===0)drum(audio.next,'tick',.07); audio.next+=tempo; audio.step++;}}
-function sfx(kind='click'){if(!audio.sfxOn)return; enableAudio(); if(!audio.ctx)return; let ctx=audio.ctx,t=ctx.currentTime+.01,vol=audio.sfxVol; function blip(f,d,type='square',v=.15){let o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v*vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+d+.02)} if(kind==='move')blip(330,.08,'triangle',.12); if(kind==='hit'){blip(95,.14,'sawtooth',.2); setTimeout(()=>blip(180,.07,'square',.1),40)} if(kind==='heavy'){blip(70,.22,'sawtooth',.25)} if(kind==='heal')blip(640,.18,'triangle',.12); if(kind==='turn')blip(523,.12,'square',.1); if(kind==='win'){[523,659,784].forEach((f,i)=>setTimeout(()=>{blip(f,.18,'square',.15)},i*90))}}
+function sfx(kind='click'){if(!audio.sfxOn)return; enableAudio(); if(!audio.ctx)return; let ctx=audio.ctx,t=ctx.currentTime+.01,vol=audio.sfxVol; function blip(f,d,type='square',v=.15,delay=0){let o=ctx.createOscillator(),g=ctx.createGain(),st=t+delay;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v*vol,st);g.gain.exponentialRampToValueAtTime(.0001,st+d);o.connect(g).connect(ctx.destination);o.start(st);o.stop(st+d+.02)} if(kind==='move')blip(330,.08,'triangle',.12); if(kind==='hit'){blip(95,.14,'sawtooth',.2); setTimeout(()=>blip(180,.07,'square',.1),40)} if(kind==='heavy'){blip(70,.22,'sawtooth',.25)} if(kind==='rifle'){blip(900,.04,'square',.18);blip(140,.08,'sawtooth',.09,.03)} if(kind==='cannon'){blip(58,.28,'sawtooth',.3);blip(95,.18,'square',.15,.06)} if(kind==='steel'){blip(320,.05,'square',.14);blip(620,.04,'triangle',.12,.04);blip(180,.08,'sawtooth',.09,.12)} if(kind==='spell'){blip(740,.18,'triangle',.12);blip(420,.22,'sine',.12,.08)} if(kind==='death'){blip(180,.18,'sawtooth',.11);blip(95,.24,'triangle',.08,.1)} if(kind==='heal')blip(640,.18,'triangle',.12); if(kind==='turn')blip(523,.12,'square',.1); if(kind==='win'){[523,659,784].forEach((f,i)=>setTimeout(()=>{blip(f,.18,'square',.15)},i*90))}}
 function currentMusicTheme(){if(!state)return 'title'; let p=player(); if(!p)return 'title'; if(cloud.enabled){let claimed=claimedPlayerIndex(); if(claimed>=0&&claimed!==state.current)return 'observer'; if(claimed<0&&p.kind==='Human')return 'observer';} if(p.observer)return 'observer'; if(p.kind==='AI')return 'tension'; return p.alive?'turn':'tension';}
 
 function setThemeForCurrent(opts={}){if(!state)return; startMusic(currentMusicTheme(),opts);}
@@ -557,12 +581,36 @@ function battleUnitSrc(u,mirrored=false){return battleConsoleSpriteSrc(u,mirrore
 function battleFallbackSrc(u){return `${unitSpriteBase(u)}.png`;}
 function battlePanelHtml(u){return `${unitSprite(u,'battleMapSprite',false)}<div class="battlePanelName">${escapeHtml(state.players[u.owner]?.name||'Kingdom')} ${escapeHtml(u.type)}</div>`;}
 function battleUnitInitials(u){return String(u?.type||'Unit').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
-function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, mirrored=side!=='left', src=battleConsoleSpriteSrc(u,mirrored), cls=side==='left'?'attacker':'defender'; return `<div class="battleHudFighter ${cls}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'"></div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if(tags.includes('artillery')||tags.includes('tank'))return 'cannon'; if(tags.includes('mage')||u?.type==='Commander'&&['Archmage','Frost Matriarch'].includes(u.commanderClass||state.players[u.owner]?.commanderClass))return 'magic'; if(tags.includes('rifle')||tags.includes('air')||tags.includes('gyro')||base.range>1)return 'rifle'; return 'melee';}
+function battleUsesFeatureSprite(u){return u?.type==='Commander'||u?.type==='Steam Tank';}
+function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, mirrored=side!=='left', src=battleConsoleSpriteSrc(u,mirrored), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'); return `<div class="battleHudFighter ${cls}" style="border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'"></div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleEffectAnchorVars(a,d,aKind,dKind){
+ let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
+ let aOrigin=aFeature?'calc(50% - 82px)':(aKind==='magic'?'calc(9% + 172px)':'calc(9% + 188px)');
+ let dOrigin=dFeature?'calc(50% - 82px)':(dKind==='magic'?'calc(9% + 172px)':'calc(9% + 188px)');
+ let muzzleY=aKind==='cannon'?'56px':aKind==='magic'?'42px':'50px';
+ let shotY=aKind==='cannon'?'68px':aKind==='magic'?'52px':'60px';
+ let impact=aKind==='melee'?'50%':(dFeature?'calc(50% + 128px)':'calc(91% - 155px)');
+ let impactY=aKind==='cannon'?'64px':aKind==='magic'?'50px':'58px';
+ return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--a-shot-distance:${dFeature?'420px':'52vw'};--d-shot-distance:${aFeature?'-420px':'-52vw'};`;
+}
+function playBattleActionSfx(a,d,detail){
+ let kind=battleActionKind(a);
+ sfx(kind==='cannon'?'cannon':kind==='magic'?'spell':kind==='rifle'?'rifle':'steel');
+ if(detail.damage>0&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d))setTimeout(()=>sfx('death'),850);
+}
+function battleDamageLabelPosition(a,d){
+ let left=battleUsesFeatureSprite(d)?'calc(50% + 125px)':'calc(91% - 125px)';
+ return {left,top:'338px'};
+}
 function battleSkirmishHtml(a,d,detail){
- let aMax=squadMax(a.type), dMax=squadMax(d.type), aCount=Math.min(10,squadCount(a),aMax), dBefore=Math.min(10,squadCount(d),dMax), dAfter=Math.min(10,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
- let aHeavy=aMax<=5||machineLike(a), dHeavy=dMax<=5||machineLike(d), lost=Math.max(0,dBefore-dAfter), html='<div class="battleSkirmishLayer">';
+ let aMax=squadMax(a.type), dMax=squadMax(d.type), aCount=battleUsesFeatureSprite(a)?0:Math.min(10,squadCount(a),aMax), dBefore=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d),dMax), dAfter=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
+ let aKind=battleActionKind(a), dKind=battleActionKind(d), aRanged=aKind!=='melee', dRanged=dKind!=='melee', aHeavy=aMax<=5||machineLike(a), dHeavy=dMax<=5||machineLike(d), lost=Math.max(0,dBefore-dAfter), impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
+ let html=`<div class="battleSkirmishLayer ${aRanged?'rangedAttacker':''} ${dRanged?'rangedDefender':''}" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
  for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker ${aHeavy?'heavy':''}" style="--i:${i};--row:${row}" src="${battleConsoleSpriteSrc(a)}" alt="${escapeHtml(a.type)}">`;}
  for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row}" src="${battleConsoleSpriteSrc(d,true)}" alt="${escapeHtml(d.type)}">`;}
+ if(aRanged){html+=`<span class="battleMuzzle attacker ${aKind}"></span><span class="battleProjectile attacker ${aKind}"></span>`;}
+ html+=`<span class="battleImpact ${impact}"></span>`;
  return html+'</div>';
 }
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
@@ -665,10 +713,11 @@ function showBattleView(a,d,detail,isCounter){
  renderBattleSquad($('battleDefenderSquad'),d,d.hp,Math.max(0,d.hp-detail.damage),'defender');
  $('battleMsg').textContent=`${isCounter?'Counterattack!':'Strike!'} ${detail.coverName}${detail.terrainReduction>0?' absorbs '+detail.terrainReduction:' provides no cover'} · -${detail.damage}`;
  let fx=$('battleFxImg'), dmg=$('battleDamage');
- fx.src=detail.heavy?'assets/effects/explosion.png':(a.type==='Mage'||a.type==='Commander'&&ap.commanderClass==='Archmage'?'assets/effects/spell_burst.png':'assets/effects/hit_burst.png');
- fx.style.left='calc(50% + 92px)'; fx.style.top='142px'; fx.style.display='block';
- dmg.textContent='-'+detail.damage; dmg.style.left='calc(50% + 125px)'; dmg.style.top='138px'; dmg.style.display='block';
+ fx.style.display='none';
+ let dmgPos=battleDamageLabelPosition(a,d);
+ dmg.textContent='-'+detail.damage; dmg.style.left=dmgPos.left; dmg.style.top=dmgPos.top; dmg.style.display='block';
  ov.classList.add('show');
+ playBattleActionSfx(a,d,detail);
  let closeDelay=mode==='Fast'?1200:2400;
  setTimeout(()=>{if(token!==battleViewToken)return; fx.style.display='none';dmg.style.display='none';hideBattleView(token);},closeDelay);
 }

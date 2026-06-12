@@ -1,6 +1,6 @@
 # Iron Kingdoms Asset Slice Manifest
 
-Build: v0.26.06.12.2206
+Build: v0.26.06.12.2246
 
 Generated first-pass slices from D:/JoshGameFiles/IronKingdoms/UpdatedArt.
 
@@ -12,5 +12,6 @@ Generated first-pass slices from D:/JoshGameFiles/IronKingdoms/UpdatedArt.
 - Battle-console integration: true-transparent unit, vehicle, commander, and mirrored defender crops were sliced into assets/battle_console for map units and Langrisser-style battle scenes.
 - New commander compatibility: Thorn Regent, Cinder Khan, Dusk Corsair, and Frost Matriarch placeholder/first-pass art was written into assets/commanders/p0..p7 plus portraits so every slot can select every commander without broken images.
 - Building trio integration: fantasy_steampunk_building_trio_sprite_sheet_true_transparent.png was sliced into town/city/fortress structure art for all player folders.
+- Battle presentation integration: squad unit crops now render as battlefield formations, while Commander and Steam Tank crops render as feature combatants; mirrored crops are used for opposing-side facing.
 
 Notes: most provided sheets were RGB with light backgrounds, so white/near-white pixels were converted to alpha for practical UI use. Some crops are approximate and should receive hand-cleanup before full sprite replacement.

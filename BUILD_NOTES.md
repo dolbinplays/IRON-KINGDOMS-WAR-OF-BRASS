@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - AI Pacing and Battle Visibility
 
-Build: v0.26.06.12.2206
+Build: v0.26.06.12.2246
 
 This patch improves AI turn readability and battle-scene unit visibility while preserving the existing local, manual JSON, and Supabase cloud multiplayer flows.
 
@@ -37,6 +37,12 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - Added visible Close buttons for Cloud and Options, plus Escape-to-close for console overlays.
 - Fixed battle-view unit visibility by restoring battle unit display above the battle background/shade.
 - Added tile-by-tile movement animation for player movement so units visibly walk through each square.
+- Reworked battle scenes so squad units render as actual squads instead of one oversized fighter.
+- Kept commanders and Steam Tanks as feature combatants, allowing commander-vs-squad and tank-vs-squad battles like the reference examples.
+- Added action-driven battle effects: rifle shots, cannon shells, magic orbs, melee clash flashes, and casualty fade/fall states.
+- Anchored rifle/cannon/magic effects to the acting side and target side instead of using a fixed generic burst over the background.
+- Hid the legacy fixed-position battle burst so visual effects now come from the anchored skirmish layer.
+- Moved battle damage numbers closer to the defending side of the battlefield.
 
 ## Preserved
 
