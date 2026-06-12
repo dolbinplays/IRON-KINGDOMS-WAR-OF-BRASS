@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.11.2205
+# UI Layout Guide - v0.26.06.12.0105
 
 ## Design goal
 
@@ -10,6 +10,7 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 - Map field: dominant central gameplay area with drawers and modals kept out of the way.
 - Bottom message window: recent turn prompts, battle results, handoff reminders, and cloud status.
 - Command popup: appears beside selected units, hides during targeting, and returns after movement for Attack/Capture/Recruit/Wait.
+- Asset language: kingdom crests identify claim slots and player rows; turn chips mark the active kingdom; tile overlays, aura rings, and status icons are decorative and never intercept map clicks.
 
 ## Hidden/secondary systems
 
@@ -34,6 +35,12 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 3. Choose Move or Attack; popup hides while target tiles are selected.
 4. After moving, popup returns with post-move actions.
 5. Finish with Attack, Capture, Recruit, or Wait / Finish.
+
+Movement now animates through each intermediate square before the post-move command popup returns.
+
+AI movement uses the same intermediate-square animation, with a short thinking pulse before each AI unit acts.
+
+Tile highlight PNGs are layered with `pointer-events: none`, so movement and attack target selection still goes through the underlying tile.
 
 ## Philosophy
 
