@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.0013
+# UI Layout Guide - v0.26.06.12.1357
 
 ## Design goal
 
@@ -8,6 +8,8 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 
 - Top HUD: compact title, version, turn/player state, save/load/end turn, cloud, options, inspector.
 - Map field: dominant central gameplay area with drawers and modals kept out of the way.
+- Terrain: fantasy steampunk sheet slices provide higher-detail terrain art, with redundant terrain glyphs hidden so the map art stays readable.
+- New War setup: intro video occupies the left side of the modal while map/player setup stays on the right, with skip, replay, and volume controls available inside the video panel; the video stays visible under a heavy 80s-cartoon CRT pixelation, scanline, color-mask, and vignette layer.
 - Bottom message window: recent turn prompts, battle results, handoff reminders, and cloud status.
 - Command popup: appears beside selected units, hides during targeting, and returns after movement for Attack/Capture/Recruit/Wait.
 - Asset language: kingdom crests identify claim slots and player rows; turn chips mark the active kingdom; tile overlays, aura rings, and status icons are decorative and never intercept map clicks.

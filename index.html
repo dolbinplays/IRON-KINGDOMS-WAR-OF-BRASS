@@ -34,7 +34,7 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 @keyframes hover{from{transform:translateY(1px)}to{transform:translateY(-5px)}}@keyframes puff{from{opacity:.8;transform:translate(0,0) scale(.65)}to{opacity:0;transform:translate(7px,-8px) scale(1.6)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes glow{from{box-shadow:0 0 4px #9ff,inset 0 0 8px #fff1}to{box-shadow:0 0 16px #b5f,0 0 0 2px #d6a84f,inset 0 0 8px #fff1}}@keyframes bannerSway{to{transform:rotate(-2deg) translateY(-1px)}}@keyframes shadowFlicker{from{filter:drop-shadow(0 2px 2px #000b)}to{filter:drop-shadow(0 0 7px #000)}}
 #log{height:160px;overflow:auto;background:#110b07;border:1px solid #5f4120;border-radius:8px;padding:7px;font-size:13px}.logLine{border-bottom:1px solid #3d2a18;padding:3px 0}.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:13px}.card{border:1px solid #634522;border-radius:8px;padding:7px;margin:5px 0;background:#140e0a}.playerLine{display:flex;align-items:center;justify-content:space-between;gap:5px;border-bottom:1px solid #49321b;padding:4px 0}.swatch{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid #000;margin-right:4px}.recruitBtn{width:100%;text-align:left;margin:3px 0}.help{line-height:1.35}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:99}.modalBox{width:min(820px,92vw);max-height:90vh;overflow:auto;background:#241811;border:2px solid #b98945;border-radius:12px;padding:16px;box-shadow:0 0 40px #000}.modal.show{display:flex}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.victory{font-size:28px;color:#ffd478;text-align:center}.targetInfo{font-size:12px;color:#ffe1a6}.pill{display:inline-block;padding:2px 5px;border:1px solid #806038;border-radius:99px;background:#0f0b08;margin:2px}.danger{color:#ff9b8f}.good{color:#9dffb0}
 
-.handoff{background:linear-gradient(90deg,#17100b,#2f2116);border:2px solid #9b7440;border-radius:10px;padding:8px;color:#ffe8be;font-size:13px;display:grid;grid-template-columns:1.2fr 1fr;gap:8px;align-items:center}.handoff b{color:#ffd478}.handoff .saveName{font-family:monospace;background:#0f0a06;border:1px solid #6f4d27;border-radius:6px;padding:4px;word-break:break-all}.audioGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center}.audioGrid label{font-size:12px;color:#c9ab7c}.audioGrid input[type=range]{width:100%}.tile.selectedTile{outline:3px solid #ffd478!important;z-index:6}.tile .terrainBadge{position:absolute;left:2px;bottom:1px;font-size:9px;background:#0009;color:#ffe8be;border-radius:4px;padding:1px 3px;z-index:4}.battleFx{position:absolute;pointer-events:none;z-index:50;font-weight:bold;text-shadow:0 2px 2px #000,0 0 6px #000;animation:floatUp .75s ease-out forwards}.battleFx.damage{color:#ffdd8a}.battleFx.heal{color:#9dffb0}.battleFx.terrain{color:#9ed7ff}.battleFx.counter{color:#ff9b8f}.battleFx.miss{color:#d8d8d8}.battleFx.burst{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff8 0 15%,#ffd478 20% 38%,#ff6b3a88 45%,transparent 72%);animation:burst .45s ease-out forwards}.battleFx.heavy{width:34px;height:34px;background:radial-gradient(circle,#fff 0 10%,#ffd478 20%,#d86835cc 45%,transparent 75%)}.map.shake{animation:screenShake .25s linear}.unit.attackLunge{animation:attackLunge .38s ease-in-out!important}.unit.hitFlash{animation:hitFlash .36s linear!important}.unit.defeatFade{animation:defeatFade .55s ease-out forwards!important}.previewBox{border:1px solid #8d6632;background:#120d09;border-radius:8px;padding:6px;margin-top:6px;color:#ffe8be}.rangeLine{height:4px;background:#2a1a11;border-radius:9px;overflow:hidden}.rangeLine span{display:block;height:100%;background:#ffd478}.turnToast{position:absolute;left:16px;top:14px;z-index:60;background:#160f0aee;border:2px solid #d6a84f;border-radius:10px;color:#ffe8be;padding:8px 12px;box-shadow:0 4px 20px #000;animation:toastFade 2.8s ease-out forwards}.warnBox{border:1px solid #b94a42;background:#2a100e;color:#ffd2cc;border-radius:8px;padding:6px;margin-top:6px}.terrainTable{display:grid;grid-template-columns:1fr auto auto;gap:3px 8px;font-size:12px}.terrainTable b{color:#ffd478}.savePrompt{background:#21160f;border:1px dashed #d6a84f;border-radius:8px;padding:6px;margin-top:6px}.toggleBtn.active{box-shadow:0 0 0 2px #ffd478 inset;color:#fff2bd}
+.handoff{background:linear-gradient(90deg,#17100b,#2f2116);border:2px solid #9b7440;border-radius:10px;padding:8px;color:#ffe8be;font-size:13px;display:grid;grid-template-columns:1.2fr 1fr;gap:8px;align-items:center}.handoff b{color:#ffd478}.handoff .saveName{font-family:monospace;background:#0f0a06;border:1px solid #6f4d27;border-radius:6px;padding:4px;word-break:break-all}.audioGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center}.audioGrid label{font-size:12px;color:#c9ab7c}.audioGrid input[type=range]{width:100%}.tile.selectedTile{outline:3px solid #ffd478!important;z-index:6}.tile .coord{display:none}.tile .terrainBadge{position:absolute;left:2px;bottom:1px;font-size:8px;background:#0008;color:#ffe8be;border-radius:3px;padding:0 2px;z-index:4;opacity:0}.tile:hover .terrainBadge,.tile.selectedTile .terrainBadge{opacity:1}.battleFx{position:absolute;pointer-events:none;z-index:50;font-weight:bold;text-shadow:0 2px 2px #000,0 0 6px #000;animation:floatUp .75s ease-out forwards}.battleFx.damage{color:#ffdd8a}.battleFx.heal{color:#9dffb0}.battleFx.terrain{color:#9ed7ff}.battleFx.counter{color:#ff9b8f}.battleFx.miss{color:#d8d8d8}.battleFx.burst{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fff8 0 15%,#ffd478 20% 38%,#ff6b3a88 45%,transparent 72%);animation:burst .45s ease-out forwards}.battleFx.heavy{width:34px;height:34px;background:radial-gradient(circle,#fff 0 10%,#ffd478 20%,#d86835cc 45%,transparent 75%)}.map.shake{animation:screenShake .25s linear}.unit.attackLunge{animation:attackLunge .38s ease-in-out!important}.unit.hitFlash{animation:hitFlash .36s linear!important}.unit.defeatFade{animation:defeatFade .55s ease-out forwards!important}.previewBox{border:1px solid #8d6632;background:#120d09;border-radius:8px;padding:6px;margin-top:6px;color:#ffe8be}.rangeLine{height:4px;background:#2a1a11;border-radius:9px;overflow:hidden}.rangeLine span{display:block;height:100%;background:#ffd478}.turnToast{position:absolute;left:16px;top:14px;z-index:60;background:#160f0aee;border:2px solid #d6a84f;border-radius:10px;color:#ffe8be;padding:8px 12px;box-shadow:0 4px 20px #000;animation:toastFade 2.8s ease-out forwards}.warnBox{border:1px solid #b94a42;background:#2a100e;color:#ffd2cc;border-radius:8px;padding:6px;margin-top:6px}.terrainTable{display:grid;grid-template-columns:1fr auto auto;gap:3px 8px;font-size:12px}.terrainTable b{color:#ffd478}.savePrompt{background:#21160f;border:1px dashed #d6a84f;border-radius:8px;padding:6px;margin-top:6px}.toggleBtn.active{box-shadow:0 0 0 2px #ffd478 inset;color:#fff2bd}
 @keyframes floatUp{from{opacity:0;transform:translate(-50%,0) scale(.85)}15%{opacity:1}to{opacity:0;transform:translate(-50%,-34px) scale(1.08)}}@keyframes burst{from{opacity:1;transform:translate(-50%,-50%) scale(.4)}to{opacity:0;transform:translate(-50%,-50%) scale(2)}}@keyframes screenShake{0%,100%{transform:translate(0,0)}25%{transform:translate(3px,-2px)}50%{transform:translate(-2px,2px)}75%{transform:translate(2px,1px)}}@keyframes attackLunge{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.11)}}@keyframes hitFlash{0%,100%{filter:none}35%{filter:brightness(2.2) saturate(2)}70%{filter:brightness(.6) saturate(.6)}}@keyframes defeatFade{to{opacity:0;transform:scale(.55) rotate(-8deg)}}@keyframes toastFade{0%{opacity:0;transform:translateY(-12px)}12%,78%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
 
 @media(max-width:1100px){#app{grid-template-columns:250px 1fr;grid-template-rows:auto 1fr 280px}.right{grid-column:1/3;grid-row:3}.left{grid-column:1}.center{grid-column:2}header{grid-column:1/3}.right{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.right .section{margin-bottom:0}#log{height:110px}}
@@ -238,7 +238,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 @keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-72px) scale(1.05)}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.0013 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.1357 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -266,6 +266,25 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 @keyframes retroFade{from{opacity:0}to{opacity:1}}
 @keyframes retroModalIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
 @media (max-width:900px){body.console-remake h1{font-size:16px;max-width:220px}body.console-remake .toolbar button{font-size:12px;padding:4px 5px}body.console-remake .badge{display:none}body.console-remake #versionBadge{display:inline-block}.consoleMenuGrid{grid-template-columns:1fr}}
+.newGameBox{width:min(1180px,96vw);display:grid;grid-template-columns:minmax(420px,1.35fr) minmax(320px,.85fr);gap:14px;align-items:stretch}
+.introStage{position:relative;min-height:520px;border:3px solid #d6a84f;border-radius:8px;background:#050302;overflow:hidden;box-shadow:inset 0 0 22px #000,0 12px 34px #0008}
+.introStage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;transition:filter .7s ease,opacity .7s ease;filter:saturate(1.22) contrast(1.18) brightness(1.06)}
+.introPixelCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;image-rendering:pixelated;image-rendering:crisp-edges;transition:opacity .35s ease}
+.introPixelCanvas.pixelReady{opacity:.72;mix-blend-mode:soft-light;filter:saturate(1.25) contrast(1.18)}
+.introStage.pixelActive video{opacity:1}
+.introStage::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(rgba(255,255,255,.11) 1px,rgba(0,0,0,.34) 2px,transparent 3px),linear-gradient(90deg,rgba(255,55,55,.22) 0 1px,rgba(65,255,120,.16) 1px 2px,rgba(70,125,255,.2) 2px 3px,transparent 3px 4px);background-size:100% 4px,4px 100%;mix-blend-mode:overlay;opacity:.72;animation:crtFlicker 1.25s steps(2,end) infinite}
+.introStage::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 38%,#0008 100%),linear-gradient(180deg,#ffffff12 0%,transparent 10%,transparent 58%,#000b 100%);pointer-events:none;opacity:.9;z-index:2}
+.introSkip{position:absolute;right:14px;top:14px;z-index:3}
+.introVolume{position:absolute;left:14px;bottom:16px;z-index:3;display:flex;align-items:center;gap:8px;background:#0d0805cc;border:1px solid #d6a84f;border-radius:6px;padding:6px 8px;color:#ffe8be;box-shadow:0 2px 12px #000}
+.introVolume input{width:118px;accent-color:#d6a84f}
+.introVolume button{padding:3px 7px;font-size:12px}
+.introReplay{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:3;opacity:0;pointer-events:none;transition:opacity .8s ease,transform .8s ease}
+.introEnded .introSkip{opacity:0;pointer-events:none}
+.introEnded .introReplay{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(-4px)}
+.newGameSetupPanel{min-width:0}
+.newGameSetupPanel h2{margin-top:0}
+@media (max-width:900px){.newGameBox{grid-template-columns:1fr;max-height:92vh}.introStage{min-height:260px}.introReplay{bottom:18px}}
+@keyframes crtFlicker{0%,100%{opacity:.68;transform:translateY(0)}50%{opacity:.78;transform:translateY(1px)}}
 
 </style>
 </head>
@@ -309,7 +328,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.0013</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.1357</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -377,15 +396,27 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
   <div id="battleForegroundLayer" class="battleForegroundLayer"></div><div class="battleMsg" id="battleMsg">Battle!</div><button class="skipBattle" onclick="hideBattleView()">Skip</button>
 </div></div>
 
-<div class="modal" id="newGameModal"><div class="modalBox">
-  <h2>New War of Brass</h2>
-  <div class="two">
-    <div><label>Map Size</label><br><select id="ngSize"><option>Small</option><option selected>Medium</option><option>Large</option></select></div>
-    <div><label>Seed</label><br><input id="ngSeed" placeholder="optional" /></div>
+<div class="modal" id="newGameModal"><div class="modalBox newGameBox">
+  <div class="introStage" id="introPanel">
+    <video id="introVideo" src="assets/intro/iron_kingdoms_intro.mp4" autoplay playsinline preload="auto"></video>
+    <canvas id="introPixelCanvas" class="introPixelCanvas" aria-hidden="true"></canvas>
+    <button class="introSkip" id="introSkip" onclick="skipIntro()">Skip Intro</button>
+    <div class="introVolume">
+      <button id="introMute" onclick="toggleIntroMute()">Audio On</button>
+      <input id="introVolume" type="range" min="0" max="100" value="80" aria-label="Intro volume" oninput="setIntroVolume(this.value)">
+    </div>
+    <button class="introReplay" id="introReplay" onclick="replayIntro()">Replay Intro</button>
   </div>
-  <div class="setupNote"><b>Solo and multiplayer:</b> set slot 1 to Human and the rest to AI for solo skirmish, or mix Human / AI slots for Discord games. Closed slots are not used.</div>
-  <div id="slotSetup" class="setupGrid"></div>
-  <div class="row" style="margin-top:12px"><button onclick="startNewGame()">Start Game</button><button onclick="closeModal('newGameModal')">Cancel</button></div>
+  <div class="newGameSetupPanel">
+    <h2>New War of Brass</h2>
+    <div class="two">
+      <div><label>Map Size</label><br><select id="ngSize"><option>Small</option><option selected>Medium</option><option>Large</option></select></div>
+      <div><label>Seed</label><br><input id="ngSeed" placeholder="optional" /></div>
+    </div>
+    <div class="setupNote"><b>Solo and multiplayer:</b> set slot 1 to Human and the rest to AI for solo skirmish, or mix Human / AI slots for Discord games. Closed slots are not used.</div>
+    <div id="slotSetup" class="setupGrid"></div>
+    <div class="row" style="margin-top:12px"><button onclick="startNewGame()">Start Game</button><button onclick="closeModal('newGameModal')">Cancel</button></div>
+  </div>
 </div></div>
 
 <div class="modal" id="helpModal"><div class="modalBox">
@@ -401,7 +432,11 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.0013';
+const VERSION='v0.26.06.12.1357';
+const INTRO_HOLD_TIME=56;
+const INTRO_AUDIO_KEY='ik_intro_audio';
+const INTRO_PIXEL_SCALE=.22;
+let introPixelFrame=0;
 const TERRAIN={plains:{name:'Plains',move:1,def:0,icon:'·'},forest:{name:'Forest',move:2,def:2,icon:'♣'},hills:{name:'Hills',move:2,def:1,icon:'⌂'},mountains:{name:'Mountains',move:3,def:3,icon:'▲'},water:{name:'Water',move:99,def:0,icon:'≈'},roads:{name:'Road',move:1,def:0,icon:'═'}};
 const STRUCTS={town:{name:'Town',income:150,icon:'⌂'},city:{name:'City',income:300,icon:'⚙'},fortress:{name:'Fortress',income:200,icon:'▣'}};
 const COLORS=['#b94a42','#8c5eb8','#4688c7','#f1d78a','#4a9b62','#d65a2f','#1c9e9a','#8fcff1'];
@@ -442,7 +477,7 @@ const AI_LEVELS={
 const DEFAULT_SLOT_KINDS=['Human','AI','AI','AI','Closed','Closed','Closed','Closed'];
 const DEFAULT_AI_LEVELS=['Captain','Soldier','Captain','Warlord','Soldier','Captain','Warlord','Iron Tyrant'];
 const COMMANDER_ORDER=Object.keys(COMMANDERS);
-let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null, commandTargetMode=null, movementAnimating=false, aiFocusUnitId=null;
+let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null, commandTargetMode=null, commandPopupContext=null, movementAnimating=false, aiFocusUnitId=null;
 let cloud={enabled:false,busy:false,gameCode:'',joinSecret:'',lastUpdated:'',pollTimer:null,status:'Not connected',statusClass:'',row:null,localPlayerId:'',displayName:'',setupOpen:false,lastSeenRevision:0,activeLock:null,claimNoticeDismissed:false};
 const SUPABASE_URL_DEFAULT='';
 const SUPABASE_ANON_KEY_DEFAULT='';
@@ -519,7 +554,19 @@ function setThemeForCurrent(opts={}){if(!state)return; startMusic(currentMusicTh
 
 function openNewGame(){
  let wrap=$('slotSetup'); if(wrap){wrap.innerHTML='<div class="head">Slot</div><div class="head">Type</div><div class="head">Difficulty</div><div class="head">Commander</div><div class="head">Name</div>'; for(let i=0;i<8;i++)wrap.innerHTML+=slotSetupRow(i); updateSlotRows();}
- $('ngSeed').value='';$('newGameModal').classList.add('show')}
+ $('ngSeed').value='';$('newGameModal').classList.add('show'); setupIntroVideo(true);}
+function introAudioSettings(){try{let s=JSON.parse(localStorage.getItem(INTRO_AUDIO_KEY)||'{}'); return {volume:Math.max(0,Math.min(1,typeof s.volume==='number'?s.volume:.8)),muted:typeof s.muted==='boolean'?s.muted:false};}catch(e){return {volume:.8,muted:false};}}
+function saveIntroAudioSettings(){let v=$('introVideo'); if(!v)return; localStorage.setItem(INTRO_AUDIO_KEY,JSON.stringify({volume:v.volume,muted:v.muted}));}
+function updateIntroAudioUI(){let v=$('introVideo'),slider=$('introVolume'),btn=$('introMute'); if(!v)return; if(slider)slider.value=Math.round(v.volume*100); if(btn){let on=!v.muted&&v.volume>0; btn.textContent=on?'Audio On':'Audio Off'; btn.classList.toggle('active',on);}}
+function applyIntroAudioSettings(){let v=$('introVideo'); if(!v)return; let s=introAudioSettings(); v.volume=s.volume; v.muted=s.muted||s.volume<=0; updateIntroAudioUI();}
+function setIntroVolume(value){let v=$('introVideo'); if(!v)return; v.volume=Math.max(0,Math.min(1,(+value||0)/100)); v.muted=v.volume<=0?true:false; saveIntroAudioSettings(); updateIntroAudioUI(); if(v.paused===false){let p=v.play(); if(p)p.catch(()=>{});}}
+function toggleIntroMute(){let v=$('introVideo'); if(!v)return; if(v.volume<=0){v.volume=.8;if($('introVolume'))$('introVolume').value=80;} v.muted=!v.muted; saveIntroAudioSettings(); updateIntroAudioUI(); let p=v.play(); if(p)p.catch(()=>{});}
+function sizeIntroCanvas(){let panel=$('introPanel'),c=$('introPixelCanvas'); if(!panel||!c)return false; let r=panel.getBoundingClientRect(),w=Math.max(2,Math.round(r.width)),h=Math.max(2,Math.round(r.height)); if(c.width!==w||c.height!==h){c.width=w;c.height=h;} return true;}
+function drawIntroPixelFrame(loop=true){let panel=$('introPanel'),v=$('introVideo'),c=$('introPixelCanvas'); if(!panel||!v||!c||v.readyState<2)return; if(introPixelFrame)cancelAnimationFrame(introPixelFrame); introPixelFrame=0; try{sizeIntroCanvas(); let ctx=c.getContext('2d'),w=c.width,h=c.height,sw=Math.max(24,Math.round(w*INTRO_PIXEL_SCALE)),sh=Math.max(16,Math.round(h*INTRO_PIXEL_SCALE)); if(!c._small){c._small=document.createElement('canvas');} let small=c._small; if(small.width!==sw||small.height!==sh){small.width=sw;small.height=sh;} let sctx=small.getContext('2d'); sctx.imageSmoothingEnabled=true; sctx.clearRect(0,0,sw,sh); sctx.drawImage(v,0,0,sw,sh); ctx.imageSmoothingEnabled=false; ctx.clearRect(0,0,w,h); ctx.drawImage(small,0,0,w,h); c.classList.add('pixelReady'); panel.classList.add('pixelActive');}catch(e){c.classList.remove('pixelReady');panel.classList.remove('pixelActive');return;} if(loop&&!v.paused&&!v.ended)introPixelFrame=requestAnimationFrame(()=>drawIntroPixelFrame(true));}
+function setupIntroVideo(tryPlay=false){let panel=$('introPanel'),v=$('introVideo'); if(!panel||!v)return; if(!v.dataset.bound){v.dataset.bound='1'; v.addEventListener('ended',()=>holdIntroFrame()); v.addEventListener('play',()=>{panel.classList.remove('introEnded');drawIntroPixelFrame(true);}); v.addEventListener('loadeddata',()=>drawIntroPixelFrame(false)); v.addEventListener('seeked',()=>drawIntroPixelFrame(false)); window.addEventListener('resize',()=>drawIntroPixelFrame(false));} applyIntroAudioSettings(); drawIntroPixelFrame(false); if(tryPlay){panel.classList.remove('introEnded'); try{v.currentTime=0;let p=v.play(); if(p)p.catch(()=>{v.muted=true;updateIntroAudioUI();v.play().catch(()=>{});});}catch(e){}}}
+function holdIntroFrame(){let panel=$('introPanel'),v=$('introVideo'); if(!panel||!v)return; panel.classList.add('introEnded'); let t=Math.min(INTRO_HOLD_TIME, Math.max(0,(v.duration||INTRO_HOLD_TIME)-.25)); try{v.currentTime=t;}catch(e){} try{v.pause();}catch(e){} setTimeout(()=>drawIntroPixelFrame(false),80);}
+function skipIntro(){holdIntroFrame();}
+function replayIntro(){let panel=$('introPanel'),v=$('introVideo'); if(!panel||!v)return; panel.classList.remove('introEnded'); applyIntroAudioSettings(); try{v.currentTime=0;let p=v.play(); if(p)p.catch(()=>{}); drawIntroPixelFrame(true);}catch(e){}}
 function slotSetupRow(i){let kind=DEFAULT_SLOT_KINDS[i]||'Closed', lvl=DEFAULT_AI_LEVELS[i]||'Soldier', cmd=COMMANDER_ORDER[i%COMMANDER_ORDER.length], nm=i===0?'Player 1':`Kingdom ${i+1}`; return `<div class="slotRow" id="slotRow${i}"><div>${i+1}</div><select id="slotKind${i}" onchange="updateSlotRows()"><option ${kind==='Human'?'selected':''}>Human</option><option ${kind==='AI'?'selected':''}>AI</option><option ${kind==='Closed'?'selected':''}>Closed</option></select><select id="slotDiff${i}">${Object.keys(AI_LEVELS).map(x=>`<option ${x===lvl?'selected':''}>${x}</option>`).join('')}</select><select id="slotCmd${i}" onchange="updateCommanderPreview(${i})">${COMMANDER_ORDER.map(x=>`<option ${x===cmd?'selected':''}>${x}</option>`).join('')}</select><input id="slotName${i}" value="${nm}"></div>`;}
 function updateSlotRows(){for(let i=0;i<8;i++){let kind=$(`slotKind${i}`)?.value||'Closed', row=$(`slotRow${i}`); if(row)row.classList.toggle('closedSlot',kind==='Closed'); if($(`slotDiff${i}`))$(`slotDiff${i}`).disabled=kind!=='AI'; if($(`slotCmd${i}`))$(`slotCmd${i}`).disabled=kind==='Closed'; if($(`slotName${i}`))$(`slotName${i}`).disabled=kind==='Closed';}}
 function updateCommanderPreview(i){}
@@ -528,8 +575,8 @@ function closeModal(id){$(id).classList.remove('show')} function showHelp(){$('h
 function startNewGame(){let configs=readGameSetup();let p=configs.length;let size=$('ngSize').value;let seed=$('ngSeed').value||String(Date.now()); rng=seeded(seed); const dims={Small:[12,10],Medium:[16,12],Large:[22,16]}[size];
  state={version:VERSION,seed,size,w:dims[0],h:dims[1],turn:1,current:0,nextUnitId:1,players:[],map:[],units:[],log:[],weather:'Clear',turnEvents:[],lastIncome:0,aiRunning:false};
  for(let y=0;y<state.h;y++){for(let x=0;x<state.w;x++){state.map.push({x,y,t:randomTerrain(x,y),s:null,owner:null})}}
- scatterStructures(p); createPlayers(configs); placeStarts(); startTurn(); closeModal('newGameModal'); log(`New ${size} war started. Seed: ${seed}. ${configs.filter(s=>s.kind==='AI').length} AI kingdoms joined.`); enableAudio(); setThemeForCurrent(); render(); maybeRunAI(); }
-function randomTerrain(x,y){let r=rng(); if(r<.09)return 'water'; if(r<.22)return 'forest'; if(r<.34)return 'hills'; if(r<.42)return 'mountains'; if(r<.52)return 'roads'; return 'plains'}
+ scatterStructures(p); createPlayers(configs); placeStarts(); cleanupRoadNetwork(); startTurn(); closeModal('newGameModal'); log(`New ${size} war started. Seed: ${seed}. ${configs.filter(s=>s.kind==='AI').length} AI kingdoms joined.`); enableAudio(); setThemeForCurrent(); render(); maybeRunAI(); }
+function randomTerrain(x,y){let r=rng(); if(r<.09)return 'water'; if(r<.22)return 'forest'; if(r<.34)return 'hills'; if(r<.42)return 'mountains'; return 'plains'}
 function tile(x,y){return state.map[y*state.w+x]} function unitAt(x,y){return state.units.find(u=>u.x==x&&u.y==y&&u.hp>0)}
 function player(){if(!state||!Array.isArray(state.players)||!state.players.length)return null; if(!Number.isInteger(state.current)||state.current<0||state.current>=state.players.length)state.current=0; return state.players[state.current]||state.players[0]||null;}
 function currentPlayerName(fallback='No game'){let p=player(); return p?.name||fallback;}
@@ -537,6 +584,11 @@ function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
 function scatterStructures(p){let spots=[]; for(let y=1;y<state.h-1;y++)for(let x=1;x<state.w-1;x++) if(tile(x,y).t!=='water'&&tile(x,y).t!=='mountains') spots.push({x,y});
  for(let i=0;i<Math.floor(state.w*state.h/18);i++){let s=spots.splice(Math.floor(rng()*spots.length),1)[0]; if(!s)break; let rr=rng(); tile(s.x,s.y).s=rr<.18?'fortress':rr<.55?'city':'town';}
 }
+function roadNeighbors(t){let n=0; [[0,-1],[1,0],[0,1],[-1,0]].forEach(([dx,dy])=>{let x=t.x+dx,y=t.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h&&tile(x,y).t==='roads')n++;}); return n;}
+function nearRoadAnchor(t){if(t.s)return true; return [[0,-1],[1,0],[0,1],[-1,0]].some(([dx,dy])=>{let x=t.x+dx,y=t.y+dy;return x>=0&&y>=0&&x<state.w&&y<state.h&&!!tile(x,y).s;});}
+function bridgeRoadGaps(){let fill=[]; state.map.forEach(t=>{if(t.t==='roads'||t.t==='water'||t.t==='mountains'||t.s)return; let n=t.y>0?tile(t.x,t.y-1):null,e=t.x<state.w-1?tile(t.x+1,t.y):null,s=t.y<state.h-1?tile(t.x,t.y+1):null,w=t.x>0?tile(t.x-1,t.y):null; if((n?.t==='roads'&&s?.t==='roads')||(e?.t==='roads'&&w?.t==='roads'))fill.push(t);}); fill.forEach(t=>t.t='roads');}
+function pruneRoadStubs(){for(let pass=0;pass<4;pass++){let cut=[]; state.map.forEach(t=>{if(t.t==='roads'&&!nearRoadAnchor(t)&&roadNeighbors(t)<=1)cut.push(t);}); if(!cut.length)break; cut.forEach(t=>t.t='plains');}}
+function cleanupRoadNetwork(){bridgeRoadGaps(); pruneRoadStubs(); bridgeRoadGaps(); pruneRoadStubs();}
 function createPlayers(configs){state.players=[]; configs.forEach((cfg,i)=>{let cls=COMMANDERS[cfg.commanderClass]?cfg.commanderClass:COMMANDER_ORDER[i%COMMANDER_ORDER.length], cmd=COMMANDERS[cls]||COMMANDERS['Steam Marshal']; state.players.push({id:i,name:cfg.name||`Kingdom ${i+1}`,color:COLORS[i],gold:1000+(cfg.kind==='AI'?(AI_LEVELS[cfg.aiDifficulty||'Soldier']?.bonusGold||0):0),alive:true,observer:false,influence:0,kind:cfg.kind||'Human',aiDifficulty:cfg.aiDifficulty||'Soldier',commanderClass:cls,commanderName:cmd.name});});}
 function placeStarts(){let starts=[{x:1,y:1},{x:state.w-2,y:state.h-2},{x:state.w-2,y:1},{x:1,y:state.h-2},{x:Math.floor(state.w/2),y:1},{x:Math.floor(state.w/2),y:state.h-2},{x:1,y:Math.floor(state.h/2)},{x:state.w-2,y:Math.floor(state.h/2)}];
  state.players.forEach((p,i)=>{let pos=nearestOpen(starts[i]); for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){let x=pos.x+dx,y=pos.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h&&Math.abs(dx)+Math.abs(dy)<=3&&tile(x,y).t==='water')tile(x,y).t='plains';} let home=tile(pos.x,pos.y); home.t='roads'; home.s='city'; home.owner=p.id; addUnit('Commander',p.id,pos.x,pos.y,{commanderClass:p.commanderClass}); let near=nearestOpen({x:pos.x+1,y:pos.y}); addUnit('Infantry',p.id,near.x,near.y); let near2=nearestOpen({x:pos.x,y:pos.y+1}); addUnit(i%2?'Riflemen':'Pikemen',p.id,near2.x,near2.y); let town=nearestOpen({x:pos.x+(pos.x<state.w/2?3:-3),y:pos.y+(pos.y<state.h/2?2:-2)}); tile(town.x,town.y).t='roads'; tile(town.x,town.y).s='town'; tile(town.x,town.y).owner=null;});
@@ -619,12 +671,14 @@ function battleSkirmishHtml(a,d,detail){
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
 function commanderClassSprite(cls,owner=state?state.current:0,svgCls='miniSprite'){let fake={type:'Commander',owner,commanderClass:cls}; return `<img class="${svgCls} pngSprite" src="${battleConsoleSpriteSrc(fake)}" alt="${cls}" loading="eager" onerror="this.onerror=null;this.src='assets/commanders/p${ownerAssetIndex(owner)}/${commanderAssetSlug(cls)}.png'">`;}
 function terrainMask(t){let mask=0, type=t.t; [[0,-1,1],[1,0,2],[0,1,4],[-1,0,8]].forEach(([dx,dy,bit])=>{let x=t.x+dx,y=t.y+dy;if(x>=0&&y>=0&&x<state.w&&y<state.h){let nt=tile(x,y); if(nt.t===type||(type==='roads'&&nt.s))mask|=bit;}}); return mask;}
-function tileArt(t){let slug=assetSlug(t.t); if(['roads','water','forest','hills','mountains'].includes(t.t)){return `<img class="tilePng" src="assets/tiles/${slug}_${terrainMask(t)}.png" alt="${t.t}" loading="eager">`;} return `<img class="tilePng" src="assets/tiles/${slug}.png" alt="${t.t}" loading="eager">`; }
+function tileVariant(t,count=16){let seed=(state?.seed||'IK').split('').reduce((a,c)=>((a*31+c.charCodeAt(0))|0),17); return Math.abs((t.x*73856093)^(t.y*19349663)^seed)%count;}
+function tileArt(t){let slug=assetSlug(t.t); if(t.t==='plains')return `<img class="tilePng" src="assets/tiles/plains_${tileVariant(t)}.png" alt="${t.t}" loading="eager" onerror="this.onerror=null;this.src='assets/tiles/plains.png'">`; if(['roads','water','forest','hills','mountains'].includes(t.t)){return `<img class="tilePng" src="assets/tiles/${slug}_${terrainMask(t)}.png" alt="${t.t}" loading="eager">`;} return `<img class="tilePng" src="assets/tiles/${slug}.png" alt="${t.t}" loading="eager">`; }
 function structureArt(s,owner){let idx=owner!==null?ownerAssetIndex(owner):0; return `<img class="structureSprite structPng" src="assets/structures/p${idx}/${assetSlug(s)}.png" alt="${STRUCTS[s].name}" loading="eager">`;}
 function unitIcon(u){return unitSprite(u,'miniSprite');}
 async function tileClick(x,y){if(!state||movementAnimating)return; enableAudio(); lastTile={x,y}; let u=unitAt(x,y); let h=highlights.find(h=>h.x==x&&h.y==y);
  if(!localCanControlCurrent(true)){
    commandTargetMode=null;
+   commandPopupContext=null;
    if(u&&u.owner===viewPlayerIndex()){selected=u; highlights=[];} else {selected=null; highlights=[];}
    if(cloud.enabled)showTurnToast(cloudClaimStatusText()||`Waiting for ${player().name}.`); else if(player().kind==='AI')showTurnToast(`${player().name} is computer controlled.`);
    render(); renderPanels(); return;
@@ -633,6 +687,7 @@ async function tileClick(x,y){if(!state||movementAnimating)return; enableAudio()
  if(h&&selected){
    if(h.type==='move'){
      commandTargetMode=null;
+     commandPopupContext=null;
      if(selected.moved){showTurnToast('This unit has already moved. Choose an attack or Wait.'); return;}
      await animateUnitMove(selected,x,y);
      selected.moved=true;selected.acted=false;

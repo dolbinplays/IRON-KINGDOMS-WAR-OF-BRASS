@@ -1,0 +1,84 @@
+{
+  "source": "D:\\JoshGameFiles\\IronKingdoms\\UpdatedArt\\iron_kingdoms_true_transparent_assets_batch\\fantasy_steampunk_tileset_for_strategy_game_true_transparent.png",
+  "source_copy": "D:\\JoshGameFiles\\IronKingdoms\\Github\\IRON-KINGDOMS-WAR-OF-BRASS\\assets\\source_sheets\\fantasy_steampunk_tileset_for_strategy_game_true_transparent.png",
+  "tile_output": "D:\\JoshGameFiles\\IronKingdoms\\Github\\IRON-KINGDOMS-WAR-OF-BRASS\\assets\\tiles",
+  "tile_size": 64,
+  "detected_rows": [
+    [
+      9,
+      127
+    ],
+    [
+      134,
+      250
+    ],
+    [
+      257,
+      373
+    ],
+    [
+      378,
+      495
+    ],
+    [
+      500,
+      616
+    ],
+    [
+      623,
+      739
+    ],
+    [
+      745,
+      860
+    ]
+  ],
+  "detected_cols": [
+    [
+      12,
+      132
+    ],
+    [
+      139,
+      257
+    ],
+    [
+      264,
+      383
+    ],
+    [
+      390,
+      509
+    ],
+    [
+      516,
+      635
+    ],
+    [
+      642,
+      761
+    ],
+    [
+      768,
+      886
+    ],
+    [
+      893,
+      1011
+    ],
+    [
+      1018,
+      1138
+    ],
+    [
+      1144,
+      1290
+    ],
+    [
+      1297,
+      1435
+    ]
+  ],
+  "generated_core_tiles": 86,
+  "extra_dirt_tiles": 11
+}

@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - AI Pacing and Battle Visibility
 
-Build: v0.26.06.12.0013
+Build: v0.26.06.12.1357
 
 This patch improves AI turn readability and battle-scene unit visibility while preserving the existing local, manual JSON, and Supabase cloud multiplayer flows.
 
@@ -26,6 +26,8 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - Added non-blocking ownership marker images on claimed structures while keeping the original color dot fallback.
 - Sliced Pass B aura rings, status icons, and tile overlay frames.
 - Integrated subtle commander aura rings, exhausted/aura/pending status icons, and PNG-backed selected/move/attack/capture tile overlays with pointer events disabled.
+- Added the intro video to the New War setup screen, with the setup controls on the right plus Skip Intro, Replay Intro, and intro volume controls around the 0:56 hold frame, plus a slight cranked-up non-destructive 80s-morning-cartoon CRT treatment with heavier pixelation, scanlines, phosphor color mask, vignette, and subtle flicker while keeping the original video visible underneath.
+- Removed random road speckles from new map generation and added a cleanup pass that bridges one-tile road gaps while pruning orphan road stubs not anchored to structures.
 - Sliced Pass A faction banners/emblems and representative unit/vehicle reference crops, but did not replace the existing gameplay unit sprites.
 - Tightened the compact top HUD and increased the battlefield/message-window emphasis.
 - Added a second-pass console UI layer for stronger brass/pixel framing without changing game rules.
@@ -50,6 +52,11 @@ This patch improves AI turn readability and battle-scene unit visibility while p
 - Added per-unit facing overrides for Infantry, Cavalry, Airship, Gyrocopter, Assassin, Steam Marshal, and Archmage battle art.
 - Strengthened map unit ownership borders to a persistent 3px team-color frame and removed exhaustion/enemy opacity fading.
 - Kept casualty fade/fall behavior active for melee and ranged individual losses.
+- Replaced the active terrain tile set with slices from `fantasy_steampunk_tileset_for_strategy_game_true_transparent.png`.
+- Generated the full terrain file contract used by the map renderer: plains variants plus 16-mask sets for forest, hills, mountains, water, and roads.
+- Added deterministic plains variation so map seeds produce stable but less repetitive grass/dirt fields.
+- Copied the terrain source sheet into `assets/source_sheets/` and saved unused dirt alternates under `assets/tiles_extra/fantasy_steampunk_dirt/`.
+- Reduced map text clutter by hiding redundant terrain glyphs and making defense badges smaller/subtler.
 
 ## Preserved
 
