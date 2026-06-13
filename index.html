@@ -484,7 +484,7 @@ body.console-remake #log{
 
 
 
-/* Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0609 */
+/* Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0745 */
 .leaderlessTag{border-color:#ffdf60!important;color:#fff0b8!important;background:#2b1d09!important}
 .commanderActionBox{border:1px solid #d6a84f;background:#211608;border-radius:8px;padding:7px;margin-top:7px;color:#ffe8be}
 .commanderActionBox button{width:100%;margin-top:5px}
@@ -530,7 +530,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.0609</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.0745</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -634,7 +634,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.0609';
+const VERSION='v0.26.06.13.0745';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -996,17 +996,20 @@ async function attack(a,d){
      checkDefeats();
      vetCheck(a);
      render();
+     await cloudUploadBattleUpdate(cloudBattleSummaryText(preA,preD,dmg,0,true,false));
      return;
    }
 
+   let counterDamage=0, attackerDestroyed=false;
    if(dist(a,d)<=UNITS[d.type].range){
      let counterAttacker={...d};
      let counterDefender={...a};
      let cdetail=calcDamageDetail(d,a);
      let cd=Math.max(3,Math.floor(cdetail.damage*0.55));
+     counterDamage=cd;
      a.hp-=cd;
      log(`${d.type} counterattacks for ${cd}${cdetail.terrainReduction>0?` (${cdetail.coverName} absorbed ${cdetail.terrainReduction})`:''}.`);
-     if(a.hp<=0)log(`${a.type} destroyed by counterattack.`);
+     if(a.hp<=0){attackerDestroyed=true;log(`${a.type} destroyed by counterattack.`);}
      d.xp+=10;
      await animateCombat(counterAttacker,counterDefender,{...cdetail,damage:cd},true);
    }
@@ -1016,6 +1019,7 @@ async function attack(a,d){
    removeDead();
    checkDefeats();
    render();
+   await cloudUploadBattleUpdate(cloudBattleSummaryText(preA,preD,dmg,counterDamage,false,attackerDestroyed));
  } finally {
    battleActionInProgress=false;
  }
@@ -1142,6 +1146,67 @@ function cloudGenerateSecret(){return Math.random().toString(36).slice(2,8).toUp
 function cloudStateSnapshot(){let snap=JSON.parse(JSON.stringify(state)); snap.version=VERSION; snap.cloudSchemaVersion=2; snap.aiRunning=false; snap.cloudGameCode=cloud.gameCode||snap.cloudGameCode||''; snap.cloudHostId=snap.cloudHostId||state?.cloudHostId||''; return snap;}
 async function hostCloudGame(){try{if(!state||!player()){alert('Start a New Game first, then host it in the cloud.');return;} if(hasPendingAction()&&!finishPendingActionForSave('hosting a cloud game'))return; if(!cloudHasConfig()){cloud.setupOpen=true; cloudSetStatus('Supabase config missing. Paste URL and anon key first. Local and JSON play still work.','warn'); return;} cloudLocalIdentity(); state.cloudHostId=cloud.localPlayerId; cloud.busy=true; cloudSetStatus('Syncing: creating cloud game...','warn'); let code=cloudGenerateCode(), secret=cloudGenerateSecret(); let payload={game_code:code,join_secret:secret,game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),lock_owner:null,lock_until:null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,20),cloud_revision:1}; let row=await supabaseFetch('cloud_games',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)}); cloud.gameCode=code; cloud.joinSecret=secret; cloud.enabled=true; cloud.row=row&&row[0]; cloud.lastUpdated=cloud.row?.updated_at||new Date().toISOString(); cloud.lastSeenRevision=cloud.row?.cloud_revision||1; localStorage.setItem('ik_cloud_last',JSON.stringify({gameCode:code,joinSecret:secret})); cloudStartPolling(); cloudSetStatus(`Connected. Hosted ${code}. Share code + secret with friends.`, 'good'); log(`Cloud game hosted: ${code}.`); render();}catch(err){cloudSetStatus('Error: '+err.message,'bad')}finally{cloud.busy=false;}}
 async function joinCloudGame(){try{if(!cloudHasConfig()){cloud.setupOpen=true; cloudSetStatus('Supabase config missing. Paste URL and anon key first.','warn'); return;} cloudLocalIdentity(); let last={}; try{last=JSON.parse(localStorage.getItem('ik_cloud_last')||'{}')}catch(e){} let code=(prompt('Enter cloud game code:', last.gameCode||'BRASS-')||'').trim().toUpperCase(); if(!code)return; let secret=(prompt('Enter join secret:', last.joinSecret||'')||'').trim(); if(!secret)return; cloud.gameCode=code; cloud.joinSecret=secret; cloud.busy=true; cloudSetStatus('Syncing: joining cloud game...','warn'); let rows=await supabaseFetch(cloudGamePath()); if(!rows||!rows.length)throw new Error('No cloud game found for that code/secret.'); await cloudApplyRow(rows[0],true); cloud.enabled=true; localStorage.setItem('ik_cloud_last',JSON.stringify({gameCode:code,joinSecret:secret})); cloudStartPolling(); cloudSetStatus(`Connected to ${code}. Turn ${state.turn}: ${player().name}.`,'good'); log(`Joined cloud game ${code}.`); render(); maybeRunAI();}catch(err){cloudSetStatus('Error: '+err.message,'bad')}finally{cloud.busy=false;}}
+
+function cloudMergeClaimsFromLatestState(latestState){
+ if(!state||!latestState||!Array.isArray(state.players)||!Array.isArray(latestState.players))return;
+ latestState.players.forEach((remotePlayer,i)=>{
+   let localPlayer=state.players[i];
+   if(!localPlayer||!remotePlayer)return;
+   if(remotePlayer.cloudClaimId){
+     localPlayer.cloudClaimId=remotePlayer.cloudClaimId;
+     localPlayer.cloudClaimName=remotePlayer.cloudClaimName||localPlayer.cloudClaimName||'Player';
+     localPlayer.cloudClaimedAt=remotePlayer.cloudClaimedAt||localPlayer.cloudClaimedAt||new Date().toISOString();
+   }else if(localPlayer.cloudClaimId&&localPlayer.cloudClaimId!==cloud.localPlayerId){
+     delete localPlayer.cloudClaimId;
+     delete localPlayer.cloudClaimName;
+     delete localPlayer.cloudClaimedAt;
+   }
+ });
+ if(latestState.cloudHostId&&!state.cloudHostId)state.cloudHostId=latestState.cloudHostId;
+}
+function cloudBattleSummaryText(attacker,defender,damage,counterDamage=0,defenderDestroyed=false,attackerDestroyed=false){
+ let ap=state?.players?.[attacker.owner]?.name||'A kingdom', dp=state?.players?.[defender.owner]?.name||'an enemy kingdom';
+ let parts=[`${ap}'s ${attacker.type} hit ${dp}'s ${defender.type} for ${damage}`];
+ if(defenderDestroyed)parts.push(`${defender.type} destroyed`);
+ if(counterDamage>0)parts.push(`${defender.type} countered for ${counterDamage}`);
+ if(attackerDestroyed)parts.push(`${attacker.type} destroyed by counterattack`);
+ return parts.join(' · ')+'.';
+}
+async function cloudUploadBattleUpdate(summary='battle update'){
+ if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state||cloud.busy)return false;
+ try{
+  cloud.busy=true;
+  let latestRows=await supabaseFetch(cloudGamePath());
+  if(!latestRows||!latestRows.length)throw new Error('Cloud game not found.');
+  let latest=latestRows[0], latestRev=Number(latest.cloud_revision||0);
+  let latestState=latest.state_json?(typeof latest.state_json==='string'?JSON.parse(latest.state_json):latest.state_json):null;
+  let sameTurn=latestState&&Number(latestState.turn||1)===Number(state.turn||1)&&Number(latestState.current||0)===Number(state.current||0);
+  if(!sameTurn){
+   cloudSetStatus('Battle update skipped: the cloud turn changed before the battle result could be posted. Use Force Sync if needed.','warn');
+   return false;
+  }
+  cloudMergeClaimsFromLatestState(latestState);
+  state.cloudRevision=(state.cloudRevision||0)+1;
+  state.lastCloudBattleUpdate={turn:state.turn,current:state.current,summary,updatedAt:new Date().toISOString()};
+  let rev=(latestRev||0)+1;
+  let payload={game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),updated_at:new Date().toISOString(),lock_owner:latest.lock_owner||null,lock_until:latest.lock_until||null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,30),cloud_revision:rev};
+  let path=`cloud_games?game_code=eq.${encodeURIComponent(cloud.gameCode)}&join_secret=eq.${encodeURIComponent(cloud.joinSecret)}${latestRev?`&cloud_revision=eq.${latestRev}`:''}`;
+  let rows=await supabaseFetch(path,{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)});
+  let row=rows&&rows[0];
+  if(!row){
+   cloudSetStatus('Battle update not posted because another browser saved at the same moment. The next poll or turn end will catch up.','warn');
+   return false;
+  }
+  cloud.row=row;
+  cloud.lastUpdated=row.updated_at;
+  cloud.lastSeenRevision=row.cloud_revision||rev;
+  cloudSetStatus(`Battle update posted. ${summary}`,'good');
+  renderCloudPanel();
+  return true;
+ }catch(err){cloudSetStatus('Battle update failed: '+err.message,'warn');return false;}
+ finally{cloud.busy=false;}
+}
+
 async function cloudUploadState(reason='sync',opts={}){
  if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state||cloud.busy)return false;
  try{
@@ -1373,7 +1438,7 @@ tileClick=async function(x,y){
    if(h.type==='attack'&&u&&u.owner!==selected.owner){
      commandTargetMode=null;
      commandPopupContext=null;
-     attack(selected,u);
+     await attack(selected,u);
      selected=null;
      highlights=[];
      return;
@@ -1463,7 +1528,7 @@ renderCommandPopup=function(){
 
 
 
-// Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0609
+// Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0745
 const COMMANDER_REFORGE_COST=1000;
 const COMMANDER_FIELD_HEAL_CAP=.75;
 function commanderAlive(owner){return state?.units?.some(u=>u.owner===owner&&u.type==='Commander'&&u.hp>0);}
@@ -1749,6 +1814,142 @@ aiBestMove=function(u,level){
    }
  }
  return _aiBestMove_leaderless(u,level);
+};
+
+
+
+/* Cloud Waiting-Player Sync Guard v0.26.06.13.0745
+   Waiting browsers may pull the latest state, but cannot push stale local state over
+   the active player's battles. Slot claims are now claims-only merges against the
+   latest server state instead of full-state uploads from stale tabs. */
+async function cloudPullLatestFromServer(reason='manual sync'){
+ if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret){cloudSetStatus('Cloud Sync is off. Host or join first.','warn');return false;}
+ if(cloud.busy){cloudSetStatus('Cloud is already syncing. Try again in a moment.','warn');return false;}
+ try{
+  cloud.busy=true;
+  let rows=await supabaseFetch(cloudGamePath());
+  if(!rows||!rows.length)throw new Error('Cloud game not found.');
+  if(hasPendingAction()){cloudSetStatus('Latest cloud state found, but your local unit has a pending action. Finish attack or Wait before downloading.','warn');return false;}
+  await cloudApplyRow(rows[0],false);
+  selected=null; highlights=[]; commandTargetMode=null; commandPopupContext=null;
+  cloudSetStatus(`Downloaded latest cloud state (${reason}). ${cloudClaimStatusText()||currentPlayerName('Current kingdom')+' is up.'}`,'good');
+  setThemeForCurrent({force:true});
+  render();
+  maybeRunAI();
+  return true;
+ }catch(err){cloudSetStatus('Cloud download failed: '+err.message,'bad');return false;}
+ finally{cloud.busy=false;}
+}
+function cloudBrowserMayPushFullState(reason='sync'){
+ if(!cloud.enabled||!state)return true;
+ cloudLocalIdentity(false);
+ let p=player();
+ if(!p)return false;
+ if(p.kind==='AI')return !!(state.cloudHostId&&state.cloudHostId===cloud.localPlayerId);
+ let mine=claimedPlayerIndex();
+ return mine>=0&&mine===state.current;
+}
+const _cloudUploadState_waitingWriteGuard=cloudUploadState;
+cloudUploadState=async function(reason='sync',opts={}){
+ if(cloud.enabled&&state&&!cloudBrowserMayPushFullState(reason)){
+  await cloudPullLatestFromServer(`${reason} blocked from waiting browser`);
+  cloudSetStatus('Upload blocked: waiting players can only download the latest state, not overwrite the active turn.','warn');
+  return false;
+ }
+ return _cloudUploadState_waitingWriteGuard(reason,opts);
+};
+async function cloudPatchClaimOnly(slotIndex,release=false){
+ if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state){cloudSetStatus('Join or host a cloud game before changing claims.','warn');return false;}
+ if(cloud.busy){cloudSetStatus('Cloud is already syncing. Try again in a moment.','warn');return false;}
+ cloudLocalIdentity(true);
+ try{
+  cloud.busy=true;
+  let latestRows=await supabaseFetch(cloudGamePath());
+  if(!latestRows||!latestRows.length)throw new Error('Cloud game not found.');
+  let latest=latestRows[0], latestRev=Number(latest.cloud_revision||0);
+  let latestState=latest.state_json?(typeof latest.state_json==='string'?JSON.parse(latest.state_json):latest.state_json):null;
+  if(!latestState||!Array.isArray(latestState.players))throw new Error('Cloud game has no player list.');
+  let p=latestState.players[slotIndex];
+  if(!p)throw new Error('That kingdom slot no longer exists.');
+  if(p.kind!=='Human'){cloudSetStatus('AI slots cannot be claimed.','warn');return false;}
+  if(release){
+   if(p.cloudClaimId!==cloud.localPlayerId){cloudSetStatus('You can only release your own claim.','warn');return false;}
+   delete p.cloudClaimId; delete p.cloudClaimName; delete p.cloudClaimedAt;
+   localStorage.removeItem('ik_cloud_claimed_player');
+  }else{
+   if(p.cloudClaimId&&p.cloudClaimId!==cloud.localPlayerId){
+    if(!confirm(`${p.name} is already claimed by ${p.cloudClaimName||'another player'}. Override this claim?`))return false;
+   }
+   latestState.players.forEach(q=>{if(q.cloudClaimId===cloud.localPlayerId){delete q.cloudClaimId; delete q.cloudClaimName; delete q.cloudClaimedAt;}});
+   p.cloudClaimId=cloud.localPlayerId;
+   p.cloudClaimName=cloud.displayName||'Player';
+   p.cloudClaimedAt=new Date().toISOString();
+   localStorage.setItem('ik_cloud_claimed_player',String(slotIndex));
+  }
+  latestState.cloudHostId=latestState.cloudHostId||state.cloudHostId||'';
+  let rev=(latestRev||0)+1;
+  let payload={
+   game_version:VERSION,
+   turn_number:latestState.turn||1,
+   current_player_index:latestState.current||0,
+   current_player_name:latestState.players?.[latestState.current]?.name||latest.current_player_name||'Unknown kingdom',
+   updated_at:new Date().toISOString(),
+   lock_owner:latest.lock_owner||null,
+   lock_until:latest.lock_until||null,
+   state_json:latestState,
+   event_log:latest.event_log||latestState.log?.slice?.(0,30)||[],
+   cloud_revision:rev
+  };
+  let path=`cloud_games?game_code=eq.${encodeURIComponent(cloud.gameCode)}&join_secret=eq.${encodeURIComponent(cloud.joinSecret)}${latestRev?`&cloud_revision=eq.${latestRev}`:''}`;
+  let rows=await supabaseFetch(path,{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)});
+  let row=rows&&rows[0];
+  if(!row){cloudSetStatus('Claim update collided with another save. Downloading latest instead.','warn'); await cloudPullLatestFromServer('claim collision'); return false;}
+  await cloudApplyRow(row,false);
+  selected=null; highlights=[]; commandTargetMode=null; commandPopupContext=null;
+  cloudSetStatus(release?'Claim released without overwriting the game state.':'Claim updated without overwriting the active turn.','good');
+  setThemeForCurrent({force:true});
+  render();
+  maybeRunAI();
+  return true;
+ }catch(err){cloudSetStatus('Claim update failed: '+err.message,'bad');return false;}
+ finally{cloud.busy=false;}
+}
+claimCloudSlot=async function(i){
+ if(!state||!state.players[i])return;
+ if(cloud.enabled&&cloud.gameCode&&cloud.joinSecret)return cloudPatchClaimOnly(i,false);
+ cloudLocalIdentity(true);
+ let p=state.players[i];
+ if(p.kind!=='Human'){cloudSetStatus('AI slots cannot be claimed.','warn');return;}
+ if(p.cloudClaimId&&p.cloudClaimId!==cloud.localPlayerId){if(!confirm(`${p.name} is already claimed by ${p.cloudClaimName||'another player'}. Override this claim?`))return;}
+ state.players.forEach(q=>{if(q.cloudClaimId===cloud.localPlayerId){delete q.cloudClaimId; delete q.cloudClaimName; delete q.cloudClaimedAt;}});
+ p.cloudClaimId=cloud.localPlayerId; p.cloudClaimName=cloud.displayName||'Player'; p.cloudClaimedAt=new Date().toISOString();
+ localStorage.setItem('ik_cloud_claimed_player',String(i));
+ setThemeForCurrent({force:true}); render(); cloudSetStatus(`Claimed ${p.name} locally. Host/join cloud to share this claim.`,'good');
+};
+releaseCloudClaim=async function(i){
+ if(!state||!state.players[i])return;
+ if(cloud.enabled&&cloud.gameCode&&cloud.joinSecret)return cloudPatchClaimOnly(i,true);
+ cloudLocalIdentity(false);
+ let p=state.players[i];
+ if(p.cloudClaimId!==cloud.localPlayerId){cloudSetStatus('You can only release your own claim.','warn');return;}
+ delete p.cloudClaimId; delete p.cloudClaimName; delete p.cloudClaimedAt;
+ localStorage.removeItem('ik_cloud_claimed_player'); setThemeForCurrent({force:true}); render(); cloudSetStatus(`Released claim on ${p.name} locally.`,'good');
+};
+forceCloudSync=async function(){
+ if(!cloud.enabled){cloudSetStatus('Cloud Sync is off. Host or join first.','warn');return;}
+ cloudLocalIdentity(false);
+ let p=player();
+ let mine=claimedPlayerIndex();
+ let activeHuman=p&&p.kind==='Human'&&mine>=0&&mine===state.current;
+ let activeAIHost=p&&p.kind==='AI'&&state.cloudHostId&&state.cloudHostId===cloud.localPlayerId;
+ if(!activeHuman&&!activeAIHost){
+  await cloudPullLatestFromServer('waiting-player force sync');
+  cloudSetStatus('Force Sync downloaded the latest state. Waiting players are blocked from uploading older local turns.','good');
+  return;
+ }
+ if(hasPendingAction()&&!finishPendingActionForSave('force syncing'))return;
+ await cloudUploadState('force sync active player',{expectedRevision:Number(cloud.lastSeenRevision||0)});
+ await cloudPoll();
 };
 
 </script>
