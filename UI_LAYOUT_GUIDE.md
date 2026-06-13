@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.1802
+# UI Layout Guide - v0.26.06.12.1825
 
 ## Design goal
 
@@ -52,7 +52,7 @@ Tile highlight PNGs are layered with `pointer-events: none`, so movement and att
 - Commanders and Steam Tanks remain single feature combatants for hero-vs-squad and vehicle-vs-squad scenes.
 - Rifle, cannon, magic, melee, and casualty visuals are action-linked and anchored to the acting side and target side.
 - Battle-side facing uses per-unit overrides so left and right formations face each other even when source crops are inconsistent.
-- Commander feature sprites can swap to `_attacking.png` frames during their strike window and then return to their standard stance.
+- Acting commander feature sprites swap to `_attacking.png` frames during their strike window and then return to their standard stance.
 - The battle background stays behind all combatants, projectiles, and damage numbers.
 
 ## Philosophy

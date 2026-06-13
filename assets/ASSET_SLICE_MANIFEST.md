@@ -1,6 +1,6 @@
 # Iron Kingdoms Asset Slice Manifest
 
-Build: v0.26.06.12.1802
+Build: v0.26.06.12.1825
 
 Generated first-pass slices from D:/JoshGameFiles/IronKingdoms/UpdatedArt.
 
@@ -14,7 +14,7 @@ Generated first-pass slices from D:/JoshGameFiles/IronKingdoms/UpdatedArt.
 - Building trio integration: fantasy_steampunk_building_trio_sprite_sheet_true_transparent.png was sliced into town/city/fortress structure art for all player folders.
 - Battle presentation integration: squad unit crops now render as enlarged battlefield formations, while Commander and Steam Tank crops render as feature combatants; source-facing overrides are used for generated crops that were drawn in the opposite direction.
 - Commander-selected faction mapping: unit sprites in recruit buttons, map tiles, and battle scenes now resolve through the player's selected commander class instead of only through the numeric player slot.
-- Commander attack frames: optional `assets/battle_console/commanders/<commander_slug>_attacking.png` files are used during the feature-combatant strike window when present, falling back to the standard commander sprite otherwise.
+- Commander attack frames: optional `assets/battle_console/commanders/<commander_slug>_attacking.png` files are used for the acting commander during the feature-combatant strike window when present, trying `_attacking_mirrored.png` as a fallback before returning to the standard commander sprite.
 - Terrain integration: fantasy_steampunk_tileset_for_strategy_game_true_transparent.png was sliced into the active `assets/tiles` terrain set, including plains variants and 16-mask sets for forest, hills, mountains, water, and roads.
 - Extra terrain reference: unused dirt/rough ground slices were saved under `assets/tiles_extra/fantasy_steampunk_dirt`.
 - Intro integration: the final title-theme intro video was copied to `assets/intro/iron_kingdoms_intro.mp4` for the New War setup screen; intro volume preferences are stored locally, and a cranked-up non-destructive CRT pixelation, scanline, phosphor color-mask, and vignette overlay is used while the source video remains visible.

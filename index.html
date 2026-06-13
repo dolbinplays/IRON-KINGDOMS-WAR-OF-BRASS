@@ -243,7 +243,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 @keyframes battleAttackSwap{0%,40%,66%,100%{opacity:0}46%,60%{opacity:1}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.1802 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.1825 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -333,7 +333,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.1802</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.1825</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -437,7 +437,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.1802';
+const VERSION='v0.26.06.12.1825';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -635,7 +635,7 @@ function unitStatusIcons(u,ready,aura,pending){let html=''; if(aura)html+='<img 
 function commanderAssetSlug(cls){return assetSlug(cls);}
 function unitSpriteBase(u){let owner=factionAssetIndex(u?.owner||0), type=u?.type||'Infantry'; return type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0))}`:`assets/units/p${owner}/${assetSlug(type)}`;}
 function battleConsoleSpriteSrc(u,mirrored=false){let owner=factionAssetIndex(u?.owner||0), type=u?.type||'Infantry', suffix=mirrored?'_mirrored':''; if(type==='Commander')return `assets/battle_console/commanders/${commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0))}${suffix}.png`; return `assets/battle_console/units/p${owner}/${assetSlug(type)}${suffix}.png`;}
-function battleCommanderAttackSpriteSrc(u){let cls=commanderAssetSlug(u?.commanderClass||ownerCommanderClass(u?.owner||0)); return `assets/battle_console/commanders/${cls}_attacking.png`;}
+function battleCommanderAttackSpriteSrc(u,mirrored=false){let cls=commanderAssetSlug(u?.commanderClass||ownerCommanderClass(u?.owner||0)); return `assets/battle_console/commanders/${cls}_attacking${mirrored?'_mirrored':''}.png`;}
 function unitSpriteSrc(u,suffix=''){return suffix?`${unitSpriteBase(u)}${suffix}.png`:battleConsoleSpriteSrc(u);}
 function unitSprite(u,cls='asset-sprite',animated=false){let src=battleConsoleSpriteSrc(u), fallback=`${unitSpriteBase(u)}.png`, type=u?.type||'Unit'; return `<img class="${cls} pngSprite" src="${src}" alt="${type}" loading="eager" onerror="this.onerror=null;this.src='${fallback}'">`; }
 function battleUnitSrc(u,mirrored=false){return battleConsoleSpriteSrc(u,mirrored);}
@@ -646,7 +646,7 @@ function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if
 function battleUsesFeatureSprite(u){return u?.type==='Commander'||u?.type==='Steam Tank';}
 function battleSourceFacesLeft(u){let cls=u?.type==='Commander'?(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal'):''; return ['Infantry','Cavalry','Airship','Gyrocopter','Assassin'].includes(u?.type)||['Steam Marshal','Archmage'].includes(cls);}
 function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); return side==='left'?(leftSource?-1:1):(leftSource?1:-1);}
-function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'), face=battleFacingScale(u,side), attackSrc=u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleHudFighterHtml(u,side,activeAttack=false){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'), face=battleFacingScale(u,side), attackSrc=activeAttack&&u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', fallbackAttack=attackSrc?battleCommanderAttackSpriteSrc(u,true):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="if(!this.dataset.mirrorTried){this.dataset.mirrorTried='1';this.src='${fallbackAttack}'}else this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
 function battleEffectAnchorVars(a,d,aKind,dKind){
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
  let aOrigin=aFeature?'calc(50% - 82px)':(aKind==='magic'?'calc(2% + 286px)':'calc(2% + 318px)');
@@ -769,7 +769,7 @@ function showBattleView(a,d,detail,isCounter){
  let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer');
  if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];}
  if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];}
- if(fg)fg.innerHTML=battleHudFighterHtml(a,'left')+battleHudFighterHtml(d,'right')+battleSkirmishHtml(a,d,detail);
+ if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',true)+battleHudFighterHtml(d,'right',false)+battleSkirmishHtml(a,d,detail);
  let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg');
  attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}
  attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d,true); attImg.style.display='none'; defImg.style.display='none';
@@ -926,7 +926,7 @@ makeHighlights=function(u){
 };
 function canRecruitHere(u){
  let tt=u&&state?tile(u.x,u.y):null;
- return !!(u&&canCapture(u)&&tt&&tt.s&&(tt.s==='city'||tt.s==='fortress')&&tt.owner===u.owner);
+ return !!(u&&(canCapture(u)||u.type==='Commander')&&tt&&tt.s&&(tt.s==='city'||tt.s==='fortress')&&tt.owner===u.owner);
 }
 function canCaptureHere(u){
  let tt=u&&state?tile(u.x,u.y):null;
