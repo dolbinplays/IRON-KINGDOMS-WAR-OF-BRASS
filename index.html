@@ -612,6 +612,80 @@ body.console-remake #log{
 @keyframes rifleProjectile{0%{opacity:0;left:var(--shot-start-x);top:var(--shot-start-y);transform:scale(.7)}8%{opacity:1}100%{opacity:0;left:var(--shot-end-x);top:var(--shot-end-y);transform:scale(1)}}
 @keyframes muzzlePop{0%,100%{opacity:0;transform:scale(.35)}50%{opacity:1;transform:scale(1)}}
 
+
+
+/* Battle Animation Reliability Patch v0.26.06.13.1002
+   Fixes off-screen formations, restores visible 45-degree strike arcs, keeps survivors lined up
+   on their side of the battle background, and lowers commander/projectile effects to weapon height. */
+.battleSkirmishLayer{height:360px!important;bottom:2px!important;overflow:hidden!important;--battle-skirmish-duration:5.55s;}
+.battleBox.battleFast .battleSkirmishLayer{--battle-skirmish-duration:4.75s;}
+.battleSkirmishLayer.rangedScene{height:360px!important;}
+.battleSkirmishUnit{bottom:calc(16px + var(--rank,0) * 24px)!important;transform-origin:center bottom!important;will-change:transform,opacity;}
+.battleSkirmishUnit.attacker{left:-132px!important;--back-x:-18px;--range-forward-x:12px;--fall-x:18px;--flinch-x:5px;}
+.battleSkirmishUnit.defender{right:-132px!important;--back-x:18px;--range-forward-x:-12px;--fall-x:-18px;--flinch-x:-5px;}
+.battleProjectileUnit,.battleMuzzleUnit{will-change:left,top,opacity,transform;}
+.battleCommanderWave{top:166px!important;width:74px!important;height:92px!important;border-width:4px!important;}
+.battleImpact{top:var(--impact-y,270px)!important;}
+@keyframes footMeleeAdvance{
+  0%{opacity:0;transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.94)}
+  10%,18%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  22%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  26%,30%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  34%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  38%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  42%,46%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  50%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  54%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  58%,62%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  66%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  70%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  74%,78%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  84%,100%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes footMeleeLoss{
+  0%{opacity:0;transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.94)}
+  10%,18%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  22%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  26%,30%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  34%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  38%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  42%,46%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  50%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  54%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-14px) scaleX(var(--face,1)) rotate(var(--rear-rot)) scale(1.02)}
+  58%,62%{transform:translateX(calc(var(--line-x) + var(--rush-x))) translateY(16px) scaleX(var(--face,1)) rotate(var(--hold-rot)) scale(1.08)}
+  68%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  76%{opacity:.95;transform:translateX(calc(var(--line-x) + var(--fall-x))) translateY(18px) scaleX(var(--face,1)) rotate(var(--lose-mid-rot)) scale(.94)}
+  88%,100%{opacity:0;transform:translateX(calc(var(--line-x) + var(--fall-x))) translateY(62px) scaleX(var(--face,1)) rotate(var(--lose-fall-rot)) scale(.76)}
+}
+@keyframes footRangedVolley{
+  0%{opacity:0;transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.94)}
+  10%,20%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  24%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-5px) scaleX(var(--face,1)) rotate(var(--range-rear-rot)) scale(1.02)}
+  28%,32%{transform:translateX(calc(var(--line-x) + var(--range-forward-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-strike-rot)) scale(1.03)}
+  38%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-5px) scaleX(var(--face,1)) rotate(var(--range-rear-rot)) scale(1.02)}
+  42%,46%{transform:translateX(calc(var(--line-x) + var(--range-forward-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-strike-rot)) scale(1.03)}
+  52%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-5px) scaleX(var(--face,1)) rotate(var(--range-rear-rot)) scale(1.02)}
+  56%,60%{transform:translateX(calc(var(--line-x) + var(--range-forward-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-strike-rot)) scale(1.03)}
+  66%{transform:translateX(calc(var(--line-x) + var(--back-x))) translateY(-5px) scaleX(var(--face,1)) rotate(var(--range-rear-rot)) scale(1.02)}
+  70%,74%{transform:translateX(calc(var(--line-x) + var(--range-forward-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-strike-rot)) scale(1.03)}
+  84%,100%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes footRangedTarget{
+  0%{opacity:0;transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.94)}
+  10%,72%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  26%,40%,54%,68%{transform:translateX(calc(var(--line-x) + var(--flinch-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-settle-rot)) scale(1.01)}
+  28%,42%,56%,70%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  84%,100%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes footRangedLoss{
+  0%{opacity:0;transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.94)}
+  10%,66%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  26%,40%,54%{transform:translateX(calc(var(--line-x) + var(--flinch-x))) translateY(-2px) scaleX(var(--face,1)) rotate(var(--range-settle-rot)) scale(1.01)}
+  28%,42%,56%{transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  68%{opacity:1;transform:translateX(var(--line-x)) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  76%{opacity:.95;transform:translateX(calc(var(--line-x) + var(--fall-x))) translateY(18px) scaleX(var(--face,1)) rotate(var(--lose-mid-rot)) scale(.93)}
+  88%,100%{opacity:0;transform:translateX(calc(var(--line-x) + var(--fall-x))) translateY(62px) scaleX(var(--face,1)) rotate(var(--lose-fall-rot)) scale(.76)}
+}
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -654,7 +728,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.0920</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.1002</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -931,7 +1005,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.0920';
+const VERSION='v0.26.06.13.1002';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -1192,13 +1266,16 @@ function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); retu
 function battleHudFighterHtml(u,side,activeAttack=false){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), isCommander=u.type==='Commander', commanderSlug=isCommander?commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0)):'', cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly')+(isCommander?` commanderFighter commander_${commanderSlug}`:''), face=battleFacingScale(u,side), attackSrc=activeAttack&&u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', fallbackAttack=attackSrc?battleCommanderAttackSpriteSrc(u,true):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="if(!this.dataset.mirrorTried){this.dataset.mirrorTried='1';this.src='${fallbackAttack}'}else this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
 function battleEffectAnchorVars(a,d,aKind,dKind){
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d), ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
- let aOrigin=aFeature?'calc(50% - 82px)':(aKind==='magic'?'calc(2% + 286px)':'calc(2% + 318px)');
- let dOrigin=dFeature?'calc(50% - 82px)':(dKind==='magic'?'calc(2% + 286px)':'calc(2% + 318px)');
- let muzzleY=aKind==='cannon'?'82px':aKind==='magic'?'76px':'88px';
- let shotY=aKind==='cannon'?'96px':aKind==='magic'?'86px':'96px';
- let impact=aKind==='melee'?'50%':(dFeature?'calc(50% + 128px)':'calc(98% - 310px)');
- let impactY=aKind==='cannon'?'98px':aKind==='magic'?'86px':'98px';
- return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--a-shot-distance:${dFeature?'420px':'49vw'};--d-shot-distance:${aFeature?'-420px':'-49vw'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
+ // Feature sprites such as commanders and steam tanks live in the foreground layer;
+ // foot squads live in the skirmish layer. These anchors keep shots/waves at weapon height.
+ let aOrigin=aFeature?'calc(50% - 104px)':(aKind==='magic'?'calc(2% + 278px)':'calc(2% + 306px)');
+ let dOrigin=dFeature?'calc(50% - 180px)':(dKind==='magic'?'calc(2% + 278px)':'calc(2% + 306px)');
+ let featureShot=aFeature||dFeature;
+ let muzzleY=featureShot?(aKind==='magic'?'218px':'226px'):(aKind==='cannon'?'262px':aKind==='magic'?'248px':'266px');
+ let shotY=featureShot?(aKind==='magic'?'224px':'232px'):(aKind==='cannon'?'270px':aKind==='magic'?'258px':'272px');
+ let impact=aKind==='melee'?'50%':(dFeature?'calc(50% + 132px)':'calc(100% - 156px)');
+ let impactY=dFeature?'226px':(aKind==='cannon'?'268px':aKind==='magic'?'256px':'270px');
+ return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--a-shot-distance:${dFeature?'245px':'42vw'};--d-shot-distance:${aFeature?'-245px':'-42vw'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
 }
 function playBattleActionSfx(a,d,detail){
  let kind=battleActionKind(a);
@@ -1223,22 +1300,38 @@ function battleMotionVars(u,side){
 }
 function battleSkirmishHtml(a,d,detail){
  let aMax=squadMax(a.type), dMax=squadMax(d.type);
- let aCount=battleUsesFeatureSprite(a)?0:Math.min(8,squadCount(a),aMax), dBefore=battleUsesFeatureSprite(d)?0:Math.min(8,squadCount(d),dMax), dAfter=battleUsesFeatureSprite(d)?0:Math.min(8,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
+ let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
+ let aCount=aFeature?0:Math.min(8,squadCount(a),aMax), dBefore=dFeature?0:Math.min(8,squadCount(d),dMax), dAfter=dFeature?0:Math.min(8,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
  let aKind=battleActionKind(a), sceneKind=aKind==='melee'?'melee':'ranged', impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
  let footSmall=u=>['Infantry','Pikemen','Riflemen','Assassin'].includes(u.type), largeUnit=u=>!footSmall(u)&&!machineLike(u), unitSrc=u=>battleConsoleSpriteSrc(u,false);
- let formation=(i,count,side)=>{ let cols=Math.min(4,Math.max(2,Math.ceil(count/2))); let rank=Math.floor(i/cols), col=i%cols; let line=68+col*44+rank*14, retreat=18+col*8, rush=128+col*10-rank*8; if(side==='right'){ line=-line; retreat=-retreat; rush=-rush; } return {rank,col,line,retreat,rush}; };
- let projPos=(i,count)=>{ let cols=Math.min(4,Math.max(2,Math.ceil(count/2))); let rank=Math.floor(i/cols), col=i%cols; return {sx:(17+col*5.5+rank*1.5).toFixed(2)+'%', sy:(210-rank*24)+'px', ex:(79-col*4.8-rank*1.4).toFixed(2)+'%', ey:(204-(i%2)*16-rank*18)+'px'}; };
+ // Enter from off-screen, fully step into view, then return to that same line instead of retreating off-screen.
+ let formation=(i,count,side)=>{
+   let safeCount=Math.max(1,count), cols=Math.min(4,Math.max(2,Math.ceil(safeCount/2))), rank=Math.floor(i/cols), col=i%cols;
+   let line=150+col*44+rank*14;
+   let rush=Math.max(172,300-col*32-rank*18);
+   if(side==='right'){line=-line; rush=-rush;}
+   return {rank,col,line,rush};
+ };
+ let projPos=(i,count)=>{
+   let ai=Math.min(i,Math.max(0,aCount-1)), di=Math.min(i,Math.max(0,dBefore-1));
+   let af=formation(ai,Math.max(1,aCount),'left'), df=formation(di,Math.max(1,dBefore),'right');
+   let sx=aFeature?'calc(50% - 104px)':`${af.line-42}px`;
+   let sy=aFeature?(aKind==='magic'?'224px':'232px'):`${270-af.rank*24}px`;
+   let ex=dFeature?'calc(50% + 132px)':`calc(100% + ${df.line+74}px)`;
+   let ey=dFeature?'226px':`${268-df.rank*24-(i%2)*8}px`;
+   return {sx,sy,ex,ey};
+ };
  let html=`<div class="battleSkirmishLayer ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,battleActionKind(d))}">`;
  for(let i=0;i<aCount;i++){
    let f=formation(i,aCount,'left'), extra=(footSmall(a)?'smallFoot ':largeUnit(a)?'largeUnit ':''), src=unitSrc(a);
-   html+=`<img class="battleSkirmishUnit attacker ${sceneKind} ${extra}unit-${assetSlug(a.type)}" style="--rank:${f.rank};--line-x:${f.line}px;--retreat-x:${f.retreat}px;--rush-x:${f.rush}px;${battleMotionVars(a,'left')}" src="${src}" alt="${escapeHtml(a.type)}">`;
+   html+=`<img class="battleSkirmishUnit attacker ${sceneKind} ${extra}unit-${assetSlug(a.type)}" style="--rank:${f.rank};--line-x:${f.line}px;--rush-x:${f.rush}px;${battleMotionVars(a,'left')}" src="${src}" alt="${escapeHtml(a.type)}">`;
  }
  for(let i=0;i<dBefore;i++){
    let f=formation(i,dBefore,'right'), loser=i>=dAfter, extra=(footSmall(d)?'smallFoot ':largeUnit(d)?'largeUnit ':''), src=unitSrc(d);
-   html+=`<img class="battleSkirmishUnit defender ${sceneKind==='melee'?'melee':'target'} ${extra}unit-${assetSlug(d.type)} ${loser?'loser':''}" style="--rank:${f.rank};--line-x:${f.line}px;--retreat-x:${f.retreat}px;--rush-x:${f.rush}px;${battleMotionVars(d,'right')}" src="${src}" alt="${escapeHtml(d.type)}">`;
+   html+=`<img class="battleSkirmishUnit defender ${sceneKind==='melee'?'melee':'target'} ${extra}unit-${assetSlug(d.type)} ${loser?'loser':''}" style="--rank:${f.rank};--line-x:${f.line}px;--rush-x:${f.rush}px;${battleMotionVars(d,'right')}" src="${src}" alt="${escapeHtml(d.type)}">`;
  }
  if(sceneKind==='ranged'){
-   let shots=Math.min(Math.max(1,aCount),Math.max(1,dBefore),6), shotKind=aKind==='magic'?'magic':aKind==='cannon'?'cannon':'rifle';
+   let shots=Math.min(Math.max(1,aFeature?1:aCount),Math.max(1,dFeature?1:dBefore),6), shotKind=aKind==='magic'?'magic':aKind==='cannon'?'cannon':'rifle';
    for(let i=0;i<shots;i++){
      let p=projPos(i,shots), delay=(1.35 + i*0.34).toFixed(2)+'s';
      html+=`<span class="battleMuzzleUnit ${shotKind}" style="--muzzle-x:${p.sx};--muzzle-y:${p.sy};--shot-delay:${delay}"></span>`;
@@ -1246,7 +1339,6 @@ function battleSkirmishHtml(a,d,detail){
    }
  }
  if(a.type==='Commander')html+=`<span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
- if(d.type==='Commander')html+=`<span class="battleCommanderWave defender" style="--wave-color:var(--d-wave-color)"></span>`;
  html+=`<span class="battleImpact ${impact}"></span>`;
  return html+'</div>';
 }
@@ -1393,7 +1485,7 @@ function showBattleView(a,d,detail,isCounter){
  let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer');
  if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];}
  if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];}
- if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',true)+battleHudFighterHtml(d,'right',d.type==='Commander')+battleSkirmishHtml(a,d,detail);
+ if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',true)+battleHudFighterHtml(d,'right',false)+battleSkirmishHtml(a,d,detail);
  let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg');
  attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}
  attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d,true); attImg.style.display='none'; defImg.style.display='none';
