@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.1840
+# UI Layout Guide - v0.26.06.12.1844
 
 ## Design goal
 
@@ -11,9 +11,10 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 - Terrain: fantasy steampunk sheet slices provide higher-detail terrain art, with redundant terrain glyphs hidden so the map art stays readable.
 - New War setup: intro video occupies the left side of the modal while map/player setup stays on the right, with skip, replay, and volume controls available inside the video panel; the video stays visible under a heavy 80s-cartoon CRT pixelation, scanline, color-mask, and vignette layer.
 - Bottom message window: recent turn prompts, battle results, handoff reminders, and cloud status.
-- Command popup: stays hidden for normal movement/attack selection and appears only when Capture or Recruit creates a real post-move choice.
+- Command popup: stays hidden for normal movement/attack selection and appears only when Capture or Recruit creates a real choice; fresh recruit-capable units on owned cities/fortresses also show Move.
 - Asset language: kingdom crests identify claim slots and player rows; turn chips mark the active kingdom; tile overlays, aura rings, and status icons are decorative and never intercept map clicks.
 - Unit art: recruited, map, and battle unit sprites follow the selected commander faction for each player, not just the numeric player slot.
+- Unit identity: map unit borders and player swatches use the selected commander/faction color.
 - Asset folders: faction-specific art folders are named after commander/faction slugs, such as `steam_marshal`, `archmage`, `sky_admiral`, and `frost_matriarch`, instead of numeric `p0`/`p1` labels.
 - Sprite bounds: occupied map tiles allow sprite overflow so taller cleaned-up PNGs can extend beyond the square without clipping.
 
@@ -39,7 +40,7 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 2. Blue movement tiles and red attack targets appear immediately.
 3. Click a blue tile to move, or click a red enemy to attack.
 4. After movement, click a red enemy to attack or click the moved unit again to wait.
-5. If capture or recruitment is available, use the compact popup for Attack, Capture, Recruit, or Wait / Finish.
+5. If capture or recruitment is available, use the compact popup for Move when still fresh, Attack, Capture, Recruit, or Wait / Finish.
 
 Movement now animates through each intermediate square before post-move choices appear.
 
