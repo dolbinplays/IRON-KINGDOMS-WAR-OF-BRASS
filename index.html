@@ -561,6 +561,25 @@ body.console-remake #log{
 .instructionsFooter{display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:-16px;background:linear-gradient(#241811,#0d0805);padding:10px 0 0;margin-top:8px;}
 @media(max-width:900px){.instructionsGrid{grid-template-columns:1fr;}#helpModal .modalBox{width:94vw;}}
 
+
+/* Reduce battle-screen commanders by 25% and normalize commander sprite height/alignment. */
+.battleHudFighter.commanderFighter{width:220px;height:240px;}
+.battleHudFighter.commanderFighter .battleHudArt{width:195px;height:195px;}
+.battleHudFighter.commanderFighter .battleMapSprite,
+.battleHudFighter.commanderFighter .battleAttackSprite{
+  inset:auto;
+  left:50%;
+  bottom:0;
+  width:auto;
+  height:100%;
+  max-width:none;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  transform:translateX(-50%);
+}
+.battleHudFighter.commanderFighter .battleHudName{margin-top:2px;}
+
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -1138,7 +1157,7 @@ function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if
 function battleUsesFeatureSprite(u){return u?.type==='Commander'||u?.type==='Steam Tank';}
 function battleSourceFacesLeft(u){let cls=u?.type==='Commander'?(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal'):''; return ['Infantry','Cavalry','Airship','Gyrocopter','Assassin'].includes(u?.type)||['Steam Marshal','Archmage'].includes(cls);}
 function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); return side==='left'?(leftSource?-1:1):(leftSource?1:-1);}
-function battleHudFighterHtml(u,side,activeAttack=false){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'), face=battleFacingScale(u,side), attackSrc=activeAttack&&u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', fallbackAttack=attackSrc?battleCommanderAttackSpriteSrc(u,true):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="if(!this.dataset.mirrorTried){this.dataset.mirrorTried='1';this.src='${fallbackAttack}'}else this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleHudFighterHtml(u,side,activeAttack=false){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), isCommander=u.type==='Commander', commanderSlug=isCommander?commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0)):'', cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly')+(isCommander?` commanderFighter commander_${commanderSlug}`:''), face=battleFacingScale(u,side), attackSrc=activeAttack&&u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', fallbackAttack=attackSrc?battleCommanderAttackSpriteSrc(u,true):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="if(!this.dataset.mirrorTried){this.dataset.mirrorTried='1';this.src='${fallbackAttack}'}else this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
 function battleEffectAnchorVars(a,d,aKind,dKind){
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d), ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
  let aOrigin=aFeature?'calc(50% - 82px)':(aKind==='magic'?'calc(2% + 286px)':'calc(2% + 318px)');
