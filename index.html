@@ -484,10 +484,66 @@ body.console-remake #log{
 
 
 
-/* Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0745 */
+/* Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0735 */
 .leaderlessTag{border-color:#ffdf60!important;color:#fff0b8!important;background:#2b1d09!important}
 .commanderActionBox{border:1px solid #d6a84f;background:#211608;border-radius:8px;padding:7px;margin-top:7px;color:#ffe8be}
 .commanderActionBox button{width:100%;margin-top:5px}
+
+/* Forward downswing battle strike correction v0.26.06.13.0920
+   Translation now happens before sprite mirroring so a mirrored sprite can still
+   move toward the enemy. The arc is rear-back/up, then forward/down into contact,
+   then hold at contact before recovering after the strike. */
+@keyframes skirmishChargeA{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(-38px) translateY(-38px) scaleX(var(--face,1)) rotate(var(--rear-rot,-45deg)) scale(.96);opacity:1}
+  42%{transform:translateX(126px) translateY(18px) scaleX(var(--face,1)) rotate(var(--strike-rot,18deg)) scale(1.05)}
+  56%,72%{transform:translateX(154px) translateY(24px) scaleX(var(--face,1)) rotate(var(--hold-rot,24deg)) scale(1.08)}
+  82%{opacity:1;transform:translateX(154px) translateY(20px) scaleX(var(--face,1)) rotate(var(--settle-rot,5deg)) scale(1.03)}
+  100%{transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishChargeD{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,-1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(38px) translateY(-38px) scaleX(var(--face,-1)) rotate(var(--rear-rot,45deg)) scale(.96);opacity:1}
+  42%{transform:translateX(-126px) translateY(18px) scaleX(var(--face,-1)) rotate(var(--strike-rot,-18deg)) scale(1.05)}
+  56%,72%{transform:translateX(-154px) translateY(24px) scaleX(var(--face,-1)) rotate(var(--hold-rot,-24deg)) scale(1.08)}
+  82%{opacity:1;transform:translateX(-154px) translateY(20px) scaleX(var(--face,-1)) rotate(var(--settle-rot,-5deg)) scale(1.03)}
+  100%{transform:translateX(0) translateY(0) scaleX(var(--face,-1)) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishRangedA{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(-24px) translateY(-24px) scaleX(var(--face,1)) rotate(var(--range-rear-rot,-35deg)) scale(.97)}
+  42%,72%{transform:translateX(54px) translateY(12px) scaleX(var(--face,1)) rotate(var(--range-strike-rot,12deg)) scale(1.03)}
+  82%{opacity:1;transform:translateX(54px) translateY(8px) scaleX(var(--face,1)) rotate(var(--range-settle-rot,3deg)) scale(1.01)}
+  100%{transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishRangedD{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,-1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(24px) translateY(-24px) scaleX(var(--face,-1)) rotate(var(--range-rear-rot,35deg)) scale(.97)}
+  42%,72%{transform:translateX(-54px) translateY(12px) scaleX(var(--face,-1)) rotate(var(--range-strike-rot,-12deg)) scale(1.03)}
+  82%{opacity:1;transform:translateX(-54px) translateY(8px) scaleX(var(--face,-1)) rotate(var(--range-settle-rot,-3deg)) scale(1.01)}
+  100%{transform:translateX(0) translateY(0) scaleX(var(--face,-1)) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishLoseD{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,-1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(34px) translateY(-30px) scaleX(var(--face,-1)) rotate(var(--lose-rear-rot,38deg)) scale(.96)}
+  44%{transform:translateX(-118px) translateY(16px) scaleX(var(--face,-1)) rotate(var(--lose-strike-rot,-16deg)) scale(1.04)}
+  58%{transform:translateX(-138px) translateY(20px) scaleX(var(--face,-1)) rotate(var(--lose-mid-rot,-8deg)) scale(1.04);opacity:1}
+  80%,100%{transform:translateX(-138px) translateY(60px) scaleX(var(--face,-1)) rotate(var(--lose-fall-rot,-42deg)) scale(.72);opacity:0}
+}
+@keyframes skirmishLoseA{
+  0%{transform:translateX(0) translateY(0) scaleX(var(--face,1)) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:translateX(-34px) translateY(-30px) scaleX(var(--face,1)) rotate(var(--lose-rear-rot,-38deg)) scale(.96)}
+  44%{transform:translateX(118px) translateY(16px) scaleX(var(--face,1)) rotate(var(--lose-strike-rot,16deg)) scale(1.04)}
+  58%{transform:translateX(138px) translateY(20px) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,8deg)) scale(1.04);opacity:1}
+  80%,100%{transform:translateX(138px) translateY(60px) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,42deg)) scale(.72);opacity:0}
+}
+
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -530,7 +586,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.0745</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.0920</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -634,7 +690,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.0745';
+const VERSION='v0.26.06.13.0920';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -912,12 +968,24 @@ function battleDamageLabelPosition(a,d){
  let left=battleUsesFeatureSprite(d)?'calc(50% + 125px)':'calc(91% - 125px)';
  return {left,top:'338px'};
 }
+
+function battleMotionVars(u,side){
+ // CSS scaleX mirroring flips the apparent rotation direction. These per-unit
+ // variables keep the wind-up and strike angle visually correct whether the
+ // sprite source is naturally facing the enemy or mirrored with scaleX(-1).
+ let face=battleFacingScale(u,side), mirror=face<0, right=side==='right';
+ let vals=right?
+   {rear:45,strike:-18,hold:-24,settle:-5,rangeRear:35,rangeStrike:-12,rangeSettle:-3,loseRear:38,loseStrike:-16,loseMid:-8,loseFall:-42}:
+   {rear:-45,strike:18,hold:24,settle:5,rangeRear:-35,rangeStrike:12,rangeSettle:3,loseRear:-38,loseStrike:16,loseMid:8,loseFall:42};
+ let sign=mirror?-1:1, deg=v=>(v*sign)+'deg';
+ return `--face:${face};--rear-rot:${deg(vals.rear)};--strike-rot:${deg(vals.strike)};--hold-rot:${deg(vals.hold)};--settle-rot:${deg(vals.settle)};--range-rear-rot:${deg(vals.rangeRear)};--range-strike-rot:${deg(vals.rangeStrike)};--range-settle-rot:${deg(vals.rangeSettle)};--lose-rear-rot:${deg(vals.loseRear)};--lose-strike-rot:${deg(vals.loseStrike)};--lose-mid-rot:${deg(vals.loseMid)};--lose-fall-rot:${deg(vals.loseFall)}`;
+}
 function battleSkirmishHtml(a,d,detail){
  let aMax=squadMax(a.type), dMax=squadMax(d.type), aCount=battleUsesFeatureSprite(a)?0:Math.min(10,squadCount(a),aMax), dBefore=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d),dMax), dAfter=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
  let aKind=battleActionKind(a), dKind=battleActionKind(d), aRanged=aKind!=='melee', dRanged=dKind!=='melee', aHeavy=aMax<=5||machineLike(a), dHeavy=dMax<=5||machineLike(d), lost=Math.max(0,dBefore-dAfter), impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
  let html=`<div class="battleSkirmishLayer ${aRanged?'rangedAttacker':''} ${dRanged?'rangedDefender':''}" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
- for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker unit-${assetSlug(a.type)} ${aHeavy?'heavy':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(a,'left')}" src="${battleConsoleSpriteSrc(a,false)}" alt="${escapeHtml(a.type)}">`;}
- for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender unit-${assetSlug(d.type)} ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(d,'right')}" src="${battleConsoleSpriteSrc(d,false)}" alt="${escapeHtml(d.type)}">`;}
+ for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker unit-${assetSlug(a.type)} ${aHeavy?'heavy':''}" style="--i:${i};--row:${row};${battleMotionVars(a,'left')}" src="${battleConsoleSpriteSrc(a,false)}" alt="${escapeHtml(a.type)}">`;}
+ for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender unit-${assetSlug(d.type)} ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row};${battleMotionVars(d,'right')}" src="${battleConsoleSpriteSrc(d,false)}" alt="${escapeHtml(d.type)}">`;}
  if(aRanged){html+=`<span class="battleMuzzle attacker ${aKind}"></span><span class="battleProjectile attacker ${aKind}"></span>`;}
  if(dRanged){html+=`<span class="battleMuzzle defender ${dKind}"></span><span class="battleProjectile defender ${dKind}"></span>`;}
  if(a.type==='Commander')html+=`<span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
@@ -1528,7 +1596,7 @@ renderCommandPopup=function(){
 
 
 
-// Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0745
+// Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0735
 const COMMANDER_REFORGE_COST=1000;
 const COMMANDER_FIELD_HEAL_CAP=.75;
 function commanderAlive(owner){return state?.units?.some(u=>u.owner===owner&&u.type==='Commander'&&u.hp>0);}
