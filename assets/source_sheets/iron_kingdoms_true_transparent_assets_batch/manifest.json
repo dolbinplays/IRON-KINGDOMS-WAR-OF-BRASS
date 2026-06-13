@@ -1,0 +1,190 @@
+{
+  "processed": [
+    {
+      "source": "fantasy_steampunk_army_sprite_sheet.png",
+      "output": "fantasy_steampunk_army_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 70.83
+    },
+    {
+      "source": "fantasy_steampunk_building_trio_sprite_sheet.png",
+      "output": "fantasy_steampunk_building_trio_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 73.34
+    },
+    {
+      "source": "fantasy_steampunk_character_sprite_sheet.png",
+      "output": "fantasy_steampunk_character_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 48.39
+    },
+    {
+      "source": "fantasy_steampunk_faction_sprite_sheet.png",
+      "output": "fantasy_steampunk_faction_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 59.66
+    },
+    {
+      "source": "fantasy_steampunk_heraldic_pixel_icons.png",
+      "output": "fantasy_steampunk_heraldic_pixel_icons_true_transparent.png",
+      "mode": "crest",
+      "transparent_percent": 62.82
+    },
+    {
+      "source": "fantasy_steampunk_hero_sprite_sheet.png",
+      "output": "fantasy_steampunk_hero_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 45.62
+    },
+    {
+      "source": "fantasy_steampunk_sprite_sheet_collection.png",
+      "output": "fantasy_steampunk_sprite_sheet_collection_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 74.09
+    },
+    {
+      "source": "fantasy_steampunk_tileset_for_strategy_game.png",
+      "output": "fantasy_steampunk_tileset_for_strategy_game_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 15.55
+    },
+    {
+      "source": "fantasy_steampunk_unit_sprite_sheet.png",
+      "output": "fantasy_steampunk_unit_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 73.08
+    },
+    {
+      "source": "fantasy_steampunk_war_unit_sprite_sheet.png",
+      "output": "fantasy_steampunk_war_unit_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 75.96
+    },
+    {
+      "source": "icy_fantasy_faction_sprite_sheet.png",
+      "output": "icy_fantasy_faction_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 74.17
+    },
+    {
+      "source": "medieval_steampunk_sprite_sheet_collection.png",
+      "output": "medieval_steampunk_sprite_sheet_collection_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 72.19
+    },
+    {
+      "source": "ornate_fantasy_emblem_pixel_art_set.png",
+      "output": "ornate_fantasy_emblem_pixel_art_set_true_transparent.png",
+      "mode": "crest",
+      "transparent_percent": 62.73
+    },
+    {
+      "source": "pixel_art_game_ui_fx_assets_sheet.png",
+      "output": "pixel_art_game_ui_fx_assets_sheet_true_transparent.png",
+      "mode": "effects",
+      "transparent_percent": 86.04
+    },
+    {
+      "source": "pixel_art_military_faction_emblems.png",
+      "output": "pixel_art_military_faction_emblems_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 6.94
+    },
+    {
+      "source": "pixel_art_ui_and_magic_rings.png",
+      "output": "pixel_art_ui_and_magic_rings_true_transparent.png",
+      "mode": "effects",
+      "transparent_percent": 83.53
+    },
+    {
+      "source": "steampunk_fantasy_army_sprite_sheet.png",
+      "output": "steampunk_fantasy_army_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 75.63
+    },
+    {
+      "source": "steampunk_fantasy_unit_sprite_sheet.png",
+      "output": "steampunk_fantasy_unit_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 73.46
+    },
+    {
+      "source": "steampunk_military_unit_sprite_sheet.png",
+      "output": "steampunk_military_unit_sprite_sheet_true_transparent.png",
+      "mode": "safe",
+      "transparent_percent": 71.77
+    },
+    {
+      "source": "iron_kingdoms_ui_crests_true_transparent.png",
+      "output": "iron_kingdoms_ui_crests_true_transparent.png",
+      "mode": "already verified",
+      "transparent_percent": "existing"
+    }
+  ],
+  "skipped": [
+    [
+      "918f192f-63d8-41bf-809b-ecadc7635ff7.png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Fantasy steampunk heraldic pixel icons.png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(1).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(2).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(3).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(4).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(5).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites(6).png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "Unit map sprites.png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "a_collection_of_2d_pixel_art_sprites_features_a_fa.png",
+      "no matching opaque light checkerboard background"
+    ],
+    [
+      "a_collection_of_2d_pixel_art_sprites_features_a_st.png",
+      "no matching opaque light checkerboard background"
+    ],
+    [
+      "a_pixel_art_style_asset_sheet_displays_tactical_au.png",
+      "no matching opaque light checkerboard background"
+    ],
+    [
+      "fantasy_steampunk_character_portraits.png",
+      "no matching opaque light checkerboard background"
+    ],
+    [
+      "iron_kingdoms_ui_crests_true_transparent.png",
+      "excluded duplicate/reference/already processed"
+    ],
+    [
+      "steam_powered_commanders_in_pixel_art.png",
+      "no matching opaque light checkerboard background"
+    ],
+    [
+      "test_edge_only_frost.png",
+      "excluded duplicate/reference/already processed"
+    ]
+  ]
+}
