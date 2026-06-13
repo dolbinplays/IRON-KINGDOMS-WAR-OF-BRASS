@@ -482,6 +482,12 @@ body.console-remake #log{
   }
 }
 
+
+
+/* Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0609 */
+.leaderlessTag{border-color:#ffdf60!important;color:#fff0b8!important;background:#2b1d09!important}
+.commanderActionBox{border:1px solid #d6a84f;background:#211608;border-radius:8px;padding:7px;margin-top:7px;color:#ffe8be}
+.commanderActionBox button{width:100%;margin-top:5px}
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -524,7 +530,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.0556</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.0609</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -628,7 +634,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.0556';
+const VERSION='v0.26.06.13.0609';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -1453,6 +1459,296 @@ renderCommandPopup=function(){
    el.style.left=Math.max(wrap.scrollLeft+10,Math.min(px,wrap.scrollLeft+wrap.clientWidth-popupW-12))+'px';
    el.style.top=Math.max(wrap.scrollTop+10,Math.min(py,wrap.scrollTop+wrap.clientHeight-popupH-12))+'px';
  }
+};
+
+
+
+// Leaderless Commander Reforge + Commander Recovery v0.26.06.13.0609
+const COMMANDER_REFORGE_COST=1000;
+const COMMANDER_FIELD_HEAL_CAP=.75;
+function commanderAlive(owner){return state?.units?.some(u=>u.owner===owner&&u.type==='Commander'&&u.hp>0);}
+function controlledReforgeSites(owner){return state?.map?.filter(t=>t.owner===owner&&(t.s==='city'||t.s==='fortress'))||[];}
+function controlledStructureAt(u){return u&&state?tile(u.x,u.y):null;}
+function isControlledCityOrFortress(u){let tt=controlledStructureAt(u); return !!(u&&tt&&tt.owner===u.owner&&(tt.s==='city'||tt.s==='fortress'));}
+function isControlledStructure(u){let tt=controlledStructureAt(u); return !!(u&&tt&&tt.owner===u.owner&&tt.s);}
+function commanderHealCap(u){return isControlledCityOrFortress(u)?u.maxHp:Math.ceil(u.maxHp*COMMANDER_FIELD_HEAL_CAP);}
+function commanderStructureHealBonus(u){let tt=controlledStructureAt(u); if(!u||!tt||tt.owner!==u.owner)return 0; if(tt.s==='town')return 8; if(tt.s==='city')return 15; if(tt.s==='fortress')return 20; return 0;}
+function commanderStartHealAmount(u){return 5+commanderStructureHealBonus(u);}
+function healCommander(u,amount){if(!u||u.type!=='Commander'||amount<=0)return 0; let before=u.hp, cap=commanderHealCap(u); u.hp=Math.min(cap,u.maxHp,u.hp+amount); return Math.max(0,u.hp-before);}
+function commanderCanRecover(u){if(!u||u.type!=='Commander'||!state)return false; if(u.owner!==state.current||u.acted||u.hp<=0)return false; return u.hp<commanderHealCap(u);}
+function commanderRecoverAmount(u){return isControlledCityOrFortress(u)?30:20;}
+function playerStatusLabel(p){if(!p)return 'Unknown'; if(!p.alive)return 'Observer'; if(p.leaderless||(!commanderAlive(p.id)&&controlledReforgeSites(p.id).length))return 'Leaderless'; return 'Alive';}
+function reforgeEligibility(u){let p=u&&state?.players?.[u.owner], tt=u&&state?tile(u.x,u.y):null; let possible=!!(u&&p&&p.alive&&u.owner===state.current&&u.type!=='Commander'&&!u.acted&&p.leaderless&&!commanderAlive(u.owner)&&tt&&tt.owner===u.owner&&(tt.s==='city'||tt.s==='fortress')&&!p.commanderReforge); return {possible,affordable:!!(p&&p.gold>=COMMANDER_REFORGE_COST),player:p,tile:tt};}
+function canBeginCommanderReforge(u,ignoreGold=false){let e=reforgeEligibility(u); return e.possible&&(ignoreGold||e.affordable);}
+function recordDefeatedCommander(u){if(!state||!u||u.type!=='Commander'||u.hp>0)return; let p=state.players?.[u.owner]; if(!p)return; p.defeatedCommander={commanderClass:u.commanderClass||p.commanderClass,maxHp:u.maxHp||UNITS.Commander.hp,veteran:u.veteran||0,xp:u.xp||0};}
+const _removeDead_leaderless=removeDead;
+removeDead=function(){if(state&&Array.isArray(state.units)){state.units.filter(u=>u.type==='Commander'&&u.hp<=0).forEach(recordDefeatedCommander);} _removeDead_leaderless();};
+
+function processCommanderReforge(p){
+ if(!state||!p||!p.commanderReforge||commanderAlive(p.id))return;
+ let r=p.commanderReforge, site=tile(r.x,r.y);
+ if(!site||site.owner!==p.id||!['city','fortress'].includes(site.s)){
+   log(`${p.name}'s Commander Reforge failed because the ${r.structure||'site'} was lost.`);
+   p.commanderReforge=null;
+   return;
+ }
+ let pos=nearestOpen({x:r.x,y:r.y});
+ let saved=p.defeatedCommander||{};
+ let maxHp=saved.maxHp||UNITS.Commander.hp;
+ addUnit('Commander',p.id,pos.x,pos.y,{commanderClass:saved.commanderClass||p.commanderClass,maxHp, hp:Math.max(1,Math.floor(maxHp*.5)), veteran:saved.veteran||0, xp:saved.xp||0, moved:true, acted:true});
+ let cmd=state.units[state.units.length-1];
+ cmd.squadMax=1;
+ p.leaderless=false;
+ p.commanderReforge=null;
+ p.defeatedCommander=null;
+ log(`${p.name}'s commander is reforged at the ${STRUCTS[site.s].name} with ${cmd.hp}/${cmd.maxHp} HP and cannot act this turn.`);
+ if(state.turnEvents)state.turnEvents.push(`Commander reforged at ${STRUCTS[site.s].name}.`);
+ queueFx(cmd.x,cmd.y,'Reforged','heal');
+}
+
+checkDefeats=function(){
+ if(!state||!Array.isArray(state.players))return;
+ state.players.forEach(p=>{
+   if(!p.alive)return;
+   let cmdAlive=commanderAlive(p.id);
+   let sites=controlledReforgeSites(p.id);
+   if(cmdAlive){
+     if(p.leaderless)log(`${p.name}'s command structure is restored.`);
+     p.leaderless=false;
+     p.commanderReforge=null;
+     p.defeatedCommander=null;
+     return;
+   }
+   if(sites.length){
+     if(!p.leaderless){
+       p.leaderless=true;
+       log(`${p.name} is Leaderless. A non-commander unit can spend ${COMMANDER_REFORGE_COST} gold at a controlled City or Fortress to reforge the commander.`);
+     }
+     return;
+   }
+   p.alive=false;
+   p.observer=true;
+   p.leaderless=false;
+   p.commanderReforge=null;
+   p.influence=(p.influence||0)+3;
+   log(`${p.name} has no commander and no City or Fortress. They are defeated and become an Observer with 3 Influence.`);
+ });
+};
+
+const _createPlayers_leaderless=createPlayers;
+createPlayers=function(configs){_createPlayers_leaderless(configs); state.players.forEach(p=>{p.leaderless=false;p.commanderReforge=null;p.defeatedCommander=null;});};
+
+const _normalizeLoadedState_leaderless=normalizeLoadedState;
+normalizeLoadedState=function(){
+ _normalizeLoadedState_leaderless();
+ if(!state||!Array.isArray(state.players))return;
+ state.players.forEach(p=>{if(typeof p.leaderless!=='boolean')p.leaderless=false; if(!p.commanderReforge)p.commanderReforge=null; if(!p.defeatedCommander)p.defeatedCommander=null;});
+ checkDefeats();
+};
+
+startTurn=function(){
+ let p=player();
+ state.turnEvents=[];
+ if(!p){log('No active kingdom is available. Start or load a valid game.'); return;}
+ checkDefeats();
+ p=player();
+ if(!p.alive){p.influence+=2; log(`${p.name} observes from exile and gains 2 Influence.`); state.turnEvents.push(`${p.name} gains 2 Observer Influence.`); return;}
+ let income=0, breakdown=[];
+ state.map.forEach(t=>{if(t.owner===p.id&&t.s){income+=STRUCTS[t.s].income;breakdown.push(`${STRUCTS[t.s].name} +${STRUCTS[t.s].income}`);}});
+ p.gold+=income;
+ p.influence+=p.observer?2:0;
+ state.lastIncome=income;
+ state.lastIncomeBreakdown=breakdown;
+ state.units.filter(u=>u.owner===p.id&&u.hp>0).forEach(u=>{
+   u.moved=false;
+   u.acted=false;
+   let before=u.hp;
+   if(u.type==='Commander'){
+     healCommander(u,commanderStartHealAmount(u));
+   }else{
+     applyAuraHeal(u);
+   }
+   if(u.hp>before)queueFx(u.x,u.y,`+${u.hp-before}`,'heal');
+   if(canCapture(u)){
+     let tt=tile(u.x,u.y);
+     if(tt.s&&tt.owner!==p.id){tt.owner=p.id; log(`${p.name} captured ${STRUCTS[tt.s].name} at ${u.x},${u.y}.`); state.turnEvents.push(`Captured ${STRUCTS[tt.s].name} at ${u.x},${u.y}.`);}
+   }
+ });
+ processCommanderReforge(p);
+ checkDefeats();
+ log(`${p.name} begins turn and earns ${income} gold.`);
+ state.turnEvents.unshift(`Income: +${income} gold${breakdown.length?' — '+breakdown.join(', '):''}`);
+ setTimeout(()=>showTurnToast(`${p.name}: +${income} gold`),80);
+ sfx('turn');
+};
+
+function recoverCommanderUnit(u=selected,opts={}){
+ if(!u||u.type!=='Commander'||!state)return false;
+ if(!opts.skipControlCheck&&!localCanControlCurrent(false))return false;
+ if(!commanderCanRecover(u)){showTurnToast('Commander cannot recover right now.'); return false;}
+ let amount=commanderRecoverAmount(u), before=u.hp, healed=healCommander(u,amount);
+ u.acted=true; u.moved=true;
+ log(`${state.players[u.owner].name}'s commander recovers ${healed} HP${isControlledCityOrFortress(u)?' at a secure structure':''}.`);
+ if(healed>0)queueFx(u.x,u.y,`+${healed}`,'heal');
+ selected=null; highlights=[]; commandPopupContext=null; render();
+ return true;
+}
+function recoverSelectedCommander(){recoverCommanderUnit(selected);}
+
+function beginCommanderReforge(u=selected,opts={}){
+ if(!u||!state)return false;
+ if(!opts.skipControlCheck&&!localCanControlCurrent(false))return false;
+ let e=reforgeEligibility(u), p=e.player, tt=e.tile;
+ if(!e.possible){showTurnToast('Commander Reforge is not available here.'); return false;}
+ if(!e.affordable){showTurnToast(`Need ${COMMANDER_REFORGE_COST} gold to reforge the commander.`); return false;}
+ p.gold-=COMMANDER_REFORGE_COST;
+ p.commanderReforge={x:u.x,y:u.y,structure:STRUCTS[tt.s].name,startedTurn:state.turn};
+ p.leaderless=true;
+ u.acted=true; u.moved=true;
+ log(`${p.name}'s ${u.type} begins Commander Reforge at the ${STRUCTS[tt.s].name} for ${COMMANDER_REFORGE_COST} gold. The commander will return next turn at 50% HP.`);
+ if(state.turnEvents)state.turnEvents.push(`Commander Reforge begun at ${STRUCTS[tt.s].name}.`);
+ selected=null; highlights=[]; commandPopupContext=null; render();
+ return true;
+}
+function beginCommanderReforgeSelected(){beginCommanderReforge(selected);}
+
+unitCard=function(u){
+ let b=UNITS[u.type], aura=getAuraFor(u.owner,u), hints=counterHints(u.type), tt=tile(u.x,u.y), pending=(u.owner===state.current&&u.moved&&!u.acted);
+ let recoverHtml='';
+ if(u.type==='Commander'){
+   let cap=commanderHealCap(u), healAmt=commanderRecoverAmount(u);
+   if(commanderCanRecover(u))recoverHtml=`<div class="commanderActionBox"><b>Recover Commander</b><br><span class="small">Spend this unit's action to heal ${healAmt} HP. Field/town recovery cannot raise the commander above ${Math.round(COMMANDER_FIELD_HEAL_CAP*100)}% HP.</span><button onclick="recoverSelectedCommander()">Recover +${healAmt} HP</button></div>`;
+   else recoverHtml=`<div class="small">Commander recovery cap here: ${cap}/${u.maxHp} HP.</div>`;
+ }
+ let reforgeHtml='';
+ let reforgePossible=canBeginCommanderReforge(u,true);
+ if(reforgePossible){let afford=player().gold>=COMMANDER_REFORGE_COST; reforgeHtml=`<div class="commanderActionBox"><b>Reforge Commander</b><br><span class="small">Spend ${COMMANDER_REFORGE_COST} gold. Your commander returns here next turn at 50% HP with no action available.</span><button ${afford?'':'disabled'} onclick="beginCommanderReforgeSelected()">Begin Reforge — ${COMMANDER_REFORGE_COST}g</button></div>`;}
+ return `<div class="card"><b style="color:${state.players[u.owner].color}">${unitIcon(u)} ${u.type}</b><br>Owner: ${state.players[u.owner].name}<div class="statGrid"><span>HP ${u.hp}/${u.maxHp}</span><span>Squad ${squadCount(u)}/${squadMax(u.type)}</span><span>Move ${b.mv}</span><span>Atk ${b.atk}</span><span>Def ${b.def}</span><span>Range ${b.range}</span><span>Vet ${u.veteran}</span><span>XP ${u.xp}/100</span><span>${u.acted?'Exhausted':pending?'Moved / can act':'Ready'}</span></div><div class="rangeLine"><span style="width:${Math.min(100,u.xp)}%"></span></div><span class="pill">Cover +${terrainDefenseAt(tt)}</span><span class="squadBadge">${squadMax(u.type)>1?'Formation':'Hero'} count tracks HP</span>${aura?`<span class="pill good">Aura boosted</span>`:''}${b.capture?`<span class="pill">Can capture</span>`:''}${recoverHtml}${reforgeHtml}${pending?`<div class="pendingActionBox"><b>Moved — choose an attack, special action, or Wait.</b><div class="moveAfterHint">Attack targets are highlighted from this unit's new position. This unit cannot move again this turn.</div><button class="waitBtn" onclick="waitSelectedUnit()">Wait / Finish Unit</button></div>`:''}<br><span class="small">Strong vs: ${hints.beats}<br>Watch out for: ${hints.threatened}</span></div>`;
+};
+
+renderRecruit=function(){
+ let tt=selected?tile(selected.x,selected.y):null;
+ let can=canRecruitHere(selected);
+ let canReforge=selected&&canBeginCommanderReforge(selected,true);
+ let canRecover=selected&&commanderCanRecover(selected);
+ let notes=[];
+ if(can)notes.push(`Recruiting at ${STRUCTS[tt.s].name} ${tt.x},${tt.y}. Gold: ${player().gold}`);
+ if(canReforge)notes.push(`Leaderless kingdom: begin Commander Reforge here for ${COMMANDER_REFORGE_COST} gold.`);
+ if(canRecover)notes.push(`Commander can Recover here for +${commanderRecoverAmount(selected)} HP.`);
+ $('recruitInfo').innerHTML=notes.length?notes.join('<br>'):'Select a controlled city/fortress, a leaderless reforge unit, or a commander that can recover.';
+ let html='';
+ if(canRecover)html+=`<button class="recruitBtn" onclick="recoverSelectedCommander()">Recover Commander — +${commanderRecoverAmount(selected)} HP</button>`;
+ if(canReforge){let afford=player().gold>=COMMANDER_REFORGE_COST; html+=`<button class="recruitBtn" ${afford?'':'disabled'} onclick="beginCommanderReforgeSelected()">Begin Commander Reforge — ${COMMANDER_REFORGE_COST}g<br><span class="small">Returns next turn at 50% HP and cannot act that turn.</span></button>`;}
+ if(can){Object.keys(UNITS).filter(k=>k!=='Commander').forEach(type=>{let b=UNITS[type]; html+=`<button class="recruitBtn" ${player().gold<b.cost?'disabled':''} onclick="recruit('${type}',${tt.x},${tt.y})">${typeSprite(type,state.current,'miniSprite')} ${type} — ${b.cost}g <span class="small">HP${b.hp} M${b.mv} A${b.atk} D${b.def} R${b.range}</span></button>`;});}
+ $('recruitMenu').innerHTML=html;
+};
+
+function renderLeaderlessCommanderInfo(){
+ if(!$('commanderInfo')||!state)return;
+ let cp=player(), cmd=state.units.find(c=>c.owner===state.current&&c.type==='Commander'&&c.hp>0);
+ if(cmd){
+   let danger=state.units.some(e=>e.owner!==state.current&&e.hp>0&&dist(e,cmd)<=UNITS[e.type].range+1);
+   let recoverLine=`<br><span class="pill">Start heal: +${commanderStartHealAmount(cmd)} HP</span><span class="pill">Recover: +${commanderRecoverAmount(cmd)} HP</span><span class="pill">Heal cap here: ${commanderHealCap(cmd)}/${cmd.maxHp}</span>`;
+   $('commanderInfo').innerHTML=`<div class="card"><img class="portraitWide" src="${commanderPortraitSrc(cp.commanderClass)}" alt="${cp.commanderName}"><div class="commanderName">${cp.commanderName}</div><b>${commanderClassSprite(cp.commanderClass,state.current,'miniSprite')} ${cp.commanderClass}</b><br>${COMMANDERS[cp.commanderClass].desc}<br>HP ${cmd.hp}/${cmd.maxHp}<br>Aura radius: 3<br><span class="pill good">Aura: +${COMMANDERS[cp.commanderClass].atk} Atk / +${COMMANDERS[cp.commanderClass].def} Def / +${COMMANDERS[cp.commanderClass].heal} heal</span>${recoverLine}${cp.kind==='AI'?`<span class="pill difficultyPill">AI ${cp.aiDifficulty}</span>`:''}${danger?'<div class="warnBox">Commander danger: enemies are near attack range.</div>':''}</div>`;
+   return;
+ }
+ if(cp&&cp.alive&&(cp.leaderless||controlledReforgeSites(cp.id).length)){
+   let sites=controlledReforgeSites(cp.id), pending=cp.commanderReforge;
+   $('commanderInfo').innerHTML=`<div class="card"><b class="danger">Leaderless Kingdom</b><br>Your commander is down, but ${cp.name} remains in the war while it controls a City or Fortress.<br><span class="pill leaderlessTag">Reforge Sites: ${sites.length}</span><span class="pill">Cost: ${COMMANDER_REFORGE_COST}g</span>${pending?`<div class="commanderActionBox"><b>Reforge underway</b><br>The commander will return next turn at the ${escapeHtml(pending.structure||'structure')} with 50% HP and no action.</div>`:`<div class="commanderActionBox">Move any non-commander unit to a controlled City or Fortress and use <b>Begin Commander Reforge</b>.</div>`}</div>`;
+   return;
+ }
+ $('commanderInfo').innerHTML=`<span class="danger">Commander dead.</span>`;
+}
+
+renderKingdomPlayerInfo=function(){
+ let el=$('playerInfo'); if(!el||!state||!Array.isArray(state.players))return;
+ let pHtml=cloudClaimBanner();
+ state.players.forEach((p,i)=>{let owned=state.map.filter(t=>t.owner===p.id&&t.s).length; let income=state.map.filter(t=>t.owner===p.id&&t.s).reduce((s,t)=>s+STRUCTS[t.s].income,0); let claim=p.kind==='Human'?(p.cloudClaimId?` · Claimed by ${escapeHtml(p.cloudClaimName||'player')}`:' · Unclaimed'):''; let status=playerStatusLabel(p); pHtml+=`<div class="playerLine ${p.kind==='AI'?'ai':'human'} ${cloud.enabled&&i===claimedPlayerIndex()?'mine':''}"><span>${kingdomImg(i,'crest_small','playerCrest',p.name)}<span class="swatch" style="background:${p.color}"></span>${i===state.current?'➤ ':''}${escapeHtml(p.name)}</span><span>${escapeHtml(p.kind)}${p.kind==='AI'?` · ${escapeHtml(p.aiDifficulty)}`:''}${claim} · ${status} · ${p.gold}g · +${income}/turn · ${owned} sites</span></div>`;});
+ el.innerHTML=pHtml+(player().kind==='AI'&&state.aiRunning?'<div class="aiThinking">AI turn in progress — the brass engines are thinking...</div>':'');
+};
+
+renderHandoffPanel=function(){
+ if(!$('handoffPanel')||!state)return;
+ let living=state.players.filter(p=>p.alive).map(p=>`${p.name}${p.leaderless?' [Leaderless]':''}${p.kind==='AI'?' [AI]':''}`).join(', ');
+ let obs=state.players.filter(p=>p.observer).map(p=>p.name).join(', ')||'None';
+ let summary=state.lastTurnSummary||lastTurnSummary;
+ let claim=cloud.enabled?cloudClaimStatusText():'';
+ let msg=cloud.enabled?(claim||'Cloud game connected. Claim your slot before acting.'):player().kind==='AI'?'Computer-controlled kingdom: this turn resolves automatically.':'Discord handoff: Load the latest save before acting. After End Turn, save and post the JSON.';
+ let status=playerStatusLabel(player());
+ $('handoffPanel').innerHTML=`<div><b>${msg}</b><br>Current player is <b style="color:${player().color}">${player().name}</b> <span class="pill ${status==='Leaderless'?'leaderlessTag':''}">${status}</span> ${player().kind==='AI'?`<span class="pill difficultyPill">${player().aiDifficulty}</span>`:''}.</div><div><div class="saveName">${suggestedSaveName()}</div><span class="small">Alive: ${living}<br>Observers: ${obs}${summary?`<br>Last handoff: ${summary.from} → ${summary.next}`:''}</span></div>`;
+};
+
+availablePostMoveActions=function(u){
+ if(!u||u.acted)return {attacks:0,canCapture:false,canRecruit:false,canReforge:false,canRecover:false};
+ makeHighlights(u);
+ return {attacks:highlights.filter(v=>v.type==='attack').length,canCapture:canCaptureHere(u),canRecruit:canRecruitHere(u),canReforge:canBeginCommanderReforge(u,true),canRecover:commanderCanRecover(u)};
+};
+
+handlePostMoveChoices=function(u){
+ if(!u)return;
+ let actions=availablePostMoveActions(u);
+ if(actions.canCapture&&!actions.attacks&&!actions.canRecruit&&!actions.canReforge&&!actions.canRecover){
+   let tt=tile(u.x,u.y); tt.owner=u.owner; u.acted=true; u.moved=true; log(`${state.players[u.owner].name}'s ${u.type} captures ${STRUCTS[tt.s].name}.`); selected=null; highlights=[]; commandPopupContext=null; showTurnToast(`${STRUCTS[tt.s].name} captured.`); render(); return;
+ }
+ if(actions.canCapture||actions.canRecruit||actions.canReforge||actions.canRecover){
+   showTurnToast(actions.canReforge?'Commander Reforge available.':actions.canRecover?'Commander Recover available.':actions.canCapture?'Choose Attack or Capture.':'Recruitment available. You may also attack or wait.');
+   showChoicePopupFor(u,'postMove');
+   return;
+ }
+ if(actions.attacks){commandPopupContext=null; showTurnToast('Moved. Click a red enemy to attack, or click this unit again to wait.'); render(); renderPanels(); return;}
+ commandPopupContext=null; showTurnToast('Moved. No targets in range; unit waits.'); waitSelectedUnit();
+};
+
+renderCommandPopup=function(){
+ let el=$('commandPopup');
+ if(!el)return;
+ let targeting=commandTargetMode==='move'||commandTargetMode==='attack';
+ if(targeting||!commandPopupContext){el.classList.remove('show');el.classList.toggle('targeting',targeting);el.innerHTML='';return;}
+ el.classList.remove('targeting');
+ if(!state||!selected||selected.owner!==state.current||selected.acted||!localCanControlCurrent(false)){el.classList.remove('show');el.innerHTML='';commandPopupContext=null;return;}
+ makeHighlights(selected);
+ let actions=availablePostMoveActions(selected);
+ if(!actions.canCapture&&!actions.canRecruit&&!actions.canReforge&&!actions.canRecover){el.classList.remove('show');el.innerHTML='';commandPopupContext=null;return;}
+ let phase=actions.canReforge?'Leaderless — reforge available':actions.canRecover?'Commander recovery available':actions.canCapture&&actions.attacks?'Choose target or capture':actions.canRecruit?'Recruitment available':'Choose action';
+ let html=`<h3>${selected.type}</h3><div class="small">${phase}</div><div class="cmdBtns">`;
+ if(!selected.moved)html+=`<button onclick="commandMoveMode()">Move</button>`;
+ if(actions.attacks)html+=`<button onclick="commandAttackMode()">Attack (${actions.attacks})</button>`;
+ if(actions.canRecover)html+=`<button onclick="recoverSelectedCommander()">Recover Commander (+${commanderRecoverAmount(selected)} HP)</button>`;
+ if(actions.canReforge){let afford=player().gold>=COMMANDER_REFORGE_COST; html+=`<button ${afford?'':'disabled'} onclick="beginCommanderReforgeSelected()">Reforge Commander (${COMMANDER_REFORGE_COST}g)</button>`;}
+ if(actions.canCapture)html+=`<button onclick="captureSelectedStructure()">Capture</button>`;
+ if(actions.canRecruit)html+=`<button onclick="commandRecruitMode()">Recruit</button>`;
+ html+=`<button onclick="waitSelectedUnit()">Wait / Finish</button><button onclick="cancelSelectedUnit()">Cancel</button></div>`;
+ el.innerHTML=html; el.classList.add('show');
+ let tileEl=document.querySelector(`.tile[data-x="${selected.x}"][data-y="${selected.y}"]`), wrap=$('mapWrap');
+ if(tileEl&&wrap){let tr=tileEl.getBoundingClientRect(), wr=wrap.getBoundingClientRect(); let popupW=Math.max(190,Math.min(250,el.offsetWidth||230)), popupH=Math.max(130,Math.min(280,el.offsetHeight||190)); let rightSpace=wr.right-tr.right, leftSpace=tr.left-wr.left, preferRight=rightSpace>=popupW+18||rightSpace>=leftSpace; let px=(preferRight?tr.right-wr.left+14:tr.left-wr.left-popupW-14)+wrap.scrollLeft; let py=tr.top-wr.top+wrap.scrollTop-8; el.style.left=Math.max(wrap.scrollLeft+10,Math.min(px,wrap.scrollLeft+wrap.clientWidth-popupW-12))+'px'; el.style.top=Math.max(wrap.scrollTop+10,Math.min(py,wrap.scrollTop+wrap.clientHeight-popupH-12))+'px';}
+};
+
+const _renderPanels_leaderlessFinal=renderPanels;
+renderPanels=function(){_renderPanels_leaderlessFinal(); renderLeaderlessCommanderInfo(); renderKingdomPlayerInfo(); renderHandoffPanel(); renderCommandPopup(); renderContextBubble();};
+
+const _aiActUnit_leaderless=aiActUnit;
+aiActUnit=async function(u,level){
+ if(!state||!u)return _aiActUnit_leaderless(u,level);
+ let p=state.players[u.owner];
+ if(p&&p.leaderless&&canBeginCommanderReforge(u,true)&&p.gold>=COMMANDER_REFORGE_COST){aiFocusUnitId=u.id; renderMap(); await sleep(220); beginCommanderReforge(u,{skipControlCheck:true}); aiFocusUnitId=null; return;}
+ if(u.type==='Commander'&&u.hp/u.maxHp<=.58&&commanderCanRecover(u)){aiFocusUnitId=u.id; renderMap(); await sleep(220); recoverCommanderUnit(u,{skipControlCheck:true}); aiFocusUnitId=null; return;}
+ return _aiActUnit_leaderless(u,level);
+};
+const _aiBestMove_leaderless=aiBestMove;
+aiBestMove=function(u,level){
+ let p=state?.players?.[u.owner];
+ if(p&&p.leaderless&&u.type!=='Commander'&&!p.commanderReforge&&p.gold>=COMMANDER_REFORGE_COST){
+   let sites=controlledReforgeSites(u.owner);
+   if(sites.length){
+     let goal=sites.sort((a,b)=>(Math.abs(u.x-a.x)+Math.abs(u.y-a.y))-(Math.abs(u.x-b.x)+Math.abs(u.y-b.y)))[0];
+     let candidates=[];
+     for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++){let d=Math.abs(x-u.x)+Math.abs(y-u.y); if(d<=UNITS[u.type].mv&&canEnter(u,x,y))candidates.push({x,y});}
+     candidates.push({x:u.x,y:u.y});
+     candidates.sort((a,b)=>(Math.abs(a.x-goal.x)+Math.abs(a.y-goal.y)-terrainDefenseAt(tile(a.x,a.y))*.15)-(Math.abs(b.x-goal.x)+Math.abs(b.y-goal.y)-terrainDefenseAt(tile(b.x,b.y))*.15));
+     return candidates[0];
+   }
+ }
+ return _aiBestMove_leaderless(u,level);
 };
 
 </script>
