@@ -190,7 +190,6 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleHudArt{position:relative;width:260px;height:260px;background-position:center;background-size:contain;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 10px 0 #0008) drop-shadow(0 0 10px #000);}
 .battleHudArt .battleMapSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;}
 .battleHudArt .battleAttackSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:3;opacity:0;}
-.battleHudArt.hasAttack{background-image:none!important;}
 .battleHudArt.hasAttack .battleMapSprite{animation:battleNormalSwap 1.45s ease-in-out;}
 .battleHudArt.hasAttack .battleAttackSprite{animation:battleAttackSwap 1.45s ease-in-out;}
 .battleHudFallback{display:none;}
@@ -297,53 +296,6 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .newGameSetupPanel h2{margin-top:0}
 @media (max-width:900px){.newGameBox{grid-template-columns:1fr;max-height:92vh}.introStage{min-height:260px}.introReplay{bottom:18px}}
 @keyframes crtFlicker{0%,100%{opacity:.68;transform:translateY(0)}50%{opacity:.78;transform:translateY(1px)}}
-
-
-/* Commander Battle Retreat + Half-Speed Battle Animation Patch */
-/* Keeps commanders visible at their entrance edge after striking, instead of retreating off-screen. */
-.battleHudFighter.attacker{animation:battleForegroundLungeL 2.9s ease-in-out;}
-.battleHudFighter.defender{animation:battleForegroundLungeR 2.9s ease-in-out;}
-.battleHudArt.hasAttack{background-image:none!important;}
-.battleHudArt.hasAttack .battleMapSprite{animation:battleNormalSwap 2.9s steps(1,end);}
-.battleHudArt.hasAttack .battleAttackSprite{animation:battleAttackSwap 2.9s steps(1,end);}
-.battleDamage{animation-duration:1.7s;}
-.battleFxImg{animation-duration:1.1s;}
-.battleSkirmishUnit.attacker{animation-duration:5.12s;animation-delay:calc(var(--i,0) * .062s);}
-.battleSkirmishUnit.defender{animation-duration:5.12s;animation-delay:calc(var(--i,0) * .062s);}
-.battleSkirmishLayer.rangedAttacker .battleSkirmishUnit.attacker{animation-duration:5.12s;}
-.battleSkirmishLayer.rangedDefender .battleSkirmishUnit.defender{animation-duration:5.12s;}
-.battleSkirmishUnit.loser{animation-duration:5.12s;}
-.battleProjectile.attacker{animation-duration:1.8s;animation-delay:1.46s;}
-.battleProjectile.defender{animation-duration:1.8s;animation-delay:1.46s;}
-.battleMuzzle.attacker{animation:muzzleFlash .46s steps(2,end) 3 1.2s;}
-.battleMuzzle.defender{animation:muzzleFlash .46s steps(2,end) 3 1.2s;}
-.battleCommanderWave.attacker{animation:commanderWaveA 2.1s ease-out 1.24s;}
-.battleCommanderWave.defender{animation:commanderWaveD 2.1s ease-out 1.44s;}
-.battleImpact.clash{animation:impactFlash 1.12s ease-out 2.3s;}
-.battleImpact.rifle{animation:impactFlash .96s ease-out 2.38s;}
-.battleImpact.cannon{animation:impactFlash 1.46s ease-out 2.38s;}
-.battleImpact.magic{animation:impactFlash 1.56s ease-out 2.38s;}
-.battleFast .battleDamage{animation-duration:.9s;}
-@keyframes battleForegroundLungeL{
-  0%{opacity:0;transform:translateX(-380px)}
-  14%{opacity:1;transform:translateX(0)}
-  42%,72%{opacity:1;transform:translateX(86px) scale(1.05)}
-  86%,100%{opacity:1;transform:translateX(0)}
-}
-@keyframes battleForegroundLungeR{
-  0%{opacity:0;transform:translateX(380px)}
-  14%{opacity:1;transform:translateX(0)}
-  42%,72%{opacity:1;transform:translateX(-86px) scale(1.05)}
-  86%,100%{opacity:1;transform:translateX(0)}
-}
-@keyframes battleNormalSwap{
-  0%,39%,77%,100%{opacity:1}
-  40%,76%{opacity:0}
-}
-@keyframes battleAttackSwap{
-  0%,39%,77%,100%{opacity:0}
-  40%,76%{opacity:1}
-}
 
 </style>
 </head>
@@ -844,7 +796,7 @@ function showBattleView(a,d,detail,isCounter){
  dmg.textContent='-'+detail.damage; dmg.style.left=dmgPos.left; dmg.style.top=dmgPos.top; dmg.style.display='block';
  ov.classList.add('show');
  playBattleActionSfx(a,d,detail);
- let closeDelay=mode==='Fast'?5600:6800;
+ let closeDelay=mode==='Fast'?2200:3800;
  setTimeout(()=>{if(token!==battleViewToken)return; fx.style.display='none';dmg.style.display='none';hideBattleView(token);},closeDelay);
 }
 
