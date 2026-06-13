@@ -838,7 +838,7 @@ body.console-remake #log{
 
 
 
-/* Reliable Battle Contact + Self-Test Patch v0.26.06.13.1352
+/* Reliable Battle Contact + Self-Test Patch v0.26.06.13.1608
    Uses explicit per-soldier transform positions so sprites cannot get pinned by left/right overrides.
    Adds readable melee contact, grand commander ranged attacks, fourth-wall launch casualties, and diagnostics. */
 #battleOverlay.show{align-items:center!important;justify-content:center!important;}
@@ -868,8 +868,17 @@ body.console-remake #log{
 .battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.attacker{animation-name:reliableRangedShooter!important;}
 .battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.defender{animation-name:reliableRangedTarget!important;}
 .battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.loser{animation-name:reliableRangedCasualty!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.sourceUnit{animation-name:reliableRangedShooter!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.targetUnit{animation-name:reliableRangedTarget!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.targetUnit.loser{animation-name:reliableRangedCasualty!important;}
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.sourceUnit,
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.targetUnit{animation-name:reliableMeleeSingle!important;}
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.targetUnit.loser{animation-name:reliableMeleeCasualty!important;}
 .battleSkirmishLayer.reliableScene .battleSkirmishUnit.commanderLaunched{animation-name:reliableCommanderLaunch!important;z-index:92!important;filter:brightness(1.28) drop-shadow(0 0 15px #fff2a4) drop-shadow(4px 7px 0 #000)!important;}
-.battleSkirmishFallback{position:absolute;inset:0;border:2px solid #f0c15d;background:#0b164bbb;color:#fff2bd;font-weight:900;font-size:18px;text-align:center;line-height:80px;text-shadow:2px 2px #000;display:none;}
+.battleSkirmishLayer.reliableScene .battleProjectileUnit{left:50%!important;top:0!important;animation-name:reliableProjectile!important;animation-fill-mode:forwards!important;z-index:88!important;}
+.battleSkirmishLayer.reliableScene .battleMuzzleUnit{left:50%!important;top:0!important;animation-name:reliableMuzzlePop!important;animation-fill-mode:forwards!important;z-index:89!important;}
+.battleSkirmishFallback,.battleSkirmishFallbackUnit{position:absolute;inset:0;border:2px solid #f0c15d;background:#0b164bbb;color:#fff2bd;font-weight:900;font-size:18px;text-align:center;line-height:80px;text-shadow:2px 2px #000;display:none;}
+.battleSkirmishFallbackUnit{display:flex!important;align-items:center;justify-content:center;line-height:1.05;opacity:1!important;box-sizing:border-box;}
 .battleSkirmishUnit[src=''] + .battleSkirmishFallback{display:block;}
 @keyframes reliableMeleeSingle{
   0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
@@ -929,6 +938,15 @@ body.console-remake #log{
   61%{opacity:.96;transform:translate(var(--fall-x),var(--fall-y)) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,18deg)) scale(.92)}
   80%,100%{opacity:0;transform:translate(var(--fall-x),var(--ground-y)) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,52deg)) scale(.66)}
 }
+@keyframes reliableProjectile{
+  0%{opacity:0;transform:translate(var(--shot-start-x),var(--shot-start-y)) scale(.7)}
+  8%,82%{opacity:1}
+  100%{opacity:0;transform:translate(var(--shot-end-x),var(--shot-end-y)) scale(1)}
+}
+@keyframes reliableMuzzlePop{
+  0%,100%{opacity:0;transform:translate(var(--muzzle-x),var(--muzzle-y)) translate(-50%,-50%) scale(.35)}
+  50%{opacity:1;transform:translate(var(--muzzle-x),var(--muzzle-y)) translate(-50%,-50%) scale(1)}
+}
 @keyframes reliableCommanderLaunch{
   0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
   12%,28%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
@@ -945,7 +963,7 @@ body.console-remake #log{
 .battleCommanderCharge,.battleCommanderOriginFlash,.battleCommanderGrandShot,.battleCommanderTrail,.battleCommanderImpactCore,.battleCommanderImpactRing,.battleCommanderParry{position:absolute;z-index:86;pointer-events:none;opacity:0;}
 .battleCommanderCharge{left:var(--a-charge-x);top:var(--cmd-charge-y,210px);width:190px;height:190px;border-radius:50%;border:5px solid var(--a-wave-color,#ffd478);box-shadow:0 0 30px var(--a-wave-color,#ffd478), inset 0 0 28px var(--a-wave-color,#ffd478);animation:commanderChargeAura 1.25s ease-out .65s forwards;transform:translate(-50%,-50%);}
 .battleCommanderOriginFlash{left:var(--a-origin-x);top:var(--shot-y);width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,var(--a-wave-color,#ffd478) 25%,#ffffff33 46%,transparent 72%);filter:drop-shadow(0 0 16px var(--a-wave-color,#ffd478));animation:commanderOriginFlash .55s steps(3,end) 1.55s forwards;transform:translate(-50%,-50%);}
-.battleCommanderTrail{left:var(--a-origin-x);top:calc(var(--shot-y) - 9px);height:18px;width:var(--grand-shot-distance,44vw);background:linear-gradient(90deg,var(--a-wave-color,#ffd478),#ffffff88,transparent);filter:blur(2px) drop-shadow(0 0 9px var(--a-wave-color,#ffd478));animation:commanderTrailFlash 1.15s ease-out 1.62s forwards;transform-origin:left center;}
+.battleCommanderTrail{left:var(--trail-left,var(--a-origin-x));top:calc(var(--shot-y) - 9px);height:18px;width:var(--grand-shot-width,44vw);background:linear-gradient(var(--trail-dir,90deg),var(--a-wave-color,#ffd478),#ffffff88,transparent);filter:blur(2px) drop-shadow(0 0 9px var(--a-wave-color,#ffd478));animation:commanderTrailFlash 1.15s ease-out 1.62s forwards;transform-origin:var(--trail-origin,left) center;}
 .battleCommanderGrandShot{left:var(--a-origin-x);top:var(--shot-y);width:82px;height:82px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,var(--a-wave-color,#ffd478) 24%,#ff7b2e 44%,transparent 70%);box-shadow:0 0 25px var(--a-wave-color,#ffd478),0 0 44px #fff8;animation:commanderGrandShotA 1.18s cubic-bezier(.18,.68,.22,1) 1.6s forwards;transform:translate(-50%,-50%);}
 .battleCommanderImpactCore{left:var(--impact-x);top:var(--impact-y);width:118px;height:118px;border-radius:50%;background:radial-gradient(circle,#fff 0 9%,var(--a-wave-color,#ffd478) 22%,#ff5b2f 44%,transparent 72%);box-shadow:0 0 36px var(--a-wave-color,#ffd478),0 0 60px #fff7;animation:commanderImpactCore .95s ease-out 2.55s forwards;transform:translate(-50%,-50%);}
 .battleCommanderImpactRing{left:var(--impact-x);top:var(--impact-y);width:150px;height:150px;border-radius:50%;border:8px solid var(--a-wave-color,#ffd478);filter:drop-shadow(0 0 18px var(--a-wave-color,#ffd478));animation:commanderImpactRing 1s ease-out 2.55s forwards;transform:translate(-50%,-50%);}
@@ -959,6 +977,7 @@ body.console-remake #log{
 @keyframes commanderImpactRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(0)}20%{opacity:.95}100%{opacity:0;transform:translate(-50%,-50%) scale(2.6) rotate(90deg)}}
 @keyframes commanderParryFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0)}35%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(1.7) rotate(-120deg)}}
 @keyframes commanderImpactShake{0%,100%{transform:translate(0,0)}20%{transform:translate(6px,-3px)}40%{transform:translate(-5px,3px)}60%{transform:translate(4px,2px)}80%{transform:translate(-3px,-2px)}}
+.battleHudFighter.commanderFighter{bottom:78px!important;}
 .battleHudFighter.commanderFighter.attacker{left:calc(50% - 380px)!important;animation:commanderRangedPoiseL 5.8s ease-in-out forwards!important;}
 .battleHudFighter.commanderFighter.defender{right:calc(50% - 380px)!important;animation:commanderRangedPoiseR 5.8s ease-in-out forwards!important;}
 .battleHudFighter.commanderFighter.commanderAttackerActive .battleHudArt{filter:drop-shadow(0 0 16px var(--a-wave-color,#ffd478)) drop-shadow(0 10px 0 #0008)!important;}
@@ -1013,7 +1032,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.1352</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.1702</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -1290,7 +1309,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.1352';
+const VERSION='v0.26.06.13.1702';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -1565,32 +1584,47 @@ function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if
 function battleUsesFeatureSprite(u){return u?.type==='Commander';}
 function battleSourceFacesLeft(u){let cls=u?.type==='Commander'?(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal'):''; return ['Infantry','Cavalry','Airship','Gyrocopter','Assassin'].includes(u?.type)||['Steam Marshal','Archmage'].includes(cls);}
 function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); return side==='left'?(leftSource?-1:1):(leftSource?1:-1);}
+function battleSkirmishFallbackMarkup(u,side,sceneKind,extraClasses,style,i){
+ let label=escapeHtml(battleUnitInitials(u));
+ return `<span class="battleSkirmishUnit ${side==='left'?'attacker':'defender'} ${sceneKind} ${extraClasses} battleSkirmishFallbackUnit forceVisible" style="${style}" data-plan="${i}" data-fallback="1" data-side="${side}" data-face-scale="${battleFacingScale(u,side)}">${label}</span>`;
+}
+function battleSkirmishImgMarkup(u,side,sceneKind,extraClasses,style,i){
+ let src=battleConsoleSpriteSrc(u,false), fallback=battleFallbackSrc(u), sideCls=side==='left'?'attacker':'defender';
+ let html=escapeHtml(battleSkirmishFallbackMarkup(u,side,sceneKind,extraClasses,style,i));
+ return `<img class="battleSkirmishUnit ${sideCls} ${sceneKind} ${extraClasses} forceVisible" style="${style}" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" data-plan="${i}" data-side="${side}" data-face-scale="${battleFacingScale(u,side)}" data-fallback-src="${fallback}" data-fallback-html="${html}" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1';console.warn('[Battle diagnostics] Skirmish image failed; trying fallback',{side:this.dataset.side,type:this.alt,src:this.src,fallback:this.dataset.fallbackSrc});this.src=this.dataset.fallbackSrc}else{console.warn('[Battle diagnostics] Skirmish fallback image failed; showing symbol',{side:this.dataset.side,type:this.alt,src:this.src});this.outerHTML=this.dataset.fallbackHtml}">`;
+}
 function battleHudFighterHtml(u,side,activeAttack=false,defeatedByCommander=false){
  let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), isCommander=u.type==='Commander', commanderSlug=isCommander?commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0)):'', activeCls=activeAttack&&isCommander?(side==='right'?' commanderDefenderActive':' commanderAttackerActive'):'', defeatedCls=defeatedByCommander&&isCommander?' commanderDefeatedLaunch':'', cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly')+(isCommander?` commanderFighter commander_${commanderSlug}`:'')+activeCls+defeatedCls, face=battleFacingScale(u,side), attackSrc=activeAttack&&u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', fallbackAttack=attackSrc?battleCommanderAttackSpriteSrc(u,true):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="if(!this.dataset.mirrorTried){this.dataset.mirrorTried='1';this.src='${fallbackAttack}'}else this.remove()">`:'';
  return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;
 }
-function battleEffectAnchorVars(a,d,aKind,dKind){
+function battleEffectAnchorVars(a,d,aKind,dKind,detail={}){
  let ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
  let aCommander=a?.type==='Commander', dCommander=d?.type==='Commander';
- let aOrigin=aCommander?'calc(50% - 278px)':(aKind==='magic'?'calc(50% - 310px)':'calc(50% - 292px)');
- let dOrigin=dCommander?'calc(50% + 278px)':(dKind==='magic'?'calc(50% + 310px)':'calc(50% + 292px)');
- let muzzleY=aCommander?(aKind==='magic'?'255px':'272px'):(aKind==='cannon'?'286px':aKind==='magic'?'266px':'286px');
- let shotY=aCommander?(aKind==='magic'?'257px':'274px'):(aKind==='cannon'?'288px':aKind==='magic'?'268px':'288px');
- let impact=dCommander?'calc(50% + 278px)':'calc(50% + 310px)';
- let impactY=dCommander?'270px':(aKind==='magic'?'270px':'286px');
- let dist=dCommander?'556px':'588px';
- return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--commander-origin-y:${shotY};--a-shot-distance:${dist};--d-shot-distance:-${dist};--grand-shot-distance:${dist};--a-charge-x:${aOrigin};--cmd-charge-y:${aCommander?'238px':'252px'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
+ let sourceSide=detail.sourceSide||'left', targetSide=detail.targetSide||'right';
+ let sidePos=(side,px)=>`calc(50% ${side==='left'?'-':'+'} ${px}px)`;
+ let aOrigin=aCommander?sidePos(sourceSide,278):(aKind==='magic'?sidePos(sourceSide,310):sidePos(sourceSide,292));
+ let dOrigin=dCommander?sidePos(targetSide,278):(dKind==='magic'?sidePos(targetSide,310):sidePos(targetSide,292));
+ let muzzleY=aCommander?(aKind==='magic'?'203px':'220px'):(aKind==='cannon'?'286px':aKind==='magic'?'266px':'286px');
+ let shotY=aCommander?(aKind==='magic'?'205px':'222px'):(aKind==='cannon'?'288px':aKind==='magic'?'268px':'288px');
+ let impact=dCommander?sidePos(targetSide,278):sidePos(targetSide,310);
+ let impactY=dCommander?'218px':(aKind==='magic'?'270px':'286px');
+ let distPx=dCommander?556:588;
+ let sourceShotDistance=(sourceSide==='left'?distPx:-distPx)+'px';
+ let targetWaveDistance=(targetSide==='right'?-distPx:distPx)+'px';
+ let trailLeft=sourceSide==='left'?aOrigin:impact;
+ return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--commander-origin-y:${shotY};--a-shot-distance:${sourceShotDistance};--d-shot-distance:${targetWaveDistance};--grand-shot-distance:${sourceShotDistance};--grand-shot-width:${distPx}px;--trail-left:${trailLeft};--trail-dir:${sourceSide==='left'?'90deg':'270deg'};--trail-origin:${sourceSide==='left'?'left':'right'};--a-charge-x:${aOrigin};--cmd-charge-y:${aCommander?'186px':'252px'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
 }
 function playBattleActionSfx(a,d,detail){
  let kind=battleActionKind(a);
  sfx(kind==='cannon'?'cannon':kind==='magic'?'spell':kind==='rifle'?'rifle':'steel');
- let before=squadCount(d), after=squadCount(d,Math.max(0,d.hp-detail.damage));
+ let before=detail.oldVisualSquadCount??squadCount(d), after=detail.newVisualSquadCount??squadCount(d,Math.max(0,d.hp-detail.damage));
  if(detail.damage>0&&after<before)setTimeout(()=>sfx('death'),3200);
  if(a.type==='Commander'&&d.type!=='Commander'&&after<before)setTimeout(()=>sfxDramaticDefeatCry(.42),2500);
  if(a.type==='Commander'&&d.type==='Commander'&&d.hp-detail.damage<=0)setTimeout(()=>sfxDramaticDefeatCry(.75),2100);
 }
-function battleDamageLabelPosition(a,d){
- let left=battleUsesFeatureSprite(d)?'calc(50% + 125px)':'calc(91% - 125px)';
+function battleDamageLabelPosition(a,d,detail={}){
+ let side=detail.targetSide||'right';
+ let left=side==='left'?(battleUsesFeatureSprite(d)?'calc(50% - 195px)':'calc(9% + 125px)'):(battleUsesFeatureSprite(d)?'calc(50% + 125px)':'calc(91% - 125px)');
  return {left,top:'338px'};
 }
 
@@ -1604,6 +1638,15 @@ function battleMotionVars(u,side){
    {rear:-45,strike:18,hold:24,settle:5,rangeRear:-35,rangeStrike:12,rangeSettle:3,loseRear:-38,loseStrike:16,loseMid:8,loseFall:42};
  let sign=mirror?-1:1, deg=v=>(v*sign)+'deg';
  return `--face:${face};--rear-rot:${deg(vals.rear)};--strike-rot:${deg(vals.strike)};--hold-rot:${deg(vals.hold)};--settle-rot:${deg(vals.settle)};--range-rear-rot:${deg(vals.rangeRear)};--range-strike-rot:${deg(vals.rangeStrike)};--range-settle-rot:${deg(vals.rangeSettle)};--lose-rear-rot:${deg(vals.loseRear)};--lose-strike-rot:${deg(vals.loseStrike)};--lose-mid-rot:${deg(vals.loseMid)};--lose-fall-rot:${deg(vals.loseFall)}`;
+}
+function battleVisualEventDetail(source,target,detail,sourceSide='left',targetSide='right'){
+ sourceSide=detail.sourceSide||sourceSide;
+ targetSide=detail.targetSide||targetSide;
+ let oldHp=Number.isFinite(detail.oldTargetHp)?detail.oldTargetHp:target.hp;
+ let newHp=Number.isFinite(detail.newTargetHp)?detail.newTargetHp:Math.max(0,oldHp-detail.damage);
+ let oldCount=Number.isFinite(detail.oldVisualSquadCount)?detail.oldVisualSquadCount:squadCount(target,oldHp);
+ let newCount=Number.isFinite(detail.newVisualSquadCount)?detail.newVisualSquadCount:squadCount(target,newHp);
+ return {...detail,sourceUnitType:source.type,targetUnitType:target.type,sourceSide,targetSide,oldTargetHp:oldHp,newTargetHp:newHp,oldVisualSquadCount:oldCount,newVisualSquadCount:newCount,removedIndividuals:Math.max(0,oldCount-newCount),sourceIsCommander:source.type==='Commander',targetIsNonCommanderSquad:target.type!=='Commander'&&squadMax(target.type)>1};
 }
 function battleHashValue(...parts){
  let s=parts.join('|'), h=2166136261>>>0;
@@ -1634,7 +1677,8 @@ function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeatur
  let startPx=side==='left' ? -(690 + spec.w) : (690 + spec.w);
  let lineX=`${Math.round(linePx)}px`;
  let startX=`${Math.round(startPx)}px`;
- let lineY=322-rank*34+Math.round(r('ly',-8,8));
+ let roadPlaneY=354;
+ let lineY=roadPlaneY-rank*34+Math.round(r('ly',-8,8));
  let laneSpread=(pairLane-3.5)*13;
  let contactNoise=Math.round(r('cxn',-7,7));
  let contactPx;
@@ -1660,10 +1704,12 @@ function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeatur
  let duration=r('dur',5.35,6.15).toFixed(2)+'s';
  let delay=(r('delay',0,.32)+i*.045+(rank*.08)).toFixed(2)+'s';
  let doubleStrike=r('double',0,1)>.58 && sceneKind==='melee';
- let strike=Math.round(r('strike',32,52))*sideSign;
- let windup=-Math.round(r('windup',30,48))*sideSign;
- let secondStrike=Math.round(r('strike2',28,44))*sideSign;
- let secondWindup=-Math.round(r('windup2',26,40))*sideSign;
+ let rotSign=sideSign*(face<0?-1:1);
+ let strike=Math.round(r('strike',32,52))*rotSign;
+ let windup=-Math.round(r('windup',30,48))*rotSign;
+ let recoil=Math.round(r('recover',-8,8))*rotSign;
+ let secondStrike=Math.round(r('strike2',28,44))*rotSign;
+ let secondWindup=-Math.round(r('windup2',26,40))*rotSign;
  let muzzleX=`${Math.round(linePx + (side==='left'?spec.w*.68:spec.w*.30))}px`;
  let muzzleY=`${lineY+Math.round(spec.w*.36)}px`;
  let launchTopX=`${Math.round(Math.max(-430,Math.min(430,linePx + r('ltx',-40,40))))}px`;
@@ -1673,18 +1719,20 @@ function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeatur
  let launchBounceX=`${Math.round(Math.max(-440,Math.min(440,parseFloat(launchLandX) + r('lbx2',-18,18))))}px`;
  let spin=(Math.round(r('spin',520,940))*sideSign)+'deg';
  let skew=(Math.round(r('skew',10,18))*sideSign)+'deg';
- return {rank,col,width:spec.w,cls:spec.cls,lineLeft:lineX,entryLeft:startX,clashLeft:contactX,face,duration,delay,doubleStrike,muzzleX,muzzleY,linePx,contactPx,startPx,side,launchLandX,launchBackX,launchTopX,style:
-   `--start-x:${startX};--start-y:${lineY}px;--line-x:${lineX};--line-y:${lineY}px;--contact-x:${contactX};--contact-y:${contactY}px;--regroup-x:${lineX};--regroup-y:${lineY}px;--windup-x:${windupX};--windup-y:${contactY-18}px;--strike-x:${strikeX};--strike-y:${contactY+16}px;--recoil-x:${recoilX};--recoil-y:${contactY+3}px;--skirmish-x:${skirmishX};--skirmish-y:${contactY+Math.round(r('sky',-5,8))}px;--second-windup-x:${secondWindupX};--second-windup-y:${contactY-14}px;--second-strike-x:${secondStrikeX};--second-strike-y:${contactY+13}px;--fall-x:${fallX};--fall-y:${fallY}px;--ground-y:${groundY}px;--range-back-x:${rangeBackX};--range-back-y:${lineY-7}px;--range-fire-x:${rangeFireX};--range-fire-y:${lineY-2}px;--hit-x:${hitX};--hit-y:${lineY+4}px;--unit-z:${52+rank*4+col};--unit-duration:${duration};--entry-delay:${delay};--face:${face};--approach-rot:${Math.round(r('approach',-5,5))}deg;--windup-rot:${windup}deg;--strike-rot:${strike}deg;--recover-rot:${Math.round(r('recover',-8,8))}deg;--idle-rot:${Math.round(r('idle',-3,3))}deg;--second-windup-rot:${secondWindup}deg;--second-strike-rot:${secondStrike}deg;--range-windup-rot:${-18*sideSign+Math.round(r('rwr',-5,5))}deg;--range-fire-rot:${12*sideSign+Math.round(r('rfr',-4,4))}deg;--hit-recoil-rot:${-8*sideSign+Math.round(r('hrr',-3,3))}deg;--lose-mid-rot:${18*sideSign+Math.round(r('lmr',-12,12))}deg;--lose-fall-rot:${52*sideSign+Math.round(r('lfr',-14,14))}deg;--launch-top-x:${launchTopX};--launch-back-x:${launchBackX};--launch-land-x:${launchLandX};--launch-bounce-x:${launchBounceX};--launch-land-y:${lineY+84}px;--launch-bounce-y:${lineY+38}px;--launch-spin:${spin};--launch-skew:${skew};`};
+ return {rank,col,width:spec.w,cls:spec.cls,lineLeft:lineX,entryLeft:startX,clashLeft:contactX,face,duration,delay,doubleStrike,muzzleX,muzzleY,linePx,contactPx,startPx,side,launchLandX,launchLandY:`${lineY+84}px`,launchBackX,launchTopX,windupRot:windup,strikeRot:strike,recoilRot:recoil,style:
+   `--start-x:${startX};--start-y:${lineY}px;--line-x:${lineX};--line-y:${lineY}px;--contact-x:${contactX};--contact-y:${contactY}px;--regroup-x:${lineX};--regroup-y:${lineY}px;--windup-x:${windupX};--windup-y:${contactY-18}px;--strike-x:${strikeX};--strike-y:${contactY+16}px;--recoil-x:${recoilX};--recoil-y:${contactY+3}px;--skirmish-x:${skirmishX};--skirmish-y:${contactY+Math.round(r('sky',-5,8))}px;--second-windup-x:${secondWindupX};--second-windup-y:${contactY-14}px;--second-strike-x:${secondStrikeX};--second-strike-y:${contactY+13}px;--fall-x:${fallX};--fall-y:${fallY}px;--ground-y:${groundY}px;--range-back-x:${rangeBackX};--range-back-y:${lineY-7}px;--range-fire-x:${rangeFireX};--range-fire-y:${lineY-2}px;--hit-x:${hitX};--hit-y:${lineY+4}px;--unit-z:${52+rank*4+col};--unit-duration:${duration};--entry-delay:${delay};--face:${face};--face-scale:${face};--approach-rot:${Math.round(r('approach',-5,5))*rotSign}deg;--windup-rot:${windup}deg;--strike-rot:${strike}deg;--recoil-rot:${recoil}deg;--recover-rot:${recoil}deg;--idle-rot:${Math.round(r('idle',-3,3))*rotSign}deg;--second-windup-rot:${secondWindup}deg;--second-strike-rot:${secondStrike}deg;--range-windup-rot:${(-18+Math.round(r('rwr',-5,5)))*rotSign}deg;--range-fire-rot:${(12+Math.round(r('rfr',-4,4)))*rotSign}deg;--hit-recoil-rot:${(-8+Math.round(r('hrr',-3,3)))*rotSign}deg;--lose-mid-rot:${(18+Math.round(r('lmr',-12,12)))*rotSign}deg;--lose-fall-rot:${(52+Math.round(r('lfr',-14,14)))*rotSign}deg;--launch-top-x:${launchTopX};--launch-back-x:${launchBackX};--launch-land-x:${launchLandX};--launch-bounce-x:${launchBounceX};--launch-land-y:${lineY+84}px;--launch-bounce-y:${lineY+38}px;--launch-spin:${spin};--launch-skew:${skew};`};
 }
 
 function battleSidePositionDiagnostics(aPlans,dPlans,sceneKind){
  try{
   const warn=(msg,obj)=>console.warn('[Battle diagnostics]',msg,obj||{});
-  aPlans.forEach((p,i)=>{if(p.linePx<-620||p.linePx>-90)warn('Left-side formation x looks wrong; expected center-relative negative offset.',{i,linePx:p.linePx,plan:p});});
-  dPlans.forEach((p,i)=>{if(p.linePx<90||p.linePx>620)warn('Right-side formation x looks wrong; expected center-relative positive offset.',{i,linePx:p.linePx,plan:p});});
+  [...aPlans,...dPlans].forEach((p,i)=>{
+   if(p.side==='left'&&(p.linePx<-620||p.linePx>-90))warn('Left-side formation x looks wrong; expected center-relative negative offset.',{i,linePx:p.linePx,plan:p});
+   if(p.side==='right'&&(p.linePx<90||p.linePx>620))warn('Right-side formation x looks wrong; expected center-relative positive offset.',{i,linePx:p.linePx,plan:p});
+  });
   if(aPlans.length&&dPlans.length){
    let aAvg=aPlans.reduce((n,p)=>n+p.linePx,0)/aPlans.length, dAvg=dPlans.reduce((n,p)=>n+p.linePx,0)/dPlans.length;
-   if(!(aAvg<0&&dAvg>0))warn('Both battle sides appear to be on the same side of the center anchor.',{attackerAverage:aAvg,defenderAverage:dAvg});
+   if(Math.sign(aAvg)===Math.sign(dAvg))warn('Both battle sides appear to be on the same side of the center anchor.',{sourceAverage:aAvg,targetAverage:dAvg});
   }
   if(sceneKind==='melee'&&aPlans.length&&dPlans.length){
    let n=Math.min(aPlans.length,dPlans.length);
@@ -1696,40 +1744,42 @@ function battleSidePositionDiagnostics(aPlans,dPlans,sceneKind){
  }catch(err){console.warn('[Battle diagnostics] side position diagnostics failed',err);}
 }
 function battleSkirmishHtml(a,d,detail){
+ detail=battleVisualEventDetail(a,d,detail,detail.sourceSide||'left',detail.targetSide||'right');
  let aMax=squadMax(a.type), dMax=squadMax(d.type);
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
- let aCount=aFeature?0:Math.min(8,Math.max(1,squadCount(a)),aMax), dBefore=dFeature?0:Math.min(8,Math.max(1,squadCount(d)),dMax), dAfter=dFeature?0:Math.min(8,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
+ let aCount=aFeature?0:Math.min(8,Math.max(1,squadCount(a)),aMax), dBefore=dFeature?0:Math.min(8,Math.max(1,detail.oldVisualSquadCount),dMax), dAfter=dFeature?0:Math.min(8,detail.newVisualSquadCount,dMax);
  let aKind=battleActionKind(a), dKind=battleActionKind(d), sceneKind=aKind==='melee'?'melee':'ranged', impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
  let unitSrc=u=>battleConsoleSpriteSrc(u,false), seedBase=[state?.seed||'IK',state?.turn||0,a.id,d.id,a.type,d.type,detail.damage,sceneKind].join(':');
  let maxPairs=Math.max(1,aCount,dBefore,1);
  let laneFor=i=>i%Math.max(1,Math.min(8,maxPairs));
  let aPlans=[], dPlans=[];
- for(let i=0;i<aCount;i++)aPlans.push(battlePlanFor(a,'left',i,aCount,seedBase,sceneKind,laneFor(i),dFeature,aFeature));
- for(let i=0;i<dBefore;i++)dPlans.push(battlePlanFor(d,'right',i,dBefore,seedBase,sceneKind,laneFor(i),aFeature,dFeature));
+ for(let i=0;i<aCount;i++)aPlans.push(battlePlanFor(a,detail.sourceSide,i,aCount,seedBase,sceneKind,laneFor(i),dFeature,aFeature));
+ for(let i=0;i<dBefore;i++)dPlans.push(battlePlanFor(d,detail.targetSide,i,dBefore,seedBase,sceneKind,laneFor(i),aFeature,dFeature));
  battleSidePositionDiagnostics(aPlans,dPlans,sceneKind);
- console.log('[Battle positions]',{sceneKind,attacker:a.type,defender:d.type,attackerPlans:aPlans.map(p=>({line:p.linePx,contact:p.contactPx,start:p.startPx})),defenderPlans:dPlans.map(p=>({line:p.linePx,contact:p.contactPx,start:p.startPx}))});
- let html=`<div class="battleSkirmishLayer reliableScene ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
+ console.log('[Battle positions]',{sceneKind,attacker:a.type,defender:d.type,stage:'center-anchored',visualEvent:detail,sourcePlans:aPlans.map(p=>({side:p.side,line:p.linePx,contact:p.contactPx,start:p.startPx,faceScale:p.face,windupRotation:p.windupRot,strikeRotation:p.strikeRot,recoilRotation:p.recoilRot})),targetPlans:dPlans.map(p=>({side:p.side,line:p.linePx,contact:p.contactPx,start:p.startPx,faceScale:p.face,windupRotation:p.windupRot,strikeRotation:p.strikeRot,recoilRotation:p.recoilRot}))});
+ let html=`<div class="battleSkirmishLayer reliableScene ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,dKind,detail)}">`;
  for(let i=0;i<aCount;i++){
-   let p=aPlans[i], src=unitSrc(a), dbl=p.doubleStrike?'doubleStrike ':'';
-   html+=`<img class="battleSkirmishUnit attacker ${sceneKind} ${dbl}${p.cls}unit-${assetSlug(a.type)} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(a.type)}" loading="eager" data-plan="${i}" onerror="this.onerror=null;this.src='${battleFallbackSrc(a)}'">`;
+   let p=aPlans[i], dbl=p.doubleStrike?'doubleStrike ':'';
+   html+=battleSkirmishImgMarkup(a,detail.sourceSide,sceneKind,`sourceUnit ${dbl}${p.cls}unit-${assetSlug(a.type)}`,p.style,i);
  }
  let launched=0;
  for(let i=0;i<dBefore;i++){
-   let p=dPlans[i], loser=i>=dAfter, src=unitSrc(d), dbl=p.doubleStrike?'doubleStrike ':'';
-   let commanderLaunch=loser&&a.type==='Commander'&&d.type!=='Commander';
+   let p=dPlans[i], loser=i>=dAfter, dbl=p.doubleStrike?'doubleStrike ':'';
+   let commanderLaunch=loser&&detail.sourceIsCommander&&detail.targetIsNonCommanderSquad&&detail.removedIndividuals>0;
    if(commanderLaunch)launched++;
-   html+=`<img class="battleSkirmishUnit defender ${sceneKind==='melee'?'melee':'target'} ${dbl}${p.cls}unit-${assetSlug(d.type)} ${loser?'loser':''}${commanderLaunch?' commanderLaunched':''} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(d.type)}" loading="eager" data-plan="${i}" onerror="this.onerror=null;this.src='${battleFallbackSrc(d)}'">`;
+   html+=battleSkirmishImgMarkup(d,detail.targetSide,sceneKind==='melee'?'melee':'target',`targetUnit ${dbl}${p.cls}unit-${assetSlug(d.type)} ${loser?'loser':''}${commanderLaunch?' commanderLaunched':''}`,p.style,i);
    if(commanderLaunch){
-     html+=`<span class="battleGroundSlam" style="--dust-x:${p.launchLandX||p.lineLeft};--dust-y:${(330-p.rank*34+92)}px;--dust-delay:${(3.75+i*.12).toFixed(2)}s"></span>`;
+     html+=`<span class="battleGroundSlam" style="--dust-x:${p.launchLandX||p.lineLeft};--dust-y:${p.launchLandY||'438px'};--dust-delay:${(3.75+i*.12).toFixed(2)}s"></span>`;
    }
  }
  if(sceneKind==='ranged'){
    let shots=Math.min(Math.max(1,aFeature?1:aCount),Math.max(1,dFeature?1:dBefore),6), shotKind=aKind==='magic'?'magic':aKind==='cannon'?'cannon':'rifle';
+   let sideOffset=(side,px)=>`${side==='left'?-px:px}px`;
    for(let i=0;i<shots;i++){
      let ai=aCount?i%aCount:0, di=dBefore?i%dBefore:0, ap=aPlans[ai], dp=dPlans[di];
-     let startX=aFeature?'var(--a-origin-x)':(ap?ap.muzzleX:'calc(50% - 280px)');
+     let startX=aFeature?sideOffset(detail.sourceSide,278):(ap?ap.muzzleX:sideOffset(detail.sourceSide,280));
      let startY=aFeature?'var(--shot-y)':(ap?ap.muzzleY:'286px');
-     let endX=dFeature?'var(--impact-x)':(dp?`calc(${dp.lineLeft} + ${Math.round(dp.width*.45)}px)`:'calc(100% - 172px)');
+     let endX=dFeature?sideOffset(detail.targetSide,278):(dp?`calc(${dp.lineLeft} + ${Math.round(dp.width*.45)}px)`:sideOffset(detail.targetSide,310));
      let endY=dFeature?'var(--impact-y)':(dp?`${parseInt((dp.muzzleY||'286px'),10)+8}px`:'286px');
      let delay=(1.22 + i*.30 + battleRandRange(0,.18,seedBase,'shotDelay',i)).toFixed(2)+'s';
      html+=`<span class="battleMuzzleUnit ${shotKind}" style="--muzzle-x:${startX};--muzzle-y:${startY};--shot-delay:${delay}"></span>`;
@@ -1743,8 +1793,8 @@ function battleSkirmishHtml(a,d,detail){
  if(a.type==='Commander')html+=`<span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
  if(d.type==='Commander')html+=`<span class="battleCommanderWave defender" style="--wave-color:var(--d-wave-color)"></span>`;
  html+=`<span class="battleImpact ${impact}"></span>`;
- if((aCount===0&&!aFeature)||(dBefore===0&&!dFeature))console.warn('[Battle diagnostics] Expected skirmish sprites missing',{attacker:a.type,defender:d.type,aCount,dBefore,aFeature,dFeature});
- if(a.type==='Commander'&&d.type!=='Commander'&&dBefore>dAfter&&launched===0)console.warn('[Battle diagnostics] Commander casualty launch expected but no launched sprites were created',{dBefore,dAfter});
+ if((aCount===0&&!aFeature)||(dBefore===0&&!dFeature))console.warn('[Battle diagnostics] Expected skirmish sprites missing',{attacker:a.type,defender:d.type,aCount,dBefore,aFeature,dFeature,visualEvent:detail});
+ if(detail.sourceIsCommander&&detail.targetIsNonCommanderSquad&&detail.removedIndividuals>0&&launched===0)console.warn('[Battle diagnostics] Commander casualty launch expected but no launched sprites were created',{dBefore,dAfter,removedIndividuals:detail.removedIndividuals,visualEvent:detail});
  return html+'</div>';
 }
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
@@ -1803,6 +1853,8 @@ async function attack(a,d){
    let preA={...a}, preD={...d};
    let detail=calcDamageDetail(a,d);
    let dmg=detail.damage;
+   let defenderOldHp=d.hp, defenderNewHp=Math.max(0,d.hp-dmg);
+   detail=battleVisualEventDetail(preA,preD,{...detail,damage:dmg,oldTargetHp:defenderOldHp,newTargetHp:defenderNewHp},'left','right');
    d.hp-=dmg;
    a.acted=true;
    a.moved=true;
@@ -1828,12 +1880,14 @@ async function attack(a,d){
      let counterDefender={...a};
      let cdetail=calcDamageDetail(d,a);
      let cd=Math.max(3,Math.floor(cdetail.damage*0.55));
+     let attackerOldHp=a.hp, attackerNewHp=Math.max(0,a.hp-cd);
+     cdetail=battleVisualEventDetail(counterAttacker,counterDefender,{...cdetail,damage:cd,oldTargetHp:attackerOldHp,newTargetHp:attackerNewHp,isCounter:true,sourceSide:'right',targetSide:'left'},'right','left');
      counterDamage=cd;
      a.hp-=cd;
      log(`${d.type} counterattacks for ${cd}${cdetail.terrainReduction>0?` (${cdetail.coverName} absorbed ${cdetail.terrainReduction})`:''}.`);
      if(a.hp<=0){attackerDestroyed=true;log(`${a.type} destroyed by counterattack.`);}
      d.xp+=10;
-     await animateCombat(counterAttacker,counterDefender,{...cdetail,damage:cd},true);
+     await animateCombat(counterAttacker,counterDefender,cdetail,true);
    }
 
    a.xp+=20;
@@ -1869,6 +1923,7 @@ function renderBattleSquad(el,u,beforeHp,afterHp,side){if(!el)return; let before
 function showBattleView(a,d,detail,isCounter){
  let mode=battleViewSetting(); if(mode==='Off')return Promise.resolve();
  let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return Promise.resolve();
+ detail=battleVisualEventDetail(a,d,{...detail,isCounter:!!isCounter},detail.sourceSide||'left',detail.targetSide||'right');
  return new Promise(resolve=>{
  let token=++battleViewToken; startMusic('battle'); box.classList.toggle('battleFast',mode==='Fast');
  $('battleBg').style.backgroundImage=`url(assets/battle_backgrounds/${battleTerrainKey(d)}.png)`;
@@ -1879,7 +1934,7 @@ function showBattleView(a,d,detail,isCounter){
  $('battleDefenderMeta').textContent=`${detail.coverName} +${detail.terrainDef}${detail.counter?' · '+detail.counter:''} · HP ${Math.max(0,d.hp)}/${d.maxHp}`;
  $('battleAttackerHp').style.width=Math.max(0,Math.min(100,a.hp/a.maxHp*100))+'%';
  $('battleDefenderHp').style.width=Math.max(0,Math.min(100,d.hp/d.maxHp*100))+'%';
- let aSquad=squadCount(a), dSquad=squadCount(d), dAfter=squadCount(d,Math.max(0,d.hp-detail.damage));
+ let aSquad=squadCount(a), dSquad=detail.oldVisualSquadCount, dAfter=detail.newVisualSquadCount;
  let aBig=$('battleAttackerSquadBig'), dBig=$('battleDefenderSquadBig'), center=$('battleCenterStats');
  if(aBig)aBig.textContent=aSquad;
  if(dBig)dBig.textContent=dAfter;
@@ -1890,20 +1945,21 @@ function showBattleView(a,d,detail,isCounter){
  let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer');
  if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];}
  if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];}
- if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',a.type==='Commander',false)+battleHudFighterHtml(d,'right',d.type==='Commander'||(a.type==='Commander'&&d.type==='Commander'),a.type==='Commander'&&d.type==='Commander'&&d.hp-detail.damage<=0)+battleSkirmishHtml(a,d,detail);
+ if(fg)fg.innerHTML=battleHudFighterHtml(a,detail.sourceSide,a.type==='Commander',false)+battleHudFighterHtml(d,detail.targetSide,d.type==='Commander'||(a.type==='Commander'&&d.type==='Commander'),a.type==='Commander'&&d.type==='Commander'&&detail.newTargetHp<=0)+battleSkirmishHtml(a,d,detail);
  let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg');
  attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}
  attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d,true); attImg.style.display='none'; defImg.style.display='none';
  let attPortrait=$('battleAttackerPortrait'), defPortrait=$('battleDefenderPortrait');
  if(attPortrait)attPortrait.style.display='none'; if(defPortrait)defPortrait.style.display='none';
  renderBattleSquad($('battleAttackerSquad'),a,a.hp,a.hp,'attacker');
- renderBattleSquad($('battleDefenderSquad'),d,d.hp,Math.max(0,d.hp-detail.damage),'defender');
+ renderBattleSquad($('battleDefenderSquad'),d,detail.oldTargetHp,detail.newTargetHp,'defender');
  $('battleMsg').textContent=`${isCounter?'Counterattack!':'Strike!'} ${detail.coverName}${detail.terrainReduction>0?' absorbs '+detail.terrainReduction:' provides no cover'} · -${detail.damage}`;
  let fx=$('battleFxImg'), dmg=$('battleDamage');
  fx.style.display='none';
- let dmgPos=battleDamageLabelPosition(a,d);
+ let dmgPos=battleDamageLabelPosition(a,d,detail);
  dmg.textContent='-'+detail.damage; dmg.style.left=dmgPos.left; dmg.style.top=dmgPos.top; dmg.style.display='block';
  ov.classList.add('show');
+ console.log('[Battle visual event]',{stageWidth:box.getBoundingClientRect().width,stageHeight:$('battleStage')?.getBoundingClientRect().height,sourceUnit:a.type,targetUnit:d.type,sourceSide:detail.sourceSide,targetSide:detail.targetSide,damage:detail.damage,oldTargetHp:detail.oldTargetHp,newTargetHp:detail.newTargetHp,oldVisualSquadCount:detail.oldVisualSquadCount,newVisualSquadCount:detail.newVisualSquadCount,removedIndividuals:detail.removedIndividuals,sourceIsCommander:detail.sourceIsCommander,targetIsNonCommanderSquad:detail.targetIsNonCommanderSquad});
  if(a.type==='Commander'){box.classList.remove('commanderImpactShake'); void box.offsetWidth; box.classList.add('commanderImpactShake');}
  playBattleActionSfx(a,d,detail);
  setTimeout(()=>battleRuntimeDiagnostics(a,d,detail),1350);
@@ -1917,11 +1973,22 @@ function battleRuntimeDiagnostics(a,d,detail){
  try{
   let layer=document.querySelector('.battleSkirmishLayer.reliableScene'); if(!layer){console.warn('[Battle diagnostics] No reliable skirmish layer found.'); return;}
   let sprites=[...layer.querySelectorAll('.battleSkirmishUnit')], rect=layer.getBoundingClientRect();
-  if(!sprites.length && (a.type!=='Commander'||d.type!=='Commander'))console.warn('[Battle diagnostics] No skirmish sprites were created for battle.',{attacker:a.type,defender:d.type});
+  let expectedLeft=(a.type!=='Commander'&&detail.sourceSide==='left')||(d.type!=='Commander'&&detail.targetSide==='left');
+  let expectedRight=(a.type!=='Commander'&&detail.sourceSide==='right')||(d.type!=='Commander'&&detail.targetSide==='right');
+  if(!sprites.length && (a.type!=='Commander'||d.type!=='Commander'))console.warn('[Battle diagnostics] No skirmish sprites were created for battle.',{attacker:a.type,defender:d.type,detail});
   let attackers=[], defenders=[];
   sprites.forEach((sp,idx)=>{let r=sp.getBoundingClientRect(), cs=getComputedStyle(sp); if(sp.classList.contains('attacker'))attackers.push(r); if(sp.classList.contains('defender'))defenders.push(r); if(cs.visibility==='hidden'||cs.display==='none'||parseFloat(cs.opacity)===0)console.warn('[Battle diagnostics] Sprite hidden after formation phase',idx,sp.className,cs.opacity); if(r.right<rect.left-10||r.left>rect.right+10||r.bottom<rect.top-10||r.top>rect.bottom+120)console.warn('[Battle diagnostics] Sprite appears outside battle stage',idx,sp.className,{sprite:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom}});});
+  if(expectedLeft&&!attackers.length)console.warn('[Battle diagnostics] Left side should have visible squad sprites but created zero visible .battleSkirmishUnit elements.',{detail});
+  if(expectedRight&&!defenders.length)console.warn('[Battle diagnostics] Right side should have visible squad sprites but created zero visible .battleSkirmishUnit elements.',{detail});
   if(attackers.length&&defenders.length){let aAvg=attackers.reduce((n,r)=>n+(r.left+r.right)/2,0)/attackers.length, dAvg=defenders.reduce((n,r)=>n+(r.left+r.right)/2,0)/defenders.length, mid=(rect.left+rect.right)/2; if(!(aAvg<mid&&dAvg>mid))console.warn('[Battle diagnostics] Attacker/defender sprites are not on opposite sides after formation.',{attackerAverage:aAvg,defenderAverage:dAvg,stageMid:mid});}
-  if(a.type==='Commander'&&d.type!=='Commander'&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d)&&!layer.querySelector('.commanderLaunched'))console.warn('[Battle diagnostics] Commander damage source killed squad members but no commanderLaunched elements exist.',{isCounter:!!detail.isCounter});
+  if(detail.sourceIsCommander&&detail.targetIsNonCommanderSquad&&detail.removedIndividuals>0&&!layer.querySelector('.commanderLaunched'))console.warn('[Battle diagnostics] Commander damage source killed squad members but no commanderLaunched elements exist.',{isCounter:!!detail.isCounter,detail});
+  layer.querySelectorAll('.commanderLaunched').forEach((sp,idx)=>{let r=sp.getBoundingClientRect(); if(r.right<rect.left||r.left>rect.right||r.bottom<rect.top||r.top>rect.bottom+120)console.warn('[Battle diagnostics] Launch casualty origin is outside the battle stage.',{idx,sprite:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom},detail});});
+  if(battleActionKind(a)!=='melee'){
+   let projectiles=[...layer.querySelectorAll('.battleProjectileUnit')], muzzles=[...layer.querySelectorAll('.battleMuzzleUnit')];
+   if(!projectiles.length)console.warn('[Battle diagnostics] Ranged battle created no projectile elements.',{source:a.type,target:d.type,detail});
+   projectiles.forEach((sp,idx)=>{let r=sp.getBoundingClientRect(); if(r.right<rect.left-40||r.left>rect.right+40||r.bottom<rect.top-40||r.top>rect.bottom+80)console.warn('[Battle diagnostics] Projectile path appears outside battle stage.',{idx,className:sp.className,shotStartX:getComputedStyle(sp).getPropertyValue('--shot-start-x').trim(),shotEndX:getComputedStyle(sp).getPropertyValue('--shot-end-x').trim(),bounds:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom},detail});});
+   console.log('[Battle diagnostics] ranged effect counts',{source:a.type,target:d.type,projectiles:projectiles.length,muzzles:muzzles.length,sourceSide:detail.sourceSide,targetSide:detail.targetSide});
+  }
   if(battleActionKind(a)==='melee'){
    let left=sprites.find(s=>s.classList.contains('attacker')), right=sprites.find(s=>s.classList.contains('defender'));
    if(left&&right){let lr=left.getBoundingClientRect(), rr=right.getBoundingClientRect(); let gap=rr.left-lr.right; if(Math.abs(gap)>110)console.warn('[Battle diagnostics] Melee contact positions may still be too far apart.',{gap});}
@@ -1935,10 +2002,35 @@ function ensureDebugBattleState(){
  if(!state.map||!state.map.length){state.w=12;state.h=8;state.map=[];for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++)state.map.push({x,y,t:'plains',s:null,owner:null});}
 }
 function debugBattleDetail(a,d,damage){return {damage,atk:UNITS[a.type]?.atk||30,baseDef:UNITS[d.type]?.def||8,terrainDef:0,terrainReduction:0,counter:'',mult:1,coverName:'Debug Field',heavy:a.type==='Commander'||['Artillery','Steam Tank'].includes(a.type)};}
+function debugBattleVerify(type,detail){
+ setTimeout(()=>{
+  let layer=document.querySelector('.battleSkirmishLayer.reliableScene'), stage=$('battleStage');
+  if(!layer||!stage){console.warn('[Battle debug]',type,'no active battle layer for verification');return;}
+  let stageRect=stage.getBoundingClientRect(), sprites=[...layer.querySelectorAll('.battleSkirmishUnit')], left=sprites.filter(s=>s.classList.contains('attacker')), right=sprites.filter(s=>s.classList.contains('defender')), launched=sprites.filter(s=>s.classList.contains('commanderLaunched')), projectiles=[...layer.querySelectorAll('.battleProjectileUnit')], muzzles=[...layer.querySelectorAll('.battleMuzzleUnit')];
+  let spriteInfo=sprites.map((s,i)=>{let cs=getComputedStyle(s), r=s.getBoundingClientRect(); return {i,side:s.classList.contains('attacker')?'left':'right',className:s.className,formationX:cs.getPropertyValue('--line-x').trim(),formationY:cs.getPropertyValue('--line-y').trim(),contactX:cs.getPropertyValue('--contact-x').trim(),contactY:cs.getPropertyValue('--contact-y').trim(),faceScale:cs.getPropertyValue('--face-scale').trim()||cs.getPropertyValue('--face').trim(),windupRotation:cs.getPropertyValue('--windup-rot').trim(),strikeRotation:cs.getPropertyValue('--strike-rot').trim(),fallbackUsed:s.dataset.fallback==='1',visible:cs.display!=='none'&&cs.visibility!=='hidden'&&parseFloat(cs.opacity)>0,bounds:{left:r.left,top:r.top,right:r.right,bottom:r.bottom}};});
+  let launchInfo=launched.map((s,i)=>{let r=s.getBoundingClientRect(); return {i,onScreen:r.right>=stageRect.left&&r.left<=stageRect.right&&r.bottom>=stageRect.top&&r.top<=stageRect.bottom+120,bounds:{left:r.left,top:r.top,right:r.right,bottom:r.bottom}};});
+  console.log('[Battle debug verify]',type,{stageWidth:stageRect.width,stageHeight:stageRect.height,leftSpriteCount:left.length,rightSpriteCount:right.length,projectileCount:projectiles.length,muzzleCount:muzzles.length,launchCasualtyCount:launched.length,visualEvent:detail,sprites:spriteInfo,launches:launchInfo});
+  if(type.includes('left')&&!left.length)console.warn('[Battle debug]',type,'expected left-side sprites but found none.');
+  if(type.includes('right')&&!right.length)console.warn('[Battle debug]',type,'expected right-side sprites but found none.');
+  if(type.includes('Launch')&&!launched.length)console.warn('[Battle debug]',type,'expected commander launch casualties but found none.');
+  if(type.toLowerCase().includes('rifle')&&!projectiles.length)console.warn('[Battle debug]',type,'expected Riflemen projectile elements but found none.');
+  if(launchInfo.some(x=>!x.onScreen))console.warn('[Battle debug]',type,'one or more launch origins are off-screen.',launchInfo);
+ },1550);
+}
 window.debugBattleTest=function(type='infantry'){
+ let previousState=state;
  ensureDebugBattleState(); enableAudio();
  let cases={
   infantry:{a:'Infantry',d:'Infantry',damage:38},
+  leftVisibility:{a:'Infantry',d:'Riflemen',damage:18},
+  rightVisibility:{a:'Riflemen',d:'Infantry',damage:18},
+  rifleProjectile:{a:'Riflemen',d:'Infantry',damage:42,sourceSide:'left',targetSide:'right'},
+  rifleCounterProjectile:{a:'Riflemen',d:'Infantry',damage:18,aOwner:1,dOwner:0,isCounter:true,sourceSide:'right',targetSide:'left'},
+  meleeFacing:{a:'Infantry',d:'Infantry',damage:34},
+  commanderAttackLaunch:{a:'Commander',d:'Infantry',damage:82,aExtra:{commanderClass:'Steam Marshal'},sourceSide:'left',targetSide:'right'},
+  commanderCounterLaunch:{a:'Commander',d:'Infantry',damage:82,aOwner:1,dOwner:0,aExtra:{commanderClass:'Iron Priest'},isCounter:true,sourceSide:'right',targetSide:'left'},
+  commanderVsSquadLeft:{a:'Commander',d:'Infantry',damage:86,aOwner:1,dOwner:0,aExtra:{commanderClass:'Cinder Khan'},sourceSide:'right',targetSide:'left'},
+  commanderVsSquadRight:{a:'Commander',d:'Infantry',damage:86,aOwner:0,dOwner:1,aExtra:{commanderClass:'Steam Marshal'},sourceSide:'left',targetSide:'right'},
   pikecav:{a:'Pikemen',d:'Cavalry',damage:45},
   rifle:{a:'Riflemen',d:'Infantry',damage:42},
   mage:{a:'Mage',d:'Infantry',damage:55},
@@ -1951,13 +2043,14 @@ window.debugBattleTest=function(type='infantry'){
   tank:{a:'Steam Tank',d:'Infantry',damage:64}
  };
  let cfg=cases[type]||cases.infantry;
- let a=makeDebugBattleUnit(cfg.a,0,null,cfg.aExtra||{});
- let d=makeDebugBattleUnit(cfg.d,1,null,cfg.dExtra||{});
- let detail=debugBattleDetail(a,d,cfg.damage);
+ let a=makeDebugBattleUnit(cfg.a,cfg.aOwner??0,null,cfg.aExtra||{});
+ let d=makeDebugBattleUnit(cfg.d,cfg.dOwner??1,null,cfg.dExtra||{});
+ let detail=battleVisualEventDetail(a,d,{...debugBattleDetail(a,d,cfg.damage),sourceSide:cfg.sourceSide||'left',targetSide:cfg.targetSide||'right',isCounter:!!cfg.isCounter},cfg.sourceSide||'left',cfg.targetSide||'right');
  console.log('[Battle debug] running',type,{a,d,detail,isCounter:!!cfg.isCounter});
- return showBattleView(a,d,detail,!!cfg.isCounter);
+ debugBattleVerify(type,detail);
+ return showBattleView(a,d,detail,!!cfg.isCounter).finally(()=>{if(previousState===null)state=null;});
 };
-window.runBattleAnimationSelfTest=async function(){for(let t of ['infantry','pikecav','rifle','mage','commanderSquad','squadCommander','commanderCounterKill','commanderCommander','commanderMelee','artillery','tank']){console.log('[Battle self-test]',t); await window.debugBattleTest(t); await sleep(850);}};
+window.runBattleAnimationSelfTest=async function(){for(let t of ['leftVisibility','rightVisibility','rifleProjectile','rifleCounterProjectile','meleeFacing','commanderAttackLaunch','commanderCounterLaunch','commanderVsSquadLeft','commanderVsSquadRight','infantry','pikecav','rifle','mage','commanderSquad','squadCommander','commanderCounterKill','commanderCommander','commanderMelee','artillery','tank']){console.log('[Battle self-test]',t); await window.debugBattleTest(t); await sleep(850);}};
 async function animateCombat(a,d,detail,isCounter){
  await showBattleView(a,d,detail,isCounter);
  let speed=$('animSpeed')?.value||'Normal';
