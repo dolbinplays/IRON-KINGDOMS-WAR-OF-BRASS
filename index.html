@@ -838,7 +838,7 @@ body.console-remake #log{
 
 
 
-/* Reliable Battle Contact + Self-Test Patch v0.26.06.13.1305
+/* Reliable Battle Contact + Self-Test Patch v0.26.06.13.1352
    Uses explicit per-soldier transform positions so sprites cannot get pinned by left/right overrides.
    Adds readable melee contact, grand commander ranged attacks, fourth-wall launch casualties, and diagnostics. */
 #battleOverlay.show{align-items:center!important;justify-content:center!important;}
@@ -852,7 +852,12 @@ body.console-remake #log{
 .battleForegroundLayer .battleSkirmishLayer,
 .battleSkirmishLayer.reliableScene{position:absolute!important;left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:46!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:visible!important;pointer-events:none!important;}
 .battleForegroundLayer .battleSkirmishUnit,
-.battleSkirmishLayer.reliableScene .battleSkirmishUnit{position:absolute!important;left:0!important;right:auto!important;top:0!important;bottom:auto!important;display:block!important;visibility:visible!important;opacity:0;max-width:none!important;object-fit:contain!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;transform-origin:50% 86%!important;will-change:transform,opacity,filter!important;animation-duration:var(--unit-duration,5.85s)!important;animation-delay:var(--entry-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:cubic-bezier(.22,.72,.18,1)!important;z-index:var(--unit-z,50)!important;filter:drop-shadow(4px 7px 0 #000) drop-shadow(0 0 8px #000)!important;}
+.battleSkirmishLayer.reliableScene .battleSkirmishUnit{position:absolute!important;left:50%!important;right:auto!important;top:0!important;bottom:auto!important;display:block!important;visibility:visible!important;opacity:0;max-width:none!important;object-fit:contain!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;transform-origin:50% 86%!important;will-change:transform,opacity,filter!important;animation-duration:var(--unit-duration,5.85s)!important;animation-delay:var(--entry-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:cubic-bezier(.22,.72,.18,1)!important;z-index:var(--unit-z,50)!important;filter:drop-shadow(4px 7px 0 #000) drop-shadow(0 0 8px #000)!important;}
+
+/* Side Coordinate Correction v0.26.06.13.1352
+   Reliable battle sprites are now center-anchored: left:50% plus pixel translate offsets.
+   This avoids CSS transform percentage math, where 100% is the sprite width rather than the battle stage width. */
+
 .battleSkirmishUnit.smallFoot{width:102px!important;height:102px!important;}
 .battleSkirmishUnit.largeUnit{width:128px!important;height:128px!important;}
 .battleSkirmishUnit.heavyUnit{width:142px!important;height:142px!important;}
@@ -966,11 +971,6 @@ body.console-remake #log{
 @keyframes commanderDefeatedFourthWallL{0%{opacity:1;transform:translateX(0) rotate(0) scale(1)}18%{transform:translate(40px,-250px) rotate(220deg) skewX(12deg) scale(.78,1.25)}28%{transform:translate(70px,-335px) rotate(420deg) skewX(-18deg) scale(1.35,.55)}44%{transform:translate(-95px,-165px) rotate(610deg) skewX(8deg) scale(.82,1.18)}68%{transform:translate(-30px,68px) rotate(840deg) skewX(-15deg) scale(1.36,.55)}80%{opacity:1;transform:translate(-8px,20px) rotate(930deg) scale(.9,1.08)}100%{opacity:0;transform:translate(-14px,78px) rotate(1020deg) scale(.45)}}
 .battleDebugNote{position:absolute;left:10px;top:10px;z-index:120;background:#000b;border:1px solid #ffd478;color:#fff2bd;border-radius:4px;padding:4px 6px;font:12px/1.2 monospace;pointer-events:none;}
 
-
-/* Commander launch wins over normal loser animation in both melee and ranged scenes. */
-.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.commanderLaunched,
-.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.commanderLaunched{animation-name:reliableCommanderLaunch!important;}
-
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -1013,7 +1013,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.1124</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.1352</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -1290,7 +1290,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.1305';
+const VERSION='v0.26.06.13.1352';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -1572,13 +1572,13 @@ function battleHudFighterHtml(u,side,activeAttack=false,defeatedByCommander=fals
 function battleEffectAnchorVars(a,d,aKind,dKind){
  let ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
  let aCommander=a?.type==='Commander', dCommander=d?.type==='Commander';
- let aOrigin=aCommander?'calc(50% - 278px)':(aKind==='magic'?'250px':'292px');
- let dOrigin=dCommander?'calc(50% + 278px)':(dKind==='magic'?'calc(100% - 250px)':'calc(100% - 292px)');
+ let aOrigin=aCommander?'calc(50% - 278px)':(aKind==='magic'?'calc(50% - 310px)':'calc(50% - 292px)');
+ let dOrigin=dCommander?'calc(50% + 278px)':(dKind==='magic'?'calc(50% + 310px)':'calc(50% + 292px)');
  let muzzleY=aCommander?(aKind==='magic'?'255px':'272px'):(aKind==='cannon'?'286px':aKind==='magic'?'266px':'286px');
  let shotY=aCommander?(aKind==='magic'?'257px':'274px'):(aKind==='cannon'?'288px':aKind==='magic'?'268px':'288px');
- let impact=dCommander?'calc(50% + 278px)':'calc(100% - 172px)';
+ let impact=dCommander?'calc(50% + 278px)':'calc(50% + 310px)';
  let impactY=dCommander?'270px':(aKind==='magic'?'270px':'286px');
- let dist=dCommander?'556px':'calc(100vw - 470px)';
+ let dist=dCommander?'556px':'588px';
  return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--commander-origin-y:${shotY};--a-shot-distance:${dist};--d-shot-distance:-${dist};--grand-shot-distance:${dist};--a-charge-x:${aOrigin};--cmd-charge-y:${aCommander?'238px':'252px'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
 }
 function playBattleActionSfx(a,d,detail){
@@ -1626,25 +1626,36 @@ function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeatur
  let sideSign=side==='left'?1:-1;
  let face=battleFacingScale(u,side==='left'?'left':'right');
  let jitterX=Math.round(r('jx',-9,9)), jitterY=Math.round(r('jy',-8,8));
- let formationDepth=84+col*42+rank*20+jitterX;
- let lineX=side==='left'?`${formationDepth}px`:`calc(100% - ${formationDepth+spec.w}px)`;
- let startX=side==='left'?`-${spec.w+95}px`:`calc(100% + ${spec.w+95}px)`;
- let lineY=330-rank*34+Math.round(r('ly',-8,8));
- let laneSpread=(pairLane-3.5)*15;
- let contactNoise=Math.round(r('cxn',-8,8));
- let contactX;
+ // v0.26.06.13.1352: all x positions are CENTER-ANCHORED pixel offsets.
+ // The sprite itself has left:50%; transform:translate(x,y). Do not use calc(100% - Npx)
+ // inside transform, because transform percentages are relative to the sprite, not the battle stage.
+ let formationDepth=84+col*42+rank*22+jitterX;
+ let linePx=side==='left' ? (-470 + formationDepth) : (470 - formationDepth);
+ let startPx=side==='left' ? -(690 + spec.w) : (690 + spec.w);
+ let lineX=`${Math.round(linePx)}px`;
+ let startX=`${Math.round(startPx)}px`;
+ let lineY=322-rank*34+Math.round(r('ly',-8,8));
+ let laneSpread=(pairLane-3.5)*13;
+ let contactNoise=Math.round(r('cxn',-7,7));
+ let contactPx;
  if(sceneKind==='melee'){
-   if(side==='left') contactX=targetFeature?`calc(50% + ${48+laneSpread+contactNoise}px)`: `calc(50% - ${110-laneSpread-contactNoise}px)`;
-   else contactX=targetFeature?`calc(50% - ${48-laneSpread-contactNoise}px)`: `calc(50% - ${42-laneSpread-contactNoise}px)`;
+   if(targetFeature){
+     // Melee troops converge visibly on a commander hero layer rather than stopping in empty air.
+     contactPx=side==='left' ? (56 + laneSpread + contactNoise) : (-252 + laneSpread + contactNoise);
+   }else{
+     // Paired top-left positions: left sprite right edge and right sprite left edge overlap slightly.
+     contactPx=side==='left' ? (-112 + laneSpread + contactNoise) : (-8 + laneSpread + contactNoise);
+   }
  }else{
-   contactX=lineX;
+   contactPx=linePx;
  }
+ let contactX=`${Math.round(contactPx)}px`;
  let contactY=lineY + Math.round(r('cy',-12,12));
- let windupX=`calc(${contactX} + ${-22*sideSign}px)`, strikeX=`calc(${contactX} + ${14*sideSign}px)`, recoilX=`calc(${contactX} + ${-16*sideSign}px)`;
- let skirmishX=`calc(${contactX} + ${Math.round(r('skx',-16,16))}px)`;
- let secondWindupX=`calc(${contactX} + ${-18*sideSign}px)`, secondStrikeX=`calc(${contactX} + ${18*sideSign}px)`;
- let fallX=`calc(${contactX} + ${26*sideSign + Math.round(r('fx',-7,7))}px)`;
- let rangeBackX=`calc(${lineX} + ${-14*sideSign}px)`, rangeFireX=`calc(${lineX} + ${14*sideSign}px)`, hitX=`calc(${lineX} + ${10*sideSign}px)`;
+ let windupX=`${Math.round(contactPx - 22*sideSign)}px`, strikeX=`${Math.round(contactPx + 14*sideSign)}px`, recoilX=`${Math.round(contactPx - 16*sideSign)}px`;
+ let skirmishX=`${Math.round(contactPx + r('skx',-16,16))}px`;
+ let secondWindupX=`${Math.round(contactPx - 18*sideSign)}px`, secondStrikeX=`${Math.round(contactPx + 18*sideSign)}px`;
+ let fallX=`${Math.round(contactPx + 26*sideSign + r('fx',-7,7))}px`;
+ let rangeBackX=`${Math.round(linePx - 14*sideSign)}px`, rangeFireX=`${Math.round(linePx + 14*sideSign)}px`, hitX=`${Math.round(linePx + 10*sideSign)}px`;
  let groundY=lineY+76, fallY=lineY+28;
  let duration=r('dur',5.35,6.15).toFixed(2)+'s';
  let delay=(r('delay',0,.32)+i*.045+(rank*.08)).toFixed(2)+'s';
@@ -1653,16 +1664,36 @@ function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeatur
  let windup=-Math.round(r('windup',30,48))*sideSign;
  let secondStrike=Math.round(r('strike2',28,44))*sideSign;
  let secondWindup=-Math.round(r('windup2',26,40))*sideSign;
- let muzzleX=side==='left'?`calc(${lineX} + ${Math.round(spec.w*.68)}px)`:`calc(${lineX} + ${Math.round(spec.w*.30)}px)`;
+ let muzzleX=`${Math.round(linePx + (side==='left'?spec.w*.68:spec.w*.30))}px`;
  let muzzleY=`${lineY+Math.round(spec.w*.36)}px`;
- let launchTopX=`calc(${lineX} + ${Math.round(r('ltx',-40,40))}px)`;
- let launchBackX=side==='left'?`calc(${lineX} - ${Math.round(r('lbx',95,155))}px)`:`calc(${lineX} + ${Math.round(r('lbx',95,155))}px)`;
- let launchLandX=`calc(${lineX} + ${Math.round(r('llx',-36,36))}px)`;
- let launchBounceX=`calc(${launchLandX} + ${Math.round(r('lbx2',-18,18))}px)`;
+ let launchTopX=`${Math.round(Math.max(-430,Math.min(430,linePx + r('ltx',-40,40))))}px`;
+ let backDir=side==='left'?-1:1;
+ let launchBackX=`${Math.round(Math.max(-470,Math.min(470,linePx + backDir*r('lbx',85,145))))}px`;
+ let launchLandX=`${Math.round(Math.max(-440,Math.min(440,linePx + r('llx',-36,36))))}px`;
+ let launchBounceX=`${Math.round(Math.max(-440,Math.min(440,parseFloat(launchLandX) + r('lbx2',-18,18))))}px`;
  let spin=(Math.round(r('spin',520,940))*sideSign)+'deg';
  let skew=(Math.round(r('skew',10,18))*sideSign)+'deg';
- return {rank,col,width:spec.w,cls:spec.cls,lineLeft:lineX,entryLeft:startX,clashLeft:contactX,face,duration,delay,doubleStrike,muzzleX,muzzleY,style:
+ return {rank,col,width:spec.w,cls:spec.cls,lineLeft:lineX,entryLeft:startX,clashLeft:contactX,face,duration,delay,doubleStrike,muzzleX,muzzleY,linePx,contactPx,startPx,side,launchLandX,launchBackX,launchTopX,style:
    `--start-x:${startX};--start-y:${lineY}px;--line-x:${lineX};--line-y:${lineY}px;--contact-x:${contactX};--contact-y:${contactY}px;--regroup-x:${lineX};--regroup-y:${lineY}px;--windup-x:${windupX};--windup-y:${contactY-18}px;--strike-x:${strikeX};--strike-y:${contactY+16}px;--recoil-x:${recoilX};--recoil-y:${contactY+3}px;--skirmish-x:${skirmishX};--skirmish-y:${contactY+Math.round(r('sky',-5,8))}px;--second-windup-x:${secondWindupX};--second-windup-y:${contactY-14}px;--second-strike-x:${secondStrikeX};--second-strike-y:${contactY+13}px;--fall-x:${fallX};--fall-y:${fallY}px;--ground-y:${groundY}px;--range-back-x:${rangeBackX};--range-back-y:${lineY-7}px;--range-fire-x:${rangeFireX};--range-fire-y:${lineY-2}px;--hit-x:${hitX};--hit-y:${lineY+4}px;--unit-z:${52+rank*4+col};--unit-duration:${duration};--entry-delay:${delay};--face:${face};--approach-rot:${Math.round(r('approach',-5,5))}deg;--windup-rot:${windup}deg;--strike-rot:${strike}deg;--recover-rot:${Math.round(r('recover',-8,8))}deg;--idle-rot:${Math.round(r('idle',-3,3))}deg;--second-windup-rot:${secondWindup}deg;--second-strike-rot:${secondStrike}deg;--range-windup-rot:${-18*sideSign+Math.round(r('rwr',-5,5))}deg;--range-fire-rot:${12*sideSign+Math.round(r('rfr',-4,4))}deg;--hit-recoil-rot:${-8*sideSign+Math.round(r('hrr',-3,3))}deg;--lose-mid-rot:${18*sideSign+Math.round(r('lmr',-12,12))}deg;--lose-fall-rot:${52*sideSign+Math.round(r('lfr',-14,14))}deg;--launch-top-x:${launchTopX};--launch-back-x:${launchBackX};--launch-land-x:${launchLandX};--launch-bounce-x:${launchBounceX};--launch-land-y:${lineY+84}px;--launch-bounce-y:${lineY+38}px;--launch-spin:${spin};--launch-skew:${skew};`};
+}
+
+function battleSidePositionDiagnostics(aPlans,dPlans,sceneKind){
+ try{
+  const warn=(msg,obj)=>console.warn('[Battle diagnostics]',msg,obj||{});
+  aPlans.forEach((p,i)=>{if(p.linePx<-620||p.linePx>-90)warn('Left-side formation x looks wrong; expected center-relative negative offset.',{i,linePx:p.linePx,plan:p});});
+  dPlans.forEach((p,i)=>{if(p.linePx<90||p.linePx>620)warn('Right-side formation x looks wrong; expected center-relative positive offset.',{i,linePx:p.linePx,plan:p});});
+  if(aPlans.length&&dPlans.length){
+   let aAvg=aPlans.reduce((n,p)=>n+p.linePx,0)/aPlans.length, dAvg=dPlans.reduce((n,p)=>n+p.linePx,0)/dPlans.length;
+   if(!(aAvg<0&&dAvg>0))warn('Both battle sides appear to be on the same side of the center anchor.',{attackerAverage:aAvg,defenderAverage:dAvg});
+  }
+  if(sceneKind==='melee'&&aPlans.length&&dPlans.length){
+   let n=Math.min(aPlans.length,dPlans.length);
+   for(let i=0;i<n;i++){
+    let gap=Math.abs((dPlans[i].contactPx||0)-(aPlans[i].contactPx||0))-aPlans[i].width;
+    if(gap>42)warn('Melee contact pair may be too far apart at strike moment.',{i,gap,leftContact:aPlans[i].contactPx,rightContact:dPlans[i].contactPx,width:aPlans[i].width});
+   }
+  }
+ }catch(err){console.warn('[Battle diagnostics] side position diagnostics failed',err);}
 }
 function battleSkirmishHtml(a,d,detail){
  let aMax=squadMax(a.type), dMax=squadMax(d.type);
@@ -1675,6 +1706,8 @@ function battleSkirmishHtml(a,d,detail){
  let aPlans=[], dPlans=[];
  for(let i=0;i<aCount;i++)aPlans.push(battlePlanFor(a,'left',i,aCount,seedBase,sceneKind,laneFor(i),dFeature,aFeature));
  for(let i=0;i<dBefore;i++)dPlans.push(battlePlanFor(d,'right',i,dBefore,seedBase,sceneKind,laneFor(i),aFeature,dFeature));
+ battleSidePositionDiagnostics(aPlans,dPlans,sceneKind);
+ console.log('[Battle positions]',{sceneKind,attacker:a.type,defender:d.type,attackerPlans:aPlans.map(p=>({line:p.linePx,contact:p.contactPx,start:p.startPx})),defenderPlans:dPlans.map(p=>({line:p.linePx,contact:p.contactPx,start:p.startPx}))});
  let html=`<div class="battleSkirmishLayer reliableScene ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
  for(let i=0;i<aCount;i++){
    let p=aPlans[i], src=unitSrc(a), dbl=p.doubleStrike?'doubleStrike ':'';
@@ -1885,8 +1918,10 @@ function battleRuntimeDiagnostics(a,d,detail){
   let layer=document.querySelector('.battleSkirmishLayer.reliableScene'); if(!layer){console.warn('[Battle diagnostics] No reliable skirmish layer found.'); return;}
   let sprites=[...layer.querySelectorAll('.battleSkirmishUnit')], rect=layer.getBoundingClientRect();
   if(!sprites.length && (a.type!=='Commander'||d.type!=='Commander'))console.warn('[Battle diagnostics] No skirmish sprites were created for battle.',{attacker:a.type,defender:d.type});
-  sprites.forEach((sp,idx)=>{let r=sp.getBoundingClientRect(), cs=getComputedStyle(sp); if(cs.visibility==='hidden'||cs.display==='none'||parseFloat(cs.opacity)===0)console.warn('[Battle diagnostics] Sprite hidden after formation phase',idx,sp.className,cs.opacity); if(r.right<rect.left-10||r.left>rect.right+10||r.bottom<rect.top-10||r.top>rect.bottom+120)console.warn('[Battle diagnostics] Sprite appears outside battle stage',idx,sp.className,{sprite:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom}});});
-  if(a.type==='Commander'&&d.type!=='Commander'&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d)&&!layer.querySelector('.commanderLaunched'))console.warn('[Battle diagnostics] Commander killed squad members but no commanderLaunched elements exist.');
+  let attackers=[], defenders=[];
+  sprites.forEach((sp,idx)=>{let r=sp.getBoundingClientRect(), cs=getComputedStyle(sp); if(sp.classList.contains('attacker'))attackers.push(r); if(sp.classList.contains('defender'))defenders.push(r); if(cs.visibility==='hidden'||cs.display==='none'||parseFloat(cs.opacity)===0)console.warn('[Battle diagnostics] Sprite hidden after formation phase',idx,sp.className,cs.opacity); if(r.right<rect.left-10||r.left>rect.right+10||r.bottom<rect.top-10||r.top>rect.bottom+120)console.warn('[Battle diagnostics] Sprite appears outside battle stage',idx,sp.className,{sprite:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom}});});
+  if(attackers.length&&defenders.length){let aAvg=attackers.reduce((n,r)=>n+(r.left+r.right)/2,0)/attackers.length, dAvg=defenders.reduce((n,r)=>n+(r.left+r.right)/2,0)/defenders.length, mid=(rect.left+rect.right)/2; if(!(aAvg<mid&&dAvg>mid))console.warn('[Battle diagnostics] Attacker/defender sprites are not on opposite sides after formation.',{attackerAverage:aAvg,defenderAverage:dAvg,stageMid:mid});}
+  if(a.type==='Commander'&&d.type!=='Commander'&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d)&&!layer.querySelector('.commanderLaunched'))console.warn('[Battle diagnostics] Commander damage source killed squad members but no commanderLaunched elements exist.',{isCounter:!!detail.isCounter});
   if(battleActionKind(a)==='melee'){
    let left=sprites.find(s=>s.classList.contains('attacker')), right=sprites.find(s=>s.classList.contains('defender'));
    if(left&&right){let lr=left.getBoundingClientRect(), rr=right.getBoundingClientRect(); let gap=rr.left-lr.right; if(Math.abs(gap)>110)console.warn('[Battle diagnostics] Melee contact positions may still be too far apart.',{gap});}
@@ -1903,17 +1938,26 @@ function debugBattleDetail(a,d,damage){return {damage,atk:UNITS[a.type]?.atk||30
 window.debugBattleTest=function(type='infantry'){
  ensureDebugBattleState(); enableAudio();
  let cases={
-  infantry:['Infantry','Infantry',38], pikecav:['Pikemen','Cavalry',45], rifle:['Riflemen','Infantry',42], mage:['Mage','Infantry',55],
-  commanderSquad:['Commander','Infantry',82], commanderCommander:['Commander','Commander',190], commanderMelee:['Infantry','Commander',44], artillery:['Artillery','Infantry',78], tank:['Steam Tank','Infantry',64]
+  infantry:{a:'Infantry',d:'Infantry',damage:38},
+  pikecav:{a:'Pikemen',d:'Cavalry',damage:45},
+  rifle:{a:'Riflemen',d:'Infantry',damage:42},
+  mage:{a:'Mage',d:'Infantry',damage:55},
+  commanderSquad:{a:'Commander',d:'Infantry',damage:82,aExtra:{commanderClass:'Steam Marshal'}},
+  squadCommander:{a:'Infantry',d:'Commander',damage:44,dExtra:{commanderClass:'Archmage'}},
+  commanderCounterKill:{a:'Commander',d:'Infantry',damage:88,aExtra:{commanderClass:'Iron Priest'},isCounter:true},
+  commanderCommander:{a:'Commander',d:'Commander',damage:190,aExtra:{commanderClass:'Steam Marshal'},dExtra:{commanderClass:'Archmage'}},
+  commanderMelee:{a:'Infantry',d:'Commander',damage:44,dExtra:{commanderClass:'Cinder Khan'}},
+  artillery:{a:'Artillery',d:'Infantry',damage:78},
+  tank:{a:'Steam Tank',d:'Infantry',damage:64}
  };
  let cfg=cases[type]||cases.infantry;
- let a=makeDebugBattleUnit(cfg[0],0,null,cfg[0]==='Commander'?{commanderClass:'Steam Marshal'}:{});
- let d=makeDebugBattleUnit(cfg[1],1,null,cfg[1]==='Commander'?{commanderClass:'Archmage'}:{});
- let detail=debugBattleDetail(a,d,cfg[2]);
- console.log('[Battle debug] running',type,{a,d,detail});
- return showBattleView(a,d,detail,false);
+ let a=makeDebugBattleUnit(cfg.a,0,null,cfg.aExtra||{});
+ let d=makeDebugBattleUnit(cfg.d,1,null,cfg.dExtra||{});
+ let detail=debugBattleDetail(a,d,cfg.damage);
+ console.log('[Battle debug] running',type,{a,d,detail,isCounter:!!cfg.isCounter});
+ return showBattleView(a,d,detail,!!cfg.isCounter);
 };
-window.runBattleAnimationSelfTest=async function(){for(let t of ['infantry','pikecav','rifle','mage','commanderSquad','commanderCommander','commanderMelee','artillery','tank']){console.log('[Battle self-test]',t); await window.debugBattleTest(t); await sleep(850);}};
+window.runBattleAnimationSelfTest=async function(){for(let t of ['infantry','pikecav','rifle','mage','commanderSquad','squadCommander','commanderCounterKill','commanderCommander','commanderMelee','artillery','tank']){console.log('[Battle self-test]',t); await window.debugBattleTest(t); await sleep(850);}};
 async function animateCombat(a,d,detail,isCounter){
  await showBattleView(a,d,detail,isCounter);
  let speed=$('animSpeed')?.value||'Normal';
