@@ -25,7 +25,7 @@ button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 .left,.right{min-height:0}.left{grid-column:1;grid-row:2}.right{grid-column:3;grid-row:2}.center{grid-column:2;grid-row:2;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
 .section{border:1px solid #624422;border-radius:8px;padding:8px;margin-bottom:10px;background:#1c130e}.section h2{font-size:16px;color:#ffd478;margin:0 0 6px}.small{font-size:13px;color:var(--muted)}
 .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0}.row>*{min-width:0}select,input{background:#120d09;color:#ffe8be;border:1px solid #8d6632;border-radius:6px;padding:6px;max-width:100%}
-#mapWrap{flex:1;min-height:0;overflow:auto;border:2px solid #75552e;border-radius:10px;background:#090706;padding:10px;position:relative}.map{display:grid;gap:1px;align-content:start;justify-content:start}.tile{width:var(--tile);height:var(--tile);position:relative;border:1px solid #0008;display:flex;align-items:center;justify-content:center;user-select:none;cursor:pointer;overflow:hidden}.tile:hover{outline:2px solid #fff8;z-index:5}.tile.hidden{background:#050505!important;color:#050505}.tile.fog{filter:brightness(.42) saturate(.4)}
+#mapWrap{flex:1;min-height:0;overflow:auto;border:2px solid #75552e;border-radius:10px;background:#090706;padding:10px;position:relative}.map{display:grid;gap:1px;align-content:start;justify-content:start}.tile{width:var(--tile);height:var(--tile);position:relative;border:1px solid #0008;display:flex;align-items:center;justify-content:center;user-select:none;cursor:pointer;overflow:hidden}.tile.unitTile{overflow:visible;z-index:4}.tile.unitTile:hover,.tile.unitTile.selectedTile,.tile.unitTile.pendingMark{z-index:9}.tile:hover{outline:2px solid #fff8;z-index:5}.tile.hidden{background:#050505!important;color:#050505}.tile.fog{filter:brightness(.42) saturate(.4)}
 .plains{background:#6f8f43}.forest{background:#285f35}.hills{background:#836b3d}.mountains{background:#77726c}.water{background:#285a79}.roads{background:#8b744b}.town{box-shadow:inset 0 0 0 3px #e0c27a}.city{box-shadow:inset 0 0 0 4px #ffdb75}.fortress{box-shadow:inset 0 0 0 4px #c9c9c9}
 .coord{position:absolute;left:2px;top:1px;font-size:9px;color:#0008;z-index:2}.struct{position:absolute;right:2px;top:1px;font-size:14px;text-shadow:0 1px #000}.ownerDot{position:absolute;right:3px;bottom:3px;width:9px;height:9px;border-radius:50%;border:1px solid #000;z-index:5}
 .tileArt{position:absolute;inset:0;width:100%;height:100%;opacity:.95;z-index:0;pointer-events:none}.structureSprite{position:absolute;right:1px;top:0;width:24px;height:24px;z-index:2;filter:drop-shadow(0 1px 1px #000)}.asset-sprite{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 2px #000b)}.unit{--team:#4688c7;--iron:#35383b;--darkiron:#17191b;--brass:#d6a84f;--leather:#6b3f21;--cloth:#efe1b8;position:absolute;left:4px;right:4px;top:3px;bottom:6px;border-radius:9px;border:2px solid #111;display:flex;align-items:center;justify-content:center;z-index:3;background:linear-gradient(145deg,#332419,#15100c);box-shadow:0 2px 5px #000c,inset 0 0 8px #fff1}.unit.ready{animation:bob 1s infinite alternate ease-in-out}.unit.ready:before{content:'';position:absolute;inset:-3px;border-radius:11px;border:1px solid #ffd47899;box-shadow:0 0 9px #ffd47866;pointer-events:none}.unit.exhausted{opacity:.72;filter:grayscale(.35) brightness(.72) saturate(.65)}.unit.exhausted:after{content:'✓';position:absolute;right:-3px;top:-6px;background:#18120d;border:1px solid #927142;border-radius:99px;color:#ffe2a3;font-size:11px;line-height:14px;width:15px;height:15px;text-align:center}.unit.commander{box-shadow:0 0 0 2px #ffd478,0 0 15px #ffd478,inset 0 0 12px #fff2}.unit.commander.ready:before{box-shadow:0 0 16px #ffd478,0 0 26px #ffd47866}.hpbar{position:absolute;left:4px;right:4px;bottom:3px;height:5px;background:#330;border:1px solid #000;z-index:4}.hpfill{height:100%;background:#5ee16a}.moveMark{outline:3px solid #6dd0ff!important}.attackMark{outline:3px solid #ff6868!important}.captureMark{outline:3px solid #ffdf60!important}.auraMark .unit{box-shadow:0 0 0 2px #e9d36d,0 0 9px #e9d36d99,inset 0 0 8px #fff1}.miniSprite{width:22px;height:22px;vertical-align:middle;margin-right:4px;filter:drop-shadow(0 1px 1px #000)}.card .miniSprite{width:34px;height:34px;float:left;margin:0 7px 4px 0}
@@ -188,6 +188,9 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleHudFighter .battleMapSprite{width:260px;height:260px;}
 .battleHudArt{position:relative;width:260px;height:260px;background-position:center;background-size:contain;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 10px 0 #0008) drop-shadow(0 0 10px #000);}
 .battleHudArt .battleMapSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;}
+.battleHudArt .battleAttackSprite{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:3;opacity:0;}
+.battleHudArt.hasAttack .battleMapSprite{animation:battleNormalSwap .78s ease-in-out;}
+.battleHudArt.hasAttack .battleAttackSprite{animation:battleAttackSwap .78s ease-in-out;}
 .battleHudFallback{display:none;}
 .battleHudName{display:none;}
 .battleSkirmishLayer{position:absolute;left:0;right:0;bottom:10px;height:320px;z-index:23;pointer-events:none;overflow:visible;}
@@ -234,11 +237,13 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 .battleCenterStats{font-size:13px;line-height:1.35;color:#fff2bd;text-shadow:1px 1px 0 #000;align-self:center}.battleVs{font-size:18px;color:#f0c15d;text-shadow:2px 2px 0 #000;font-weight:900;}
 .battleMsg{bottom:16px!important;max-width:420px;border-radius:2px!important;border:3px solid #f0c15d!important;background:#02083cee!important;color:#fff2bd;z-index:24!important;text-shadow:1px 1px 0 #000;}
 .skipBattle{z-index:25!important;bottom:18px!important;right:16px!important;border-radius:2px!important;}
-@keyframes battleForegroundLungeL{0%,100%{transform:translateX(0)}45%{transform:translateX(72px) scale(1.05)}}
-@keyframes battleForegroundLungeR{0%,100%{transform:translateX(0)}45%{transform:translateX(-72px) scale(1.05)}}
+@keyframes battleForegroundLungeL{0%{opacity:0;transform:translateX(-380px)}16%{opacity:1;transform:translateX(0)}48%,60%{opacity:1;transform:translateX(86px) scale(1.05)}84%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-380px)}}
+@keyframes battleForegroundLungeR{0%{opacity:0;transform:translateX(380px)}16%{opacity:1;transform:translateX(0)}48%,60%{opacity:1;transform:translateX(-86px) scale(1.05)}84%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(380px)}}
+@keyframes battleNormalSwap{0%,38%,68%,100%{opacity:1}44%,60%{opacity:0}}
+@keyframes battleAttackSwap{0%,40%,66%,100%{opacity:0}46%,60%{opacity:1}}
 .battleShade{z-index:1;pointer-events:none;}
 .battleBg{z-index:0;}
-/* Asset Slice Integration + AI Pacing v0.26.06.12.1357 */
+/* Asset Slice Integration + AI Pacing v0.26.06.12.1802 */
 .kingdomCrest,.claimCrest,.playerCrest,.ownerMarker,.turnChip,.statusIcon{image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;object-fit:contain;}
 #turnBadge.kingdomTurnBadge{display:inline-flex;align-items:center;gap:5px;border-radius:4px;background:#0d0906;color:#fff0b8;}
 .turnChip{width:46px;height:18px;filter:drop-shadow(0 1px 0 #000);}
@@ -328,7 +333,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.12.1357</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.12.1802</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -432,7 +437,7 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
 
 <script>
 'use strict';
-const VERSION='v0.26.06.12.1357';
+const VERSION='v0.26.06.12.1802';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -614,10 +619,12 @@ function render(){ $('versionBadge').textContent=`Build ${VERSION}`; renderCloud
 function visibleSet(pid){let set=new Set(); state.units.filter(u=>u.owner===pid&&u.hp>0).forEach(u=>{for(let y=u.y-4;y<=u.y+4;y++)for(let x=u.x-4;x<=u.x+4;x++){if(x>=0&&y>=0&&x<state.w&&y<state.h&&Math.abs(x-u.x)+Math.abs(y-u.y)<=4)set.add(`${x},${y}`)}}); state.map.forEach(t=>{if(t.owner===pid&&t.s){for(let y=t.y-2;y<=t.y+2;y++)for(let x=t.x-2;x<=t.x+2;x++)if(x>=0&&y>=0&&x<state.w&&y<state.h)set.add(`${x},${y}`)}}); return set;}
 function renderMap(){let map=$('map');map.style.gridTemplateColumns=`repeat(${state.w}, var(--tile))`;map.innerHTML='';let viewPid=viewPlayerIndex();let vp=state.players[viewPid]||player();let vis=vp&&vp.alive?visibleSet(viewPid):new Set(state.map.map(t=>`${t.x},${t.y}`));
  state.map.forEach(t=>{let seen=vis.has(`${t.x},${t.y}`);let div=document.createElement('div');div.dataset.x=t.x;div.dataset.y=t.y;div.className=`tile ${seen?TERRAIN[t.t].name.toLowerCase():''} ${seen?t.t:''}`; if(!seen)div.classList.add('hidden'); if(lastTile&&lastTile.x===t.x&&lastTile.y===t.y)div.classList.add('selectedTile'); if(seen){div.innerHTML=tileArt(t)+`<span class="coord">${TERRAIN[t.t].icon}</span><span class="terrainBadge">D${terrainDefenseAt(t)}</span>`; if(t.s){div.classList.add(t.s);div.innerHTML+=structureArt(t.s,t.owner)} if(t.owner!==null)div.innerHTML+=ownershipMarkerHtml(t.owner);}
- let h=highlights.find(h=>h.x==t.x&&h.y==t.y); if(h)div.classList.add(h.type+'Mark'); let u=unitAt(t.x,t.y); if(u&&seen){let base=UNITS[u.type]; let ready=u.owner===state.current&&!u.acted&&player().alive&&localCanControlCurrent(true); let pending=ready&&u.moved; let aura=getAuraFor(u.owner,u); let aiThinking=u.id===aiFocusUnitId; div.classList.add(...base.class.split(' ')); if(aura)div.classList.add('auraMark'); if(u.type==='Commander'){div.classList.add('commanderAuraSource'); div.style.setProperty('--aura-img',`url('${kingdomAsset(u.owner,'aura')}')`);} if(pending)div.classList.add('pendingMark'); div.innerHTML+=`<div class="unit ${ready?'ready':'exhausted'} ${pending?'pending':''} ${aiThinking?'aiThinkingUnit':''} ${u.type==='Commander'?'commander':''}" data-unit-id="${u.id}" style="--team:${state.players[u.owner].color};border-color:${state.players[u.owner].color}" title="${u.type}${pending?' — moved, choose attack or Wait':''}">${unitSprite(u,'asset-sprite',ready||aiThinking)}${unitStatusIcons(u,ready,aura,pending)}</div><div class="hpbar"><div class="hpfill" style="width:${Math.max(0,u.hp/u.maxHp*100)}%"></div></div>`;}
+ let h=highlights.find(h=>h.x==t.x&&h.y==t.y); if(h)div.classList.add(h.type+'Mark'); let u=unitAt(t.x,t.y); if(u&&seen){let base=UNITS[u.type]; let ready=u.owner===state.current&&!u.acted&&player().alive&&localCanControlCurrent(true); let pending=ready&&u.moved; let aura=getAuraFor(u.owner,u); let aiThinking=u.id===aiFocusUnitId; div.classList.add('unitTile',...base.class.split(' ')); if(aura)div.classList.add('auraMark'); if(u.type==='Commander'){div.classList.add('commanderAuraSource'); div.style.setProperty('--aura-img',`url('${kingdomAsset(u.owner,'aura')}')`);} if(pending)div.classList.add('pendingMark'); div.innerHTML+=`<div class="unit ${ready?'ready':'exhausted'} ${pending?'pending':''} ${aiThinking?'aiThinkingUnit':''} ${u.type==='Commander'?'commander':''}" data-unit-id="${u.id}" style="--team:${state.players[u.owner].color};border-color:${state.players[u.owner].color}" title="${u.type}${pending?' — moved, choose attack or Wait':''}">${unitSprite(u,'asset-sprite',ready||aiThinking)}${unitStatusIcons(u,ready,aura,pending)}</div><div class="hpbar"><div class="hpfill" style="width:${Math.max(0,u.hp/u.maxHp*100)}%"></div></div>`;}
  div.onclick=()=>tileClick(t.x,t.y); map.appendChild(div);});}
 function assetSlug(name){return String(name).toLowerCase().replaceAll(' ','_').replaceAll('-','_');}
 function ownerAssetIndex(owner){return Math.max(0,Math.min(7,owner||0));}
+function ownerCommanderClass(owner){return state?.players?.[owner]?.commanderClass||COMMANDER_ORDER[ownerAssetIndex(owner)]||'Steam Marshal';}
+function factionAssetIndex(owner){let idx=COMMANDER_ORDER.indexOf(ownerCommanderClass(owner)); return idx>=0?idx:ownerAssetIndex(owner);}
 function displayAssetIndex(owner){let n=Number(owner); return Math.max(1,Math.min(8,(Number.isFinite(n)?n:0)+1));}
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function kingdomAsset(owner,kind='crest_small'){let p=displayAssetIndex(owner); if(kind==='aura')return `assets/fx/auras/aura_p${p}.png`; return `assets/ui/kingdoms/p${p}_${kind}.png`;}
@@ -626,8 +633,9 @@ function ownershipMarkerHtml(owner){let p=state?.players?.[owner]; let color=p?.
 function turnBadgeMarkup(){let p=player(); let stateText=p?`Turn ${state.turn} — ${p.name}${p.observer?' (Observer)':p.kind==='AI'?' (AI)':cloud.enabled&&!isMyCloudTurn()?' (Waiting)':''}`:'No active kingdom'; return `${kingdomImg(state?.current||0,'turn_chip','turnChip',p?.name||'kingdom')}<span>${escapeHtml(stateText)}</span>`;}
 function unitStatusIcons(u,ready,aura,pending){let html=''; if(aura)html+='<img class="statusIcon auraStatus" src="assets/fx/status/status_aura_active.png" alt="aura active" loading="eager">'; if(pending)html+='<img class="statusIcon" src="assets/fx/status/status_waiting.png" alt="pending action" loading="eager">'; else if(!ready)html+='<img class="statusIcon" src="assets/fx/status/status_exhausted.png" alt="exhausted" loading="eager">'; return html;}
 function commanderAssetSlug(cls){return assetSlug(cls);}
-function unitSpriteBase(u){let owner=ownerAssetIndex(u?.owner||0), type=u?.type||'Infantry'; return type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal')}`:`assets/units/p${owner}/${assetSlug(type)}`;}
-function battleConsoleSpriteSrc(u,mirrored=false){let owner=ownerAssetIndex(u?.owner||0), type=u?.type||'Infantry', suffix=mirrored?'_mirrored':''; if(type==='Commander')return `assets/battle_console/commanders/${commanderAssetSlug(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal')}${suffix}.png`; return `assets/battle_console/units/p${owner}/${assetSlug(type)}${suffix}.png`;}
+function unitSpriteBase(u){let owner=factionAssetIndex(u?.owner||0), type=u?.type||'Infantry'; return type==='Commander'?`assets/commanders/p${owner}/${commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0))}`:`assets/units/p${owner}/${assetSlug(type)}`;}
+function battleConsoleSpriteSrc(u,mirrored=false){let owner=factionAssetIndex(u?.owner||0), type=u?.type||'Infantry', suffix=mirrored?'_mirrored':''; if(type==='Commander')return `assets/battle_console/commanders/${commanderAssetSlug(u.commanderClass||ownerCommanderClass(u.owner||0))}${suffix}.png`; return `assets/battle_console/units/p${owner}/${assetSlug(type)}${suffix}.png`;}
+function battleCommanderAttackSpriteSrc(u){let cls=commanderAssetSlug(u?.commanderClass||ownerCommanderClass(u?.owner||0)); return `assets/battle_console/commanders/${cls}_attacking.png`;}
 function unitSpriteSrc(u,suffix=''){return suffix?`${unitSpriteBase(u)}${suffix}.png`:battleConsoleSpriteSrc(u);}
 function unitSprite(u,cls='asset-sprite',animated=false){let src=battleConsoleSpriteSrc(u), fallback=`${unitSpriteBase(u)}.png`, type=u?.type||'Unit'; return `<img class="${cls} pngSprite" src="${src}" alt="${type}" loading="eager" onerror="this.onerror=null;this.src='${fallback}'">`; }
 function battleUnitSrc(u,mirrored=false){return battleConsoleSpriteSrc(u,mirrored);}
@@ -638,7 +646,7 @@ function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if
 function battleUsesFeatureSprite(u){return u?.type==='Commander'||u?.type==='Steam Tank';}
 function battleSourceFacesLeft(u){let cls=u?.type==='Commander'?(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal'):''; return ['Infantry','Cavalry','Airship','Gyrocopter','Assassin'].includes(u?.type)||['Steam Marshal','Archmage'].includes(cls);}
 function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); return side==='left'?(leftSource?-1:1):(leftSource?1:-1);}
-function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'), face=battleFacingScale(u,side); return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[ownerAssetIndex(u.owner)]}"><div class="battleHudArt" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'"></div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
+function battleHudFighterHtml(u,side){let p=state.players[u.owner]||{}, src=battleConsoleSpriteSrc(u,false), cls=(side==='left'?'attacker':'defender')+(battleUsesFeatureSprite(u)?'':' squadOnly'), face=battleFacingScale(u,side), attackSrc=u.type==='Commander'?battleCommanderAttackSpriteSrc(u):'', artCls=attackSrc?'battleHudArt hasAttack':'battleHudArt', attackImg=attackSrc?`<img class="battleAttackSprite pngSprite" src="${attackSrc}" alt="${escapeHtml(u.type)} attack" loading="eager" onerror="this.remove()">`:''; return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;}
 function battleEffectAnchorVars(a,d,aKind,dKind){
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
  let aOrigin=aFeature?'calc(50% - 82px)':(aKind==='magic'?'calc(2% + 286px)':'calc(2% + 318px)');
@@ -789,7 +797,7 @@ function suggestedSaveName(){if(!state)return 'Iron_Kingdoms_War_of_Brass.json';
 function renderHandoffPanel(){if(!$('handoffPanel')||!state)return; let living=state.players.filter(p=>p.alive).map(p=>`${p.name}${p.kind==='AI'?' [AI]':''}`).join(', '); let obs=state.players.filter(p=>p.observer).map(p=>p.name).join(', ')||'None'; let summary=state.lastTurnSummary||lastTurnSummary; let claim=cloud.enabled?cloudClaimStatusText():''; let msg=cloud.enabled?(claim||'Cloud game connected. Claim your slot before acting.'):player().kind==='AI'?'Computer-controlled kingdom: this turn resolves automatically.':'Discord handoff: Load the latest save before acting. After End Turn, save and post the JSON.'; $('handoffPanel').innerHTML=`<div><b>${msg}</b><br>Current player is <b style="color:${player().color}">${player().name}</b> ${player().kind==='AI'?`<span class="pill difficultyPill">${player().aiDifficulty}</span>`:''}.</div><div><div class="saveName">${suggestedSaveName()}</div><span class="small">Alive: ${living}<br>Observers: ${obs}${summary?`<br>Last handoff: ${summary.from} → ${summary.next}`:''}</span></div>`;}
 function counterHints(type){let tags=UNITS[type].tags, beats=[]; for(let at of tags){if(COUNTERS[at]) beats.push(...Object.keys(COUNTERS[at]).map(k=>k));} let threatened=[]; Object.entries(COUNTERS).forEach(([atk,defs])=>{for(let dt of tags)if(defs[dt])threatened.push(atk)}); return {beats:[...new Set(beats)].join(', ')||'none',threatened:[...new Set(threatened)].join(', ')||'none'};}
 function unitCard(u){let b=UNITS[u.type], aura=getAuraFor(u.owner,u), hints=counterHints(u.type), tt=tile(u.x,u.y), pending=(u.owner===state.current&&u.moved&&!u.acted); return `<div class="card"><b style="color:${state.players[u.owner].color}">${unitIcon(u)} ${u.type}</b><br>Owner: ${state.players[u.owner].name}<div class="statGrid"><span>HP ${u.hp}/${u.maxHp}</span><span>Squad ${squadCount(u)}/${squadMax(u.type)}</span><span>Move ${b.mv}</span><span>Atk ${b.atk}</span><span>Def ${b.def}</span><span>Range ${b.range}</span><span>Vet ${u.veteran}</span><span>XP ${u.xp}/100</span><span>${u.acted?'Exhausted':pending?'Moved / can attack':'Ready'}</span></div><div class="rangeLine"><span style="width:${Math.min(100,u.xp)}%"></span></div><span class="pill">Cover +${terrainDefenseAt(tt)}</span><span class="squadBadge">${squadMax(u.type)>1?'Formation':'Hero'} count tracks HP</span>${aura?`<span class="pill good">Aura boosted</span>`:''}${b.capture?`<span class="pill">Can capture</span>`:''}${pending?`<div class="pendingActionBox"><b>Moved — choose an attack or Wait.</b><div class="moveAfterHint">Attack targets are highlighted from this unit's new position. This unit cannot move again this turn.</div><button class="waitBtn" onclick="waitSelectedUnit()">Wait / Finish Unit</button></div>`:''}<br><span class="small">Strong vs: ${hints.beats}<br>Watch out for: ${hints.threatened}</span></div>`}
-function renderRecruit(){let tt=selected?tile(selected.x,selected.y):null; let can=tt&&tt.s==='city'&&tt.owner===state.current&&player().alive&&localCanControlCurrent(true); $('recruitInfo').innerHTML=can?`Recruiting at city ${tt.x},${tt.y}. Gold: ${player().gold}`:'Select one of your cities to recruit.'; let html=''; if(can){Object.keys(UNITS).filter(k=>k!=='Commander').forEach(type=>{let b=UNITS[type]; html+=`<button class="recruitBtn" ${player().gold<b.cost?'disabled':''} onclick="recruit('${type}',${tt.x},${tt.y})">${typeSprite(type,state.current,'miniSprite')} ${type} — ${b.cost}g <span class="small">HP${b.hp} M${b.mv} A${b.atk} D${b.def} R${b.range}</span></button>`})} $('recruitMenu').innerHTML=html;}
+function renderRecruit(){let tt=selected?tile(selected.x,selected.y):null; let can=canRecruitHere(selected); $('recruitInfo').innerHTML=can?`Recruiting at ${STRUCTS[tt.s].name} ${tt.x},${tt.y}. Gold: ${player().gold}`:'Select a recruit-capable unit on one of your cities or fortresses.'; let html=''; if(can){Object.keys(UNITS).filter(k=>k!=='Commander').forEach(type=>{let b=UNITS[type]; html+=`<button class="recruitBtn" ${player().gold<b.cost?'disabled':''} onclick="recruit('${type}',${tt.x},${tt.y})">${typeSprite(type,state.current,'miniSprite')} ${type} — ${b.cost}g <span class="small">HP${b.hp} M${b.mv} A${b.atk} D${b.def} R${b.range}</span></button>`})} $('recruitMenu').innerHTML=html;}
 function recruit(type,x,y){if(!localCanControlCurrent(false))return; let p=player(), b=UNITS[type]; if(p.gold<b.cost)return; let spots=[[x+1,y],[x-1,y],[x,y+1],[x,y-1],[x,y]]; let pos=spots.find(s=>s[0]>=0&&s[1]>=0&&s[0]<state.w&&s[1]<state.h&&!unitAt(s[0],s[1])&&canEnter({type},s[0],s[1])); if(!pos){alert('No open adjacent tile.');return;} p.gold-=b.cost; addUnit(type,p.id,pos[0],pos[1]); let nu=state.units[state.units.length-1]; nu.moved=true;nu.acted=true; log(`${p.name} recruits ${type}.`); render();}
 function renderObserver(){let p=player(); if(!p.observer){$('observerInfo').innerHTML='Observer powers unlock after elimination.';$('observerMenu').innerHTML='';return;} $('observerInfo').innerHTML=`${p.name} has ${p.influence} Influence Tokens.`; const powers=[['Supply Drop',3,'Heal all units of a chosen living player by 10.'],['Sabotage',4,'Damage a random enemy unit of the current leading player.'],['Weather Shift',3,'Toggle rough weather. Roads less useful; air slightly weaker this round.'],['Forced March',3,'Ready one random exhausted unit of the weakest living player.'],['Spy Network',2,'Reveal entire map for observers/current save review.'],['Mercenary Contract',5,'Spawn Infantry for the weakest living player near a city.']]; $('observerMenu').innerHTML=powers.map(q=>`<button class="recruitBtn" ${p.influence<q[1]?'disabled':''} onclick="observerPower('${q[0]}',${q[1]})">${q[0]} — ${q[1]}☼<br><span class="small">${q[2]}</span></button>`).join('');}
 function weakestLiving(){let living=state.players.filter(p=>p.alive); return living.sort((a,b)=>state.units.filter(u=>u.owner===a.id).length-state.units.filter(u=>u.owner===b.id).length)[0];}
@@ -898,6 +906,223 @@ const _endTurn_console = endTurn;
 endTurn=function(){if(state&&(!Array.isArray(state.players)||!state.players.length||!player())){showTurnToast('No active kingdom. Start, load, or join a game first.'); return;} _endTurn_console();};
 const _showHelp_console = showHelp;
 showHelp=function(){openModal('helpModal');};
+
+// Direct console tactics flow: unit selection highlights map actions first.
+// The command window now appears only when a real choice exists.
+const _makeHighlights_contextualFlow = makeHighlights;
+makeHighlights=function(u){
+ highlights=[];
+ if(!u||u.acted||!state)return;
+ for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++){
+   let d=Math.abs(x-u.x)+Math.abs(y-u.y);
+   if(!u.moved&&d>0&&d<=UNITS[u.type].mv&&canEnter(u,x,y))highlights.push({x,y,type:'move'});
+   let enemy=unitAt(x,y);
+   if(enemy&&enemy.owner!==u.owner&&d<=UNITS[u.type].range)highlights.push({x,y,type:'attack'});
+ }
+ if(u.moved&&canCapture(u)){
+   let tt=tile(u.x,u.y);
+   if(tt&&tt.s&&tt.owner!==u.owner)highlights.push({x:u.x,y:u.y,type:'capture'});
+ }
+};
+function canRecruitHere(u){
+ let tt=u&&state?tile(u.x,u.y):null;
+ return !!(u&&canCapture(u)&&tt&&tt.s&&(tt.s==='city'||tt.s==='fortress')&&tt.owner===u.owner);
+}
+function canCaptureHere(u){
+ let tt=u&&state?tile(u.x,u.y):null;
+ return !!(u&&tt&&tt.s&&tt.owner!==u.owner&&canCapture(u));
+}
+function availablePostMoveActions(u){
+ if(!u||u.acted)return {attacks:0,canCapture:false,canRecruit:false};
+ makeHighlights(u);
+ return {
+   attacks:highlights.filter(v=>v.type==='attack').length,
+   canCapture:canCaptureHere(u),
+   canRecruit:canRecruitHere(u)
+ };
+}
+function showChoicePopupFor(u,reason='postMove'){
+ if(!u)return;
+ commandTargetMode=null;
+ commandPopupContext=reason;
+ render();
+ renderPanels();
+}
+function handlePostMoveChoices(u){
+ if(!u)return;
+ let actions=availablePostMoveActions(u);
+ if(actions.canCapture&&!actions.attacks&&!actions.canRecruit){
+   let tt=tile(u.x,u.y);
+   tt.owner=u.owner;
+   u.acted=true;
+   u.moved=true;
+   log(`${state.players[u.owner].name}'s ${u.type} captures ${STRUCTS[tt.s].name}.`);
+   selected=null;
+   highlights=[];
+   commandPopupContext=null;
+   showTurnToast(`${STRUCTS[tt.s].name} captured.`);
+   render();
+   return;
+ }
+ if(actions.canCapture||actions.canRecruit){
+   showTurnToast(actions.canCapture?'Choose Attack or Capture.':'Recruitment available. You may also attack or wait.');
+   showChoicePopupFor(u,'postMove');
+   return;
+ }
+ if(actions.attacks){
+   commandPopupContext=null;
+   showTurnToast('Moved. Click a red enemy to attack, or click this unit again to wait.');
+   render();
+   renderPanels();
+   return;
+ }
+ commandPopupContext=null;
+ showTurnToast('Moved. No targets in range; unit waits.');
+ waitSelectedUnit();
+}
+const _waitSelectedUnit_contextualFlow = waitSelectedUnit;
+waitSelectedUnit=function(){
+ commandPopupContext=null;
+ _waitSelectedUnit_contextualFlow();
+};
+const _cancelSelectedUnit_contextualFlow = cancelSelectedUnit;
+cancelSelectedUnit=function(){
+ commandPopupContext=null;
+ _cancelSelectedUnit_contextualFlow();
+};
+const _captureSelectedStructure_contextualFlow = captureSelectedStructure;
+captureSelectedStructure=function(){
+ commandPopupContext=null;
+ _captureSelectedStructure_contextualFlow();
+};
+const _commandMoveMode_contextualFlow = commandMoveMode;
+commandMoveMode=function(){
+ commandPopupContext=null;
+ _commandMoveMode_contextualFlow();
+};
+const _commandAttackMode_contextualFlow = commandAttackMode;
+commandAttackMode=function(){
+ commandPopupContext=null;
+ _commandAttackMode_contextualFlow();
+};
+tileClick=async function(x,y){
+ if(!state||movementAnimating)return;
+ enableAudio();
+ lastTile={x,y};
+ let u=unitAt(x,y), h=highlights.find(v=>v.x==x&&v.y==y);
+ if(!localCanControlCurrent(true)){
+   commandTargetMode=null;
+   commandPopupContext=null;
+   if(u&&u.owner===viewPlayerIndex()){selected=u; highlights=[];} else {selected=null; highlights=[];}
+   if(cloud.enabled)showTurnToast(cloudClaimStatusText()||`Waiting for ${player().name}.`);
+   else if(player().kind==='AI')showTurnToast(`${player().name} is computer controlled.`);
+   render();
+   renderPanels();
+   return;
+ }
+ if(selected&&selected.owner===state.current&&!selected.acted&&!cloudCanAct())return;
+ if(h&&selected){
+   if(h.type==='move'){
+     commandTargetMode=null;
+     commandPopupContext=null;
+     if(selected.moved){showTurnToast('This unit has already moved. Choose an attack or Wait.'); return;}
+     await animateUnitMove(selected,x,y);
+     selected.moved=true;
+     selected.acted=false;
+     log(`${player().name}'s ${selected.type} moves to ${x},${y}.`);
+     sfx('move');
+     handlePostMoveChoices(selected);
+     return;
+   }
+   if(h.type==='attack'&&u&&u.owner!==selected.owner){
+     commandTargetMode=null;
+     commandPopupContext=null;
+     attack(selected,u);
+     selected=null;
+     highlights=[];
+     return;
+   }
+ }
+ if(selected&&u&&u.id===selected.id&&selected.moved&&!selected.acted){
+   let actions=availablePostMoveActions(selected);
+   if(actions.canCapture||actions.canRecruit)showChoicePopupFor(selected,'postMove');
+   else waitSelectedUnit();
+   return;
+ }
+ if(u&&u.owner===state.current&&player().alive&&!u.acted){
+   commandTargetMode=null;
+   commandPopupContext=null;
+   if(selected&&selected.id!==u.id&&selected.moved&&!selected.acted){
+     showTurnToast('Finish the moved unit first: attack or Wait.');
+     return;
+   }
+   if(!cloudCanAct())return;
+   selected=u;
+   makeHighlights(u);
+   let attacks=highlights.filter(v=>v.type==='attack').length;
+   let moves=highlights.filter(v=>v.type==='move').length;
+   commandPopupContext=canRecruitHere(u)?'recruit':null;
+   showTurnToast(`${u.type} selected. ${moves} move tile${moves===1?'':'s'}${attacks?`, ${attacks} target${attacks===1?'':'s'}`:''}${canRecruitHere(u)?', recruitment available':''}.`);
+   render();
+   renderPanels();
+   return;
+ }
+ if(selected&&selected.moved&&!selected.acted){
+   showTurnToast('Moved: click a red enemy to attack, click this unit to wait, or use any open action menu.');
+   renderPanels();
+   return;
+ }
+ commandTargetMode=null;
+ commandPopupContext=null;
+ selected=u||null;
+ highlights=[];
+ render();
+ renderPanels();
+};
+renderCommandPopup=function(){
+ let el=$('commandPopup');
+ if(!el)return;
+ let targeting=commandTargetMode==='move'||commandTargetMode==='attack';
+ if(targeting||!commandPopupContext){
+   el.classList.remove('show');
+   el.classList.toggle('targeting',targeting);
+   el.innerHTML='';
+   return;
+ }
+ el.classList.remove('targeting');
+ if(!state||!selected||selected.owner!==state.current||selected.acted||!localCanControlCurrent(false)){
+   el.classList.remove('show');
+   el.innerHTML='';
+   commandPopupContext=null;
+   return;
+ }
+ makeHighlights(selected);
+ let actions=availablePostMoveActions(selected);
+ if(!actions.canCapture&&!actions.canRecruit){
+   el.classList.remove('show');
+   el.innerHTML='';
+   commandPopupContext=null;
+   return;
+ }
+ let phase=actions.canCapture&&actions.attacks?'Choose target or capture':actions.canRecruit?'Recruitment available':'Choose action';
+ let html=`<h3>${selected.type}</h3><div class="small">${phase}</div><div class="cmdBtns">`;
+ if(actions.attacks)html+=`<button onclick="commandAttackMode()">Attack (${actions.attacks})</button>`;
+ if(actions.canCapture)html+=`<button onclick="captureSelectedStructure()">Capture</button>`;
+ if(actions.canRecruit)html+=`<button onclick="commandRecruitMode()">Recruit</button>`;
+ html+=`<button onclick="waitSelectedUnit()">Wait / Finish</button><button onclick="cancelSelectedUnit()">Cancel</button></div>`;
+ el.innerHTML=html;
+ el.classList.add('show');
+ let tileEl=document.querySelector(`.tile[data-x="${selected.x}"][data-y="${selected.y}"]`), wrap=$('mapWrap');
+ if(tileEl&&wrap){
+   let tr=tileEl.getBoundingClientRect(), wr=wrap.getBoundingClientRect();
+   let popupW=Math.max(190,Math.min(230,el.offsetWidth||220)), popupH=Math.max(120,Math.min(240,el.offsetHeight||160));
+   let rightSpace=wr.right-tr.right, leftSpace=tr.left-wr.left, preferRight=rightSpace>=popupW+18||rightSpace>=leftSpace;
+   let px=(preferRight?tr.right-wr.left+14:tr.left-wr.left-popupW-14)+wrap.scrollLeft;
+   let py=tr.top-wr.top+wrap.scrollTop-8;
+   el.style.left=Math.max(wrap.scrollLeft+10,Math.min(px,wrap.scrollLeft+wrap.clientWidth-popupW-12))+'px';
+   el.style.top=Math.max(wrap.scrollTop+10,Math.min(py,wrap.scrollTop+wrap.clientHeight-popupH-12))+'px';
+ }
+};
 
 </script>
 </body>

@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass
 
-Build: v0.26.06.12.1357
+Build: v0.26.06.12.1802
 
 Iron Kingdoms: War of Brass is a browser-playable fantasy steampunk turn-based strategy game with local play, AI players, manual Discord JSON save handoff, and Supabase cloud sync.
 
@@ -50,6 +50,6 @@ supabase_cloud_games_setup.sql
 
 After uploading, hard refresh the page with Ctrl+F5.
 
-## v0.26.06.12.1357 Intro Cartoon CRT Polish Notes
+## v0.26.06.12.1802 Direct Unit Command Flow Notes
 
-This build keeps the map-first retro console tactics layout, the first generated-asset integration pass, slower AI turn pacing, and the enlarged battle formations. New War now opens with the intro video on the left and player setup on the right, including Skip Intro, Replay Intro, intro volume controls, and a much stronger 80s cartoon CRT-style pixel, scanline, color-mask, and vignette overlay that keeps the original video visible. New map generation also avoids random isolated roads, bridges single-tile road gaps, and prunes road stubs that are not anchored to structures.
+This build keeps the map-first retro console tactics layout, generated asset integrations, slower AI turn pacing, enlarged battle formations, intro CRT treatment, and cleaned-up road generation. Unit selection now defaults to direct map actions: select a unit to see movement and attack ranges, click blue tiles to move, click red enemies to attack, and only use the command popup when capture or recruitment creates a real choice. Recruited/map/battle units now follow the selected commander faction art, and commander battle sprites can use matching `_attacking.png` frames when present.
