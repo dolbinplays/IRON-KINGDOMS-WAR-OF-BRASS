@@ -345,6 +345,15 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
   40%,76%{opacity:1}
 }
 
+
+/* Battle formation scale patch: reduce foot soldier battle sprites by 25%. */
+.battleSkirmishUnit.unit-infantry,
+.battleSkirmishUnit.unit-riflemen,
+.battleSkirmishUnit.unit-pikemen{
+  width:138px;
+  height:138px;
+}
+
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -727,8 +736,8 @@ function battleSkirmishHtml(a,d,detail){
  let aMax=squadMax(a.type), dMax=squadMax(d.type), aCount=battleUsesFeatureSprite(a)?0:Math.min(10,squadCount(a),aMax), dBefore=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d),dMax), dAfter=battleUsesFeatureSprite(d)?0:Math.min(10,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
  let aKind=battleActionKind(a), dKind=battleActionKind(d), aRanged=aKind!=='melee', dRanged=dKind!=='melee', aHeavy=aMax<=5||machineLike(a), dHeavy=dMax<=5||machineLike(d), lost=Math.max(0,dBefore-dAfter), impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
  let html=`<div class="battleSkirmishLayer ${aRanged?'rangedAttacker':''} ${dRanged?'rangedDefender':''}" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
- for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker ${aHeavy?'heavy':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(a,'left')}" src="${battleConsoleSpriteSrc(a,false)}" alt="${escapeHtml(a.type)}">`;}
- for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(d,'right')}" src="${battleConsoleSpriteSrc(d,false)}" alt="${escapeHtml(d.type)}">`;}
+ for(let i=0;i<aCount;i++){let row=i%3; html+=`<img class="battleSkirmishUnit attacker unit-${assetSlug(a.type)} ${aHeavy?'heavy':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(a,'left')}" src="${battleConsoleSpriteSrc(a,false)}" alt="${escapeHtml(a.type)}">`;}
+ for(let i=0;i<dBefore;i++){let row=i%3, loser=i>=dAfter&&lost>0; html+=`<img class="battleSkirmishUnit defender unit-${assetSlug(d.type)} ${dHeavy?'heavy':''} ${loser?'loser':''}" style="--i:${i};--row:${row};--face:${battleFacingScale(d,'right')}" src="${battleConsoleSpriteSrc(d,false)}" alt="${escapeHtml(d.type)}">`;}
  if(aRanged){html+=`<span class="battleMuzzle attacker ${aKind}"></span><span class="battleProjectile attacker ${aKind}"></span>`;}
  if(dRanged){html+=`<span class="battleMuzzle defender ${dKind}"></span><span class="battleProjectile defender ${dKind}"></span>`;}
  if(a.type==='Commander')html+=`<span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
