@@ -614,7 +614,7 @@ body.console-remake #log{
 
 
 
-/* Battle Animation Reliability Patch v0.26.06.13.1210
+/* Battle Animation Reliability Patch v0.26.06.13.1124
    Fixes off-screen formations, restores visible 45-degree strike arcs, keeps survivors lined up
    on their side of the battle background, and lowers commander/projectile effects to weapon height. */
 .battleSkirmishLayer{height:360px!important;bottom:2px!important;overflow:hidden!important;--battle-skirmish-duration:5.55s;}
@@ -688,7 +688,7 @@ body.console-remake #log{
 }
 
 
-/* Cinematic Individual Battle Clash Patch v0.26.06.13.1210
+/* Cinematic Individual Battle Clash Patch v0.26.06.13.1124
    Replaces robotic synchronized squad motion with per-soldier seeded timelines:
    visible formation, staggered rush, close-range strike, individual casualties, and regroup. */
 .battleSkirmishLayer{
@@ -795,7 +795,7 @@ body.console-remake #log{
 }
 
 
-/* Commander + Squad Coexistence / Active Defender Duel Patch v0.26.06.13.1210
+/* Commander + Squad Coexistence / Active Defender Duel Patch v0.26.06.13.1124
    Restores visible regular squad combat while preserving individual cinematic timing.
    Commanders are now a foreground hero layer, not a replacement for the skirmish layer. */
 .battleForegroundLayer{z-index:18!important;overflow:visible!important;}
@@ -837,141 +837,139 @@ body.console-remake #log{
 .battleSkirmishUnit.forceVisible{opacity:1;}
 
 
-/* Grand Battle Spectacle + Fourth-Wall Defeat Patch v0.26.06.13.1210
-   Bigger battle window, true small-unit approach motion, spaced commander ranged duels,
-   grandiose commander attack layers, and dramatic ricochet/spin defeat reactions. */
-.battleBox{width:min(1120px,96vw)!important;height:min(740px,94vh)!important;overflow:hidden!important;}
-.battleBg{inset:0 0 150px 0!important;background-size:cover!important;background-position:center 58%!important;}
+
+/* Reliable Battle Contact + Self-Test Patch v0.26.06.13.1305
+   Uses explicit per-soldier transform positions so sprites cannot get pinned by left/right overrides.
+   Adds readable melee contact, grand commander ranged attacks, fourth-wall launch casualties, and diagnostics. */
+#battleOverlay.show{align-items:center!important;justify-content:center!important;}
+.battleBox{width:min(1120px,96vw)!important;height:min(720px,94vh)!important;overflow:hidden!important;}
+.battleBg{inset:0 0 150px 0!important;background-size:cover!important;background-position:center bottom!important;}
 .battleShade{inset:0 0 150px 0!important;}
 .battleStage{top:0!important;bottom:150px!important;overflow:visible!important;}
-.battleForegroundLayer{inset:0 0 150px 0!important;overflow:visible!important;}
 .battleTop{height:150px!important;}
-.battleMsg{bottom:154px!important;}
-.skipBattle{bottom:158px!important;}
-.battleForegroundLayer .battleSkirmishLayer{top:0!important;bottom:0!important;height:auto!important;overflow:visible!important;}
-.battleSkirmishLayer{--unit-duration:5.85s;--battle-top-barrier:8px;}
-.battleSkirmishUnit{left:var(--line-left)!important;right:auto!important;animation-duration:var(--unit-duration,5.7s)!important;animation-delay:var(--entry-delay,0s)!important;will-change:transform,opacity,filter!important;}
-.battleSkirmishLayer.meleeScene .battleSkirmishUnit.attacker,
-.battleSkirmishLayer.meleeScene .battleSkirmishUnit.defender{animation-name:grandMeleeSingle!important;}
-.battleSkirmishLayer.meleeScene .battleSkirmishUnit.doubleStrike{animation-name:grandMeleeDouble!important;}
-.battleSkirmishLayer.meleeScene .battleSkirmishUnit.loser{animation-name:grandMeleeCasualty!important;}
-.battleSkirmishLayer.rangedScene .battleSkirmishUnit.attacker{animation-name:grandRangedShooter!important;}
-.battleSkirmishLayer.rangedScene .battleSkirmishUnit.defender{animation-name:grandRangedTarget!important;}
-.battleSkirmishLayer.rangedScene .battleSkirmishUnit.loser{animation-name:grandRangedCasualty!important;}
-.battleSkirmishLayer .battleSkirmishUnit.commanderLaunched{animation-name:commanderLaunchedCasualty!important;z-index:78!important;filter:brightness(1.25) drop-shadow(0 0 15px #fff2a4) drop-shadow(4px 7px 0 #000)!important;}
-.battleSkirmishUnit.commanderLaunched:nth-of-type(2n){animation-duration:calc(var(--unit-duration,5.7s) + .35s)!important;}
-.battleSkirmishUnit.commanderLaunched:nth-of-type(3n){animation-duration:calc(var(--unit-duration,5.7s) - .18s)!important;}
-.battleSkirmishUnit.commanderLaunched{--launch-spin:720deg;--launch-skew:14deg;--launch-scale-x:1.18;--launch-scale-y:.72;}
-.battleGroundSlam{position:absolute;left:var(--dust-left);bottom:var(--dust-bottom,28px);z-index:69;width:66px;height:22px;border-radius:50%;background:radial-gradient(ellipse,#fff2 0 10%,#d6a84faa 20%,#7a4e2288 45%,transparent 72%);opacity:0;pointer-events:none;animation:commanderLaunchDust .9s ease-out forwards;animation-delay:var(--dust-delay,3.6s);filter:drop-shadow(0 0 8px #ffd478);}
-.battleBarrierSpark{position:absolute;left:var(--spark-left);top:4px;z-index:90;width:82px;height:26px;border-radius:50%;background:radial-gradient(ellipse,#fff 0 10%,#bff1ffcc 18%,#ffd47899 38%,transparent 70%);opacity:0;pointer-events:none;animation:topBarrierSpark .65s ease-out forwards;animation-delay:var(--spark-delay,2.66s);}
-.battleBox.commanderRangedBattle .battleHudFighter.commanderFighter.attacker{left:calc(50% - 405px)!important;animation:commanderRangedCastL 3.15s ease-in-out forwards!important;}
-.battleBox.commanderRangedBattle .battleHudFighter.commanderFighter.defender{right:calc(50% - 405px)!important;animation:commanderRangedCastR 3.15s ease-in-out forwards!important;}
-.battleBox.commanderMeleeBattle .battleHudFighter.commanderFighter.attacker{animation:commanderMeleeClashL 3.0s ease-in-out forwards!important;}
-.battleBox.commanderMeleeBattle .battleHudFighter.commanderFighter.defender{animation:commanderMeleeClashR 3.0s ease-in-out forwards!important;}
-.battleHudFighter.commanderDefeatedLaunch{z-index:85!important;animation:commanderDefeatedFourthWallR 4.2s cubic-bezier(.22,.74,.2,1) forwards!important;}
+.battleForegroundLayer{position:absolute!important;left:0!important;right:0!important;top:0!important;bottom:150px!important;z-index:32!important;overflow:visible!important;pointer-events:none!important;display:block!important;}
+#battleOverlay.show .battleForegroundLayer{display:block!important;}
+.battleForegroundLayer .battleSkirmishLayer,
+.battleSkirmishLayer.reliableScene{position:absolute!important;left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:46!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:visible!important;pointer-events:none!important;}
+.battleForegroundLayer .battleSkirmishUnit,
+.battleSkirmishLayer.reliableScene .battleSkirmishUnit{position:absolute!important;left:0!important;right:auto!important;top:0!important;bottom:auto!important;display:block!important;visibility:visible!important;opacity:0;max-width:none!important;object-fit:contain!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;transform-origin:50% 86%!important;will-change:transform,opacity,filter!important;animation-duration:var(--unit-duration,5.85s)!important;animation-delay:var(--entry-delay,0s)!important;animation-fill-mode:both!important;animation-timing-function:cubic-bezier(.22,.72,.18,1)!important;z-index:var(--unit-z,50)!important;filter:drop-shadow(4px 7px 0 #000) drop-shadow(0 0 8px #000)!important;}
+.battleSkirmishUnit.smallFoot{width:102px!important;height:102px!important;}
+.battleSkirmishUnit.largeUnit{width:128px!important;height:128px!important;}
+.battleSkirmishUnit.heavyUnit{width:142px!important;height:142px!important;}
+.battleSkirmishUnit.forceVisible{visibility:visible!important;}
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit{animation-name:reliableMeleeSingle!important;}
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.doubleStrike{animation-name:reliableMeleeDouble!important;}
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.loser{animation-name:reliableMeleeCasualty!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.attacker{animation-name:reliableRangedShooter!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.defender{animation-name:reliableRangedTarget!important;}
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.loser{animation-name:reliableRangedCasualty!important;}
+.battleSkirmishLayer.reliableScene .battleSkirmishUnit.commanderLaunched{animation-name:reliableCommanderLaunch!important;z-index:92!important;filter:brightness(1.28) drop-shadow(0 0 15px #fff2a4) drop-shadow(4px 7px 0 #000)!important;}
+.battleSkirmishFallback{position:absolute;inset:0;border:2px solid #f0c15d;background:#0b164bbb;color:#fff2bd;font-weight:900;font-size:18px;text-align:center;line-height:80px;text-shadow:2px 2px #000;display:none;}
+.battleSkirmishUnit[src=''] + .battleSkirmishFallback{display:block;}
+@keyframes reliableMeleeSingle{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.98)}
+  25%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  39%{opacity:1;transform:translate(var(--contact-x),var(--contact-y)) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.05)}
+  45%{transform:translate(var(--windup-x),var(--windup-y)) scaleX(var(--face,1)) rotate(var(--windup-rot,-42deg)) scale(1.07)}
+  51%{transform:translate(var(--strike-x),var(--strike-y)) scaleX(var(--face,1)) rotate(var(--strike-rot,45deg)) scale(1.12)}
+  58%{transform:translate(var(--recoil-x),var(--recoil-y)) scaleX(var(--face,1)) rotate(var(--recover-rot,6deg)) scale(1.03)}
+  70%{opacity:1;transform:translate(var(--skirmish-x),var(--skirmish-y)) scaleX(var(--face,1)) rotate(var(--idle-rot,0deg)) scale(1.01)}
+  86%,100%{opacity:1;transform:translate(var(--regroup-x),var(--regroup-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes reliableMeleeDouble{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.98)}
+  24%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  37%{opacity:1;transform:translate(var(--contact-x),var(--contact-y)) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.05)}
+  42%{transform:translate(var(--windup-x),var(--windup-y)) scaleX(var(--face,1)) rotate(var(--windup-rot,-42deg)) scale(1.07)}
+  47%{transform:translate(var(--strike-x),var(--strike-y)) scaleX(var(--face,1)) rotate(var(--strike-rot,45deg)) scale(1.12)}
+  53%{transform:translate(var(--recoil-x),var(--recoil-y)) scaleX(var(--face,1)) rotate(var(--recover-rot,6deg)) scale(1.03)}
+  60%{transform:translate(var(--second-windup-x),var(--second-windup-y)) scaleX(var(--face,1)) rotate(var(--second-windup-rot,-34deg)) scale(1.06)}
+  66%{transform:translate(var(--second-strike-x),var(--second-strike-y)) scaleX(var(--face,1)) rotate(var(--second-strike-rot,38deg)) scale(1.11)}
+  74%{opacity:1;transform:translate(var(--skirmish-x),var(--skirmish-y)) scaleX(var(--face,1)) rotate(var(--idle-rot,0deg)) scale(1.01)}
+  88%,100%{opacity:1;transform:translate(var(--regroup-x),var(--regroup-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes reliableMeleeCasualty{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.98)}
+  25%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  39%{opacity:1;transform:translate(var(--contact-x),var(--contact-y)) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.05)}
+  46%{transform:translate(var(--strike-x),var(--strike-y)) scaleX(var(--face,1)) rotate(var(--strike-rot,45deg)) scale(1.1)}
+  62%{opacity:1;filter:brightness(2.2) drop-shadow(0 0 16px #fff);transform:translate(var(--fall-x),var(--fall-y)) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,18deg)) scale(.96)}
+  80%,100%{opacity:0;transform:translate(var(--fall-x),var(--ground-y)) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,52deg)) scale(.68)}
+}
+@keyframes reliableRangedShooter{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%,26%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  32%{transform:translate(var(--range-back-x),var(--range-back-y)) scaleX(var(--face,1)) rotate(var(--range-windup-rot,-18deg)) scale(1.03)}
+  37%{transform:translate(var(--range-fire-x),var(--range-fire-y)) scaleX(var(--face,1)) rotate(var(--range-fire-rot,12deg)) scale(1.06)}
+  47%{transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  55%{transform:translate(var(--range-back-x),var(--range-back-y)) scaleX(var(--face,1)) rotate(var(--range-windup-rot,-18deg)) scale(1.03)}
+  60%{transform:translate(var(--range-fire-x),var(--range-fire-y)) scaleX(var(--face,1)) rotate(var(--range-fire-rot,12deg)) scale(1.06)}
+  73%,100%{opacity:1;transform:translate(var(--regroup-x),var(--regroup-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes reliableRangedTarget{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%,30%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  38%{transform:translate(var(--hit-x),var(--hit-y)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-8deg)) scale(.98);filter:brightness(1.8)}
+  47%{transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  61%{transform:translate(var(--hit-x),var(--hit-y)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-8deg)) scale(.98);filter:brightness(1.7)}
+  76%,100%{opacity:1;transform:translate(var(--regroup-x),var(--regroup-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+}
+@keyframes reliableRangedCasualty{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%,30%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  39%{opacity:1;filter:brightness(2.3) drop-shadow(0 0 12px #fff);transform:translate(var(--hit-x),var(--hit-y)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-8deg)) scale(.98)}
+  61%{opacity:.96;transform:translate(var(--fall-x),var(--fall-y)) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,18deg)) scale(.92)}
+  80%,100%{opacity:0;transform:translate(var(--fall-x),var(--ground-y)) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,52deg)) scale(.66)}
+}
+@keyframes reliableCommanderLaunch{
+  0%{opacity:0;transform:translate(var(--start-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
+  12%,28%{opacity:1;transform:translate(var(--line-x),var(--line-y)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
+  35%{opacity:1;filter:brightness(3) drop-shadow(0 0 18px #fff);transform:translate(var(--hit-x),var(--hit-y)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-10deg)) scale(.98)}
+  45%{opacity:1;transform:translate(var(--launch-top-x),18px) scaleX(var(--face,1)) rotate(var(--launch-spin,540deg)) skewX(var(--launch-skew,13deg)) scale(1.26,.58)}
+  54%{opacity:1;transform:translate(var(--launch-back-x),74px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin,540deg) * 1.28)) skewX(calc(var(--launch-skew,13deg) * -.65)) scale(.78,1.2)}
+  70%{opacity:1;transform:translate(var(--launch-land-x),var(--launch-land-y)) scaleX(var(--face,1)) rotate(calc(var(--launch-spin,540deg) * 1.7)) skewX(var(--launch-skew,13deg)) scale(1.34,.58)}
+  78%{opacity:1;transform:translate(var(--launch-bounce-x),var(--launch-bounce-y)) scaleX(var(--face,1)) rotate(calc(var(--launch-spin,540deg) * 1.9)) skewX(calc(var(--launch-skew,13deg) * -.4)) scale(.86,1.12)}
+  88%{opacity:.78;transform:translate(var(--launch-land-x),var(--launch-land-y)) scaleX(var(--face,1)) rotate(calc(var(--launch-spin,540deg) * 2.05)) scale(1.08,.82)}
+  100%{opacity:0;transform:translate(var(--launch-land-x),var(--launch-land-y)) scaleX(var(--face,1)) rotate(calc(var(--launch-spin,540deg) * 2.12)) scale(.58)}
+}
+.battleGroundSlam{position:absolute;left:0;top:0;z-index:91;width:78px;height:26px;border-radius:50%;background:radial-gradient(ellipse,#fff5 0 10%,#ffd478cc 20%,#7a4e22aa 45%,transparent 72%);opacity:0;pointer-events:none;animation:reliableLaunchDust .95s ease-out forwards;animation-delay:var(--dust-delay,4.05s);filter:drop-shadow(0 0 10px #ffd478);transform:translate(var(--dust-x),var(--dust-y));}
+@keyframes reliableLaunchDust{0%,72%{opacity:0;transform:translate(var(--dust-x),var(--dust-y)) scale(.25)}76%{opacity:.95;transform:translate(var(--dust-x),var(--dust-y)) scale(1.1,.5)}100%{opacity:0;transform:translate(var(--dust-x),calc(var(--dust-y) + 8px)) scale(2.6,.6)}}
+.battleCommanderCharge,.battleCommanderOriginFlash,.battleCommanderGrandShot,.battleCommanderTrail,.battleCommanderImpactCore,.battleCommanderImpactRing,.battleCommanderParry{position:absolute;z-index:86;pointer-events:none;opacity:0;}
+.battleCommanderCharge{left:var(--a-charge-x);top:var(--cmd-charge-y,210px);width:190px;height:190px;border-radius:50%;border:5px solid var(--a-wave-color,#ffd478);box-shadow:0 0 30px var(--a-wave-color,#ffd478), inset 0 0 28px var(--a-wave-color,#ffd478);animation:commanderChargeAura 1.25s ease-out .65s forwards;transform:translate(-50%,-50%);}
+.battleCommanderOriginFlash{left:var(--a-origin-x);top:var(--shot-y);width:72px;height:72px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,var(--a-wave-color,#ffd478) 25%,#ffffff33 46%,transparent 72%);filter:drop-shadow(0 0 16px var(--a-wave-color,#ffd478));animation:commanderOriginFlash .55s steps(3,end) 1.55s forwards;transform:translate(-50%,-50%);}
+.battleCommanderTrail{left:var(--a-origin-x);top:calc(var(--shot-y) - 9px);height:18px;width:var(--grand-shot-distance,44vw);background:linear-gradient(90deg,var(--a-wave-color,#ffd478),#ffffff88,transparent);filter:blur(2px) drop-shadow(0 0 9px var(--a-wave-color,#ffd478));animation:commanderTrailFlash 1.15s ease-out 1.62s forwards;transform-origin:left center;}
+.battleCommanderGrandShot{left:var(--a-origin-x);top:var(--shot-y);width:82px;height:82px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,var(--a-wave-color,#ffd478) 24%,#ff7b2e 44%,transparent 70%);box-shadow:0 0 25px var(--a-wave-color,#ffd478),0 0 44px #fff8;animation:commanderGrandShotA 1.18s cubic-bezier(.18,.68,.22,1) 1.6s forwards;transform:translate(-50%,-50%);}
+.battleCommanderImpactCore{left:var(--impact-x);top:var(--impact-y);width:118px;height:118px;border-radius:50%;background:radial-gradient(circle,#fff 0 9%,var(--a-wave-color,#ffd478) 22%,#ff5b2f 44%,transparent 72%);box-shadow:0 0 36px var(--a-wave-color,#ffd478),0 0 60px #fff7;animation:commanderImpactCore .95s ease-out 2.55s forwards;transform:translate(-50%,-50%);}
+.battleCommanderImpactRing{left:var(--impact-x);top:var(--impact-y);width:150px;height:150px;border-radius:50%;border:8px solid var(--a-wave-color,#ffd478);filter:drop-shadow(0 0 18px var(--a-wave-color,#ffd478));animation:commanderImpactRing 1s ease-out 2.55s forwards;transform:translate(-50%,-50%);}
+.battleCommanderParry{left:var(--impact-x);top:var(--impact-y);width:98px;height:98px;border-radius:50%;border:5px dashed var(--d-wave-color,#9ed7ff);box-shadow:0 0 20px var(--d-wave-color,#9ed7ff);animation:commanderParryFlash .9s ease-out 2.25s forwards;transform:translate(-50%,-50%);}
+.battleBox.commanderImpactShake{animation:commanderImpactShake .32s linear 2.55s 1;}
+@keyframes commanderChargeAura{0%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0)}35%{opacity:.95}100%{opacity:0;transform:translate(-50%,-50%) scale(1.65) rotate(120deg)}}
+@keyframes commanderOriginFlash{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.35)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}}
+@keyframes commanderTrailFlash{0%{opacity:0;clip-path:inset(0 100% 0 0)}12%{opacity:.95}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes commanderGrandShotA{0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}12%{opacity:1}100%{opacity:0;transform:translate(calc(var(--grand-shot-distance,44vw) - 50%),-50%) scale(1.18)}}
+@keyframes commanderImpactCore{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}22%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(2.1)}}
+@keyframes commanderImpactRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(0)}20%{opacity:.95}100%{opacity:0;transform:translate(-50%,-50%) scale(2.6) rotate(90deg)}}
+@keyframes commanderParryFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0)}35%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(1.7) rotate(-120deg)}}
+@keyframes commanderImpactShake{0%,100%{transform:translate(0,0)}20%{transform:translate(6px,-3px)}40%{transform:translate(-5px,3px)}60%{transform:translate(4px,2px)}80%{transform:translate(-3px,-2px)}}
+.battleHudFighter.commanderFighter.attacker{left:calc(50% - 380px)!important;animation:commanderRangedPoiseL 5.8s ease-in-out forwards!important;}
+.battleHudFighter.commanderFighter.defender{right:calc(50% - 380px)!important;animation:commanderRangedPoiseR 5.8s ease-in-out forwards!important;}
+.battleHudFighter.commanderFighter.commanderAttackerActive .battleHudArt{filter:drop-shadow(0 0 16px var(--a-wave-color,#ffd478)) drop-shadow(0 10px 0 #0008)!important;}
+.battleHudFighter.commanderFighter.commanderDefenderActive .battleHudArt{filter:drop-shadow(0 0 12px var(--d-wave-color,#9ed7ff)) drop-shadow(0 10px 0 #0008)!important;}
+.battleHudFighter.commanderDefeatedLaunch{z-index:96!important;animation:commanderDefeatedFourthWallR 4.4s cubic-bezier(.22,.74,.2,1) .25s forwards!important;}
 .battleHudFighter.commanderDefeatedLaunch.attacker{animation-name:commanderDefeatedFourthWallL!important;}
-.commanderChargeAura,.commanderOriginFlash,.commanderGrandProjectile,.commanderTrail,.commanderImpactRing,.commanderImpactCore,.commanderParryBurst{position:absolute;pointer-events:none;z-index:73;}
-.commanderChargeAura{left:var(--a-origin-x);top:var(--commander-origin-y,270px);width:176px;height:176px;border-radius:50%;transform:translate(-50%,-50%);opacity:0;background:radial-gradient(circle, var(--a-wave-color,#ffd478) 0 9%, #fff8 10% 12%, transparent 42%);box-shadow:0 0 20px var(--a-wave-color,#ffd478), inset 0 0 22px var(--a-wave-color,#ffd478);animation:commanderChargeAura 1.24s ease-out .28s forwards;}
-.commanderOriginFlash{left:var(--a-origin-x);top:var(--shot-y,272px);width:82px;height:82px;border-radius:50%;transform:translate(-50%,-50%);opacity:0;background:radial-gradient(circle,#fff 0 10%,var(--a-wave-color,#ffd478) 22%,#fff4 42%,transparent 72%);filter:drop-shadow(0 0 18px var(--a-wave-color,#ffd478));animation:commanderOriginFlash .72s steps(3,end) 1.06s forwards;}
-.commanderGrandProjectile{left:var(--a-origin-x);top:var(--shot-y,272px);width:74px;height:28px;border-radius:999px;opacity:0;background:linear-gradient(90deg,#fff,var(--a-wave-color,#ffd478),#ffcf61,transparent);box-shadow:0 0 20px var(--a-wave-color,#ffd478),0 0 38px #fff4;transform:translate(-50%,-50%);animation:commanderGrandProjectile 1.22s cubic-bezier(.18,.68,.16,1) 1.28s forwards;}
-.commanderGrandProjectile.magic{width:76px;height:76px;border-radius:50%;background:radial-gradient(circle,#fff 0 12%,#caa7ff 25%,var(--a-wave-color,#9d7bff) 48%,transparent 76%);box-shadow:0 0 24px #caa7ff,0 0 48px var(--a-wave-color,#9d7bff);}
-.commanderGrandProjectile.cannon{width:96px;height:34px;background:linear-gradient(90deg,#fff,#ffd478,#ff6b2f,transparent);box-shadow:0 0 26px #ff9b45,0 0 48px #ff6b2f88;}
-.commanderGrandProjectile.rifle{width:120px;height:14px;background:linear-gradient(90deg,#fff,#ffe8a8,#aee8ff,transparent);box-shadow:0 0 18px #fff,0 0 36px #aee8ff99;}
-.commanderGrandProjectile.melee{width:148px;height:82px;border-radius:50%;background:radial-gradient(ellipse,#fff 0 8%,var(--a-wave-color,#ffd478) 18%,transparent 62%);}
-.commanderTrail{left:var(--a-origin-x);top:var(--shot-y,272px);width:320px;height:44px;border-radius:999px;opacity:0;transform:translate(-8%,-50%);background:linear-gradient(90deg,var(--a-wave-color,#ffd478) 0%,#fff6 28%,transparent 72%);filter:blur(1px) drop-shadow(0 0 16px var(--a-wave-color,#ffd478));animation:commanderTrail 1.2s ease-out 1.28s forwards;}
-.commanderImpactRing{left:var(--impact-x);top:var(--impact-y,276px);width:178px;height:178px;border-radius:50%;border:9px double var(--a-wave-color,#ffd478);transform:translate(-50%,-50%) scale(.2);opacity:0;filter:drop-shadow(0 0 24px var(--a-wave-color,#ffd478));animation:commanderImpactRing 1.0s cubic-bezier(.18,.72,.16,1) 2.18s forwards;}
-.commanderImpactCore{left:var(--impact-x);top:var(--impact-y,276px);width:142px;height:142px;border-radius:50%;transform:translate(-50%,-50%) scale(.2);opacity:0;background:radial-gradient(circle,#fff 0 9%,var(--a-wave-color,#ffd478) 22%,#ff6b3388 42%,transparent 72%);box-shadow:0 0 28px #fff,0 0 54px var(--a-wave-color,#ffd478);animation:commanderImpactCore .9s ease-out 2.12s forwards;}
-.commanderParryBurst{left:var(--d-origin-x);top:var(--impact-y,276px);width:118px;height:118px;border-radius:50%;transform:translate(-50%,-50%) scale(.35);opacity:0;border:7px solid var(--d-wave-color,#aee8ff);box-shadow:0 0 20px var(--d-wave-color,#aee8ff),inset 0 0 18px var(--d-wave-color,#aee8ff);animation:commanderParryBurst .78s ease-out 1.9s forwards;}
-.battleBox.commanderSpectacle .battleForegroundLayer{animation:battleSpectacleShake .42s linear 2.16s 1;}
-.battleBox.commanderSpectacle .battleHudFighter.defender .battleHudArt{animation:commanderDefenderHitFlash .72s linear 2.1s 1;}
-@keyframes grandMeleeSingle{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  12%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  25%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  41%{opacity:1;transform:translateX(var(--clash-x)) translateY(calc(var(--jitter-y,0px) + var(--rush-y,0px))) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.04)}
-  47%{transform:translateX(var(--wind-x)) translateY(calc(var(--jitter-y,0px) - 18px)) scaleX(var(--face,1)) rotate(var(--windup-rot,-42deg)) scale(1.07)}
-  53%{transform:translateX(var(--strike-x)) translateY(calc(var(--jitter-y,0px) + 14px)) scaleX(var(--face,1)) rotate(var(--strike-rot,44deg)) scale(1.12)}
-  62%{transform:translateX(var(--recoil-x)) translateY(calc(var(--jitter-y,0px) + 2px)) scaleX(var(--face,1)) rotate(var(--recover-rot,8deg)) scale(1.03)}
-  75%{transform:translateX(var(--skirmish-x)) translateY(calc(var(--jitter-y,0px) + var(--skirmish-y,0px))) scaleX(var(--face,1)) rotate(var(--idle-rot,0deg)) scale(1.01)}
-  88%,100%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-}
-@keyframes grandMeleeDouble{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  11%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  24%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  38%{transform:translateX(var(--clash-x)) translateY(calc(var(--jitter-y,0px) + var(--rush-y,0px))) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.04)}
-  44%{transform:translateX(var(--wind-x)) translateY(calc(var(--jitter-y,0px) - 18px)) scaleX(var(--face,1)) rotate(var(--windup-rot,-42deg)) scale(1.07)}
-  50%{transform:translateX(var(--strike-x)) translateY(calc(var(--jitter-y,0px) + 14px)) scaleX(var(--face,1)) rotate(var(--strike-rot,44deg)) scale(1.12)}
-  58%{transform:translateX(var(--recoil-x)) translateY(calc(var(--jitter-y,0px) + 2px)) scaleX(var(--face,1)) rotate(var(--recover-rot,8deg)) scale(1.03)}
-  65%{transform:translateX(var(--second-wind-x)) translateY(calc(var(--jitter-y,0px) - 14px)) scaleX(var(--face,1)) rotate(var(--second-windup-rot,-34deg)) scale(1.06)}
-  71%{transform:translateX(var(--second-strike-x)) translateY(calc(var(--jitter-y,0px) + 12px)) scaleX(var(--face,1)) rotate(var(--second-strike-rot,38deg)) scale(1.11)}
-  80%{transform:translateX(var(--skirmish-x)) translateY(calc(var(--jitter-y,0px) + var(--skirmish-y,0px))) scaleX(var(--face,1)) rotate(var(--idle-rot,0deg)) scale(1.01)}
-  90%,100%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-}
-@keyframes grandMeleeCasualty{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  10%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  34%{transform:translateX(var(--clash-x)) translateY(calc(var(--jitter-y,0px) + var(--rush-y,0px))) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.05)}
-  46%{filter:brightness(2.2);transform:translateX(var(--strike-x)) translateY(calc(var(--jitter-y,0px) + 16px)) scaleX(var(--face,1)) rotate(var(--strike-rot,44deg)) scale(1.08)}
-  65%{opacity:1;transform:translateX(var(--fall-x2)) translateY(calc(var(--jitter-y,0px) + 26px)) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,18deg)) scale(.94)}
-  84%,100%{opacity:0;transform:translateX(var(--fall-x2)) translateY(calc(var(--jitter-y,0px) + 86px)) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,52deg)) scale(.62)}
-}
-@keyframes grandRangedShooter{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  12%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  28%{transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  34%{transform:translateX(var(--range-back-x)) translateY(calc(var(--jitter-y,0px) - 8px)) scaleX(var(--face,1)) rotate(var(--range-windup-rot,-18deg)) scale(1.03)}
-  39%{transform:translateX(var(--range-fire-x)) translateY(calc(var(--jitter-y,0px) - 2px)) scaleX(var(--face,1)) rotate(var(--range-fire-rot,11deg)) scale(1.05)}
-  48%{transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(var(--range-settle-rot,2deg)) scale(1)}
-  58%{transform:translateX(var(--range-back-x)) translateY(calc(var(--jitter-y,0px) - 6px)) scaleX(var(--face,1)) rotate(var(--range-windup-rot,-18deg)) scale(1.03)}
-  63%{transform:translateX(var(--range-fire-x)) translateY(calc(var(--jitter-y,0px) - 2px)) scaleX(var(--face,1)) rotate(var(--range-fire-rot,11deg)) scale(1.05)}
-  80%,100%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-}
-@keyframes grandRangedTarget{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  12%,31%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  39%{transform:translateX(var(--hit-x)) translateY(calc(var(--jitter-y,0px) + 4px)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-6deg)) scale(.98)}
-  50%{transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  64%{transform:translateX(var(--hit-x)) translateY(calc(var(--jitter-y,0px) + 4px)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-6deg)) scale(.98)}
-  80%,100%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-}
-@keyframes grandRangedCasualty{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  12%,34%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  43%{filter:brightness(2.1);transform:translateX(var(--hit-x)) translateY(calc(var(--jitter-y,0px) + 6px)) scaleX(var(--face,1)) rotate(var(--hit-recoil-rot,-6deg)) scale(.98)}
-  62%{opacity:.95;transform:translateX(var(--fall-x2)) translateY(calc(var(--jitter-y,0px) + 22px)) scaleX(var(--face,1)) rotate(var(--lose-mid-rot,18deg)) scale(.9)}
-  82%,100%{opacity:0;transform:translateX(var(--fall-x2)) translateY(calc(var(--jitter-y,0px) + 86px)) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,52deg)) scale(.62)}
-}
-@keyframes commanderLaunchedCasualty{
-  0%{opacity:0;transform:translateX(var(--enter-x)) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(.9)}
-  10%{opacity:1;transform:translateX(0) translateY(var(--jitter-y,0px)) scaleX(var(--face,1)) rotate(0deg) scale(1)}
-  30%{transform:translateX(var(--clash-x)) translateY(calc(var(--jitter-y,0px) + var(--rush-y,0px))) scaleX(var(--face,1)) rotate(var(--approach-rot,0deg)) scale(1.04)}
-  43%{filter:brightness(2.6);transform:translateX(var(--strike-x)) translateY(calc(var(--jitter-y,0px) + 10px)) scaleX(var(--face,1)) rotate(var(--strike-rot,44deg)) scale(1.1)}
-  54%{opacity:1;transform:translateX(var(--launch-mid-x)) translateY(-315px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) * .36)) skewX(var(--launch-skew)) scale(var(--launch-scale-x),var(--launch-scale-y))}
-  60%{transform:translateX(var(--launch-top-x)) translateY(-430px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) * .52)) skewX(calc(var(--launch-skew) * -1)) scale(1.34,.52);filter:brightness(3) drop-shadow(0 0 18px #fff)}
-  67%{transform:translateX(var(--launch-back-x)) translateY(-280px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) * .76)) skewY(9deg) scale(.78,1.28)}
-  75%{transform:translateX(var(--launch-fall-x)) translateY(24px) scaleX(var(--face,1)) rotate(var(--launch-spin)) skewX(-7deg) scale(1.22,.74)}
-  81%{transform:translateX(var(--launch-fall-x)) translateY(-26px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) + 68deg)) skewX(6deg) scale(.88,1.18)}
-  88%{opacity:.9;transform:translateX(var(--launch-fall-x)) translateY(34px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) + 112deg)) skewX(-4deg) scale(1.06,.82)}
-  100%{opacity:0;transform:translateX(var(--launch-fall-x)) translateY(78px) scaleX(var(--face,1)) rotate(calc(var(--launch-spin) + 150deg)) skewX(0deg) scale(.55,.55)}
-}
-@keyframes commanderLaunchDust{0%,72%{opacity:0;transform:translate(-50%,0) scale(.25)}76%{opacity:.95;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,4px) scale(2.4)}}
-@keyframes topBarrierSpark{0%,55%{opacity:0;transform:translate(-50%,0) scale(.3)}60%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,6px) scale(2.2)}}
-@keyframes commanderRangedCastL{0%{opacity:0;transform:translateX(-420px)}16%{opacity:1;transform:translateX(0)}36%{transform:translateX(34px) scale(1.03)}56%,74%{transform:translateX(56px) scale(1.06)}100%{opacity:1;transform:translateX(0)}}
-@keyframes commanderRangedCastR{0%{opacity:0;transform:translateX(420px)}16%{opacity:1;transform:translateX(0)}36%{transform:translateX(-34px) scale(1.03)}56%,74%{transform:translateX(-56px) scale(1.06)}100%{opacity:1;transform:translateX(0)}}
-@keyframes commanderMeleeClashL{0%{opacity:0;transform:translateX(-390px)}15%{opacity:1;transform:translateX(0)}45%,65%{transform:translateX(130px) scale(1.08)}82%,100%{opacity:1;transform:translateX(0)}}
-@keyframes commanderMeleeClashR{0%{opacity:0;transform:translateX(390px)}15%{opacity:1;transform:translateX(0)}45%,65%{transform:translateX(-130px) scale(1.08)}82%,100%{opacity:1;transform:translateX(0)}}
-@keyframes commanderDefeatedFourthWallR{0%{opacity:1;transform:translateX(0) translateY(0) rotate(0) skewX(0) scale(1)}32%{opacity:1;transform:translateX(-80px) translateY(-120px) rotate(-80deg) skewX(8deg) scale(.92,1.12)}48%{transform:translateX(-132px) translateY(-420px) rotate(-230deg) skewX(-13deg) scale(1.22,.62);filter:brightness(2.8) drop-shadow(0 0 20px #fff)}57%{transform:translateX(-205px) translateY(-240px) rotate(-360deg) skewY(10deg) scale(.76,1.28)}72%{transform:translateX(-145px) translateY(36px) rotate(-540deg) skewX(-8deg) scale(1.26,.68)}80%{transform:translateX(-128px) translateY(-42px) rotate(-620deg) skewX(5deg) scale(.88,1.18)}90%{opacity:.9;transform:translateX(-110px) translateY(48px) rotate(-700deg) skewX(0) scale(.74,.74)}100%{opacity:0;transform:translateX(-110px) translateY(80px) rotate(-760deg) scale(.45,.45)}}
-@keyframes commanderDefeatedFourthWallL{0%{opacity:1;transform:translateX(0) translateY(0) rotate(0) skewX(0) scale(1)}32%{opacity:1;transform:translateX(80px) translateY(-120px) rotate(80deg) skewX(-8deg) scale(.92,1.12)}48%{transform:translateX(132px) translateY(-420px) rotate(230deg) skewX(13deg) scale(1.22,.62);filter:brightness(2.8) drop-shadow(0 0 20px #fff)}57%{transform:translateX(205px) translateY(-240px) rotate(360deg) skewY(-10deg) scale(.76,1.28)}72%{transform:translateX(145px) translateY(36px) rotate(540deg) skewX(8deg) scale(1.26,.68)}80%{transform:translateX(128px) translateY(-42px) rotate(620deg) skewX(-5deg) scale(.88,1.18)}90%{opacity:.9;transform:translateX(110px) translateY(48px) rotate(700deg) skewX(0) scale(.74,.74)}100%{opacity:0;transform:translateX(110px) translateY(80px) rotate(760deg) scale(.45,.45)}}
-@keyframes commanderChargeAura{0%{opacity:0;transform:translate(-50%,-50%) scale(.45) rotate(0)}35%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(1.85) rotate(90deg)}}
-@keyframes commanderOriginFlash{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.35)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.28)}}
-@keyframes commanderGrandProjectile{0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}10%{opacity:1}100%{opacity:0;left:var(--impact-x);top:var(--impact-y,276px);transform:translate(-50%,-50%) scale(1.28) rotate(12deg)}}
-@keyframes commanderTrail{0%{opacity:0;transform:translate(-5%,-50%) scaleX(.1)}15%{opacity:.75}100%{opacity:0;left:var(--impact-x);top:var(--impact-y,276px);transform:translate(-80%,-50%) scaleX(1.25)}}
-@keyframes commanderImpactRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(0)}28%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(2.15) rotate(160deg)}}
-@keyframes commanderImpactCore{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.95)}}
-@keyframes commanderParryBurst{0%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0)}35%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(1.55) rotate(-120deg)}}
-@keyframes battleSpectacleShake{0%,100%{transform:translate(0,0)}14%{transform:translate(6px,-4px)}28%{transform:translate(-5px,3px)}42%{transform:translate(4px,5px)}56%{transform:translate(-6px,-2px)}72%{transform:translate(3px,2px)}}
-@keyframes commanderDefenderHitFlash{0%,100%{filter:drop-shadow(0 10px 0 #0008) drop-shadow(0 0 10px #000)}35%,60%{filter:brightness(2.5) saturate(1.7) drop-shadow(0 0 28px #fff)}}
+@keyframes commanderRangedPoiseL{0%{opacity:0;transform:translateX(-330px)}14%,40%{opacity:1;transform:translateX(0)}52%{transform:translateX(30px) scale(1.04)}66%,100%{opacity:1;transform:translateX(0)}}
+@keyframes commanderRangedPoiseR{0%{opacity:0;transform:translateX(330px)}14%,40%{opacity:1;transform:translateX(0)}52%{transform:translateX(-30px) scale(1.04)}66%,100%{opacity:1;transform:translateX(0)}}
+@keyframes commanderDefeatedFourthWallR{0%{opacity:1;transform:translateX(0) rotate(0) scale(1)}18%{transform:translate(-40px,-250px) rotate(-220deg) skewX(-12deg) scale(.78,1.25)}28%{transform:translate(-70px,-335px) rotate(-420deg) skewX(18deg) scale(1.35,.55)}44%{transform:translate(95px,-165px) rotate(-610deg) skewX(-8deg) scale(.82,1.18)}68%{transform:translate(30px,68px) rotate(-840deg) skewX(15deg) scale(1.36,.55)}80%{opacity:1;transform:translate(8px,20px) rotate(-930deg) scale(.9,1.08)}100%{opacity:0;transform:translate(14px,78px) rotate(-1020deg) scale(.45)}}
+@keyframes commanderDefeatedFourthWallL{0%{opacity:1;transform:translateX(0) rotate(0) scale(1)}18%{transform:translate(40px,-250px) rotate(220deg) skewX(12deg) scale(.78,1.25)}28%{transform:translate(70px,-335px) rotate(420deg) skewX(-18deg) scale(1.35,.55)}44%{transform:translate(-95px,-165px) rotate(610deg) skewX(8deg) scale(.82,1.18)}68%{transform:translate(-30px,68px) rotate(840deg) skewX(-15deg) scale(1.36,.55)}80%{opacity:1;transform:translate(-8px,20px) rotate(930deg) scale(.9,1.08)}100%{opacity:0;transform:translate(-14px,78px) rotate(1020deg) scale(.45)}}
+.battleDebugNote{position:absolute;left:10px;top:10px;z-index:120;background:#000b;border:1px solid #ffd478;color:#fff2bd;border-radius:4px;padding:4px 6px;font:12px/1.2 monospace;pointer-events:none;}
+
+
+/* Commander launch wins over normal loser animation in both melee and ranged scenes. */
+.battleSkirmishLayer.reliableScene.meleeScene .battleSkirmishUnit.commanderLaunched,
+.battleSkirmishLayer.reliableScene.rangedScene .battleSkirmishUnit.commanderLaunched{animation-name:reliableCommanderLaunch!important;}
 
 </style>
 </head>
@@ -1015,7 +1013,7 @@ body.console-remake #log{
 <header>
   <h1>IRON KINGDOMS: WAR OF BRASS</h1>
   <span class="badge" id="turnBadge">No game</span>
-  <span class="badge" id="versionBadge">Build v0.26.06.13.1210</span>
+  <span class="badge" id="versionBadge">Build v0.26.06.13.1124</span>
   <span class="badge" id="saveBadge">Discord Hotseat JSON</span>
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
@@ -1292,7 +1290,7 @@ body.console-remake #log{
 
 <script>
 'use strict';
-const VERSION='v0.26.06.13.1210';
+const VERSION='v0.26.06.13.1305';
 const INTRO_HOLD_TIME=56;
 const INTRO_AUDIO_KEY='ik_intro_audio';
 const INTRO_PIXEL_SCALE=.22;
@@ -1410,6 +1408,23 @@ function tone(freq,t,dur,type='square',vol=.2){if(!audio.ctx)return; let ctx=aud
 function drum(t,kind='tick',vol=.25){if(!audio.ctx)return; let ctx=audio.ctx,osc=ctx.createOscillator(),g=ctx.createGain(); osc.type=kind==='kick'?'sine':'triangle'; osc.frequency.setValueAtTime(kind==='kick'?110:220,t); osc.frequency.exponentialRampToValueAtTime(kind==='kick'?45:90,t+.12); g.gain.setValueAtTime(vol*audio.musicVol,t); g.gain.exponentialRampToValueAtTime(.0001,t+.16); osc.connect(g).connect(ctx.destination); osc.start(t); osc.stop(t+.18); audio.activeSources.push(osc); osc.onended=()=>{audio.activeSources=audio.activeSources.filter(x=>x!==osc)}}
 function scheduleMusic(token){if(token!==audio.fallbackToken||!audio.ctx||!audio.musicOn)return; const ctx=audio.ctx,tempo=.18; const patterns={title:[57,60,64,67,69,67,64,60],turn:[60,64,67,72,71,67,64,62],battle:[64,67,71,76,74,71,69,67],tension:[55,58,62,65,67,65,62,58],observer:[52,55,59,62,64,62,59,55],danger:[55,59,62,67,70,67,62,59]}; let pat=patterns[audio.theme]||patterns.turn; while(audio.next<ctx.currentTime+.45){let i=audio.step%16,root=pat[i%pat.length]; if(i%2===0)tone(noteFreq(root),audio.next,.14,'square',.12); if(i%4===0)tone(noteFreq(root-12),audio.next,.18,'sawtooth',.08); if(i%4===2)tone(noteFreq(root+7),audio.next,.12,'triangle',.07); if(i%4===0)drum(audio.next,'kick',.16); else if(i%2===0)drum(audio.next,'tick',.07); audio.next+=tempo; audio.step++;}}
 function sfx(kind='click'){if(!audio.sfxOn)return; enableAudio(); if(!audio.ctx)return; let ctx=audio.ctx,t=ctx.currentTime+.01,vol=audio.sfxVol; function blip(f,d,type='square',v=.15,delay=0){let o=ctx.createOscillator(),g=ctx.createGain(),st=t+delay;o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v*vol,st);g.gain.exponentialRampToValueAtTime(.0001,st+d);o.connect(g).connect(ctx.destination);o.start(st);o.stop(st+d+.02)} if(kind==='move')blip(330,.08,'triangle',.12); if(kind==='hit'){blip(95,.14,'sawtooth',.2); setTimeout(()=>blip(180,.07,'square',.1),40)} if(kind==='heavy'){blip(70,.22,'sawtooth',.25)} if(kind==='rifle'){blip(900,.04,'square',.18);blip(140,.08,'sawtooth',.09,.03)} if(kind==='cannon'){blip(58,.28,'sawtooth',.3);blip(95,.18,'square',.15,.06)} if(kind==='steel'){blip(320,.05,'square',.14);blip(620,.04,'triangle',.12,.04);blip(180,.08,'sawtooth',.09,.12)} if(kind==='spell'){blip(740,.18,'triangle',.12);blip(420,.22,'sine',.12,.08)} if(kind==='death'){blip(180,.18,'sawtooth',.11);blip(95,.24,'triangle',.08,.1)} if(kind==='heal')blip(640,.18,'triangle',.12); if(kind==='turn')blip(523,.12,'square',.1); if(kind==='win'){[523,659,784].forEach((f,i)=>setTimeout(()=>{blip(f,.18,'square',.15)},i*90))}}
+
+function sfxDramaticDefeatCry(strength=.65){
+ if(!audio.sfxOn)return; enableAudio(); if(!audio.ctx)return;
+ let ctx=audio.ctx, start=ctx.currentTime+.02, vol=Math.max(.15,Math.min(1,strength))*audio.sfxVol;
+ for(let i=0;i<4;i++){
+   let t=start+i*.16, osc=ctx.createOscillator(), gain=ctx.createGain(), delay=ctx.createDelay(), fb=ctx.createGain();
+   osc.type=i%2?'sawtooth':'square';
+   osc.frequency.setValueAtTime(520-i*55,t);
+   osc.frequency.exponentialRampToValueAtTime(105-i*9,t+.42);
+   gain.gain.setValueAtTime(.0001,t);
+   gain.gain.linearRampToValueAtTime(.18*vol,t+.025);
+   gain.gain.exponentialRampToValueAtTime(.0001,t+.55);
+   delay.delayTime.value=.11+i*.025; fb.gain.value=.22;
+   osc.connect(gain); gain.connect(ctx.destination); gain.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(ctx.destination);
+   osc.start(t); osc.stop(t+.62);
+ }
+}
 function currentMusicTheme(){if(!state)return 'title'; let p=player(); if(!p)return 'title'; if(cloud.enabled){let claimed=claimedPlayerIndex(); if(claimed>=0&&claimed!==state.current)return 'observer'; if(claimed<0&&p.kind==='Human')return 'observer';} if(p.observer)return 'observer'; if(p.kind==='AI')return 'tension'; return p.alive?'turn':'tension';}
 
 function setThemeForCurrent(opts={}){if(!state)return; startMusic(currentMusicTheme(),opts);}
@@ -1546,7 +1561,7 @@ function battleUnitSrc(u,mirrored=false){return battleConsoleSpriteSrc(u,mirrore
 function battleFallbackSrc(u){return `${unitSpriteBase(u)}.png`;}
 function battlePanelHtml(u){return `${unitSprite(u,'battleMapSprite',false)}<div class="battlePanelName">${escapeHtml(state.players[u.owner]?.name||'Kingdom')} ${escapeHtml(u.type)}</div>`;}
 function battleUnitInitials(u){return String(u?.type||'Unit').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();}
-function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if(tags.includes('artillery')||tags.includes('tank'))return 'cannon'; if(tags.includes('mage')||u?.type==='Commander'&&['Archmage','Frost Matriarch'].includes(u.commanderClass||state.players[u.owner]?.commanderClass))return 'magic'; if(tags.includes('rifle')||tags.includes('air')||tags.includes('gyro')||base.range>1)return 'rifle'; return 'melee';}
+function battleActionKind(u){let base=UNITS[u?.type]||{}, tags=base.tags||[]; if(u?.type==='Commander'){let cls=u.commanderClass||state?.players?.[u.owner]?.commanderClass||'Steam Marshal'; if(['Archmage','Frost Matriarch','Iron Priest','Thorn Regent'].includes(cls))return 'magic'; if(['Cinder Khan','Steam Marshal'].includes(cls))return 'cannon'; return 'rifle';} if(tags.includes('artillery')||tags.includes('tank'))return 'cannon'; if(tags.includes('mage'))return 'magic'; if(tags.includes('rifle')||tags.includes('air')||tags.includes('gyro')||base.range>1)return 'rifle'; return 'melee';}
 function battleUsesFeatureSprite(u){return u?.type==='Commander';}
 function battleSourceFacesLeft(u){let cls=u?.type==='Commander'?(u.commanderClass||state.players[u.owner]?.commanderClass||'Steam Marshal'):''; return ['Infantry','Cavalry','Airship','Gyrocopter','Assassin'].includes(u?.type)||['Steam Marshal','Archmage'].includes(cls);}
 function battleFacingScale(u,side){let leftSource=battleSourceFacesLeft(u); return side==='left'?(leftSource?-1:1):(leftSource?1:-1);}
@@ -1555,34 +1570,24 @@ function battleHudFighterHtml(u,side,activeAttack=false,defeatedByCommander=fals
  return `<div class="battleHudFighter ${cls}" style="--face:${face};border-color:${p.color||COLORS[factionAssetIndex(u.owner)]}"><div class="${artCls}" style="background-image:url('${src}')"><div class="battleHudFallback">${escapeHtml(battleUnitInitials(u))}</div><img class="battleMapSprite pngSprite" src="${src}" alt="${escapeHtml(u.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(u)}'">${attackImg}</div><div class="battleHudName">${escapeHtml(p.name||'Kingdom')}<br>${escapeHtml(u.type)}</div></div>`;
 }
 function battleEffectAnchorVars(a,d,aKind,dKind){
- let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d), ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
+ let ap=state.players[a.owner]||{}, dp=state.players[d.owner]||{};
  let aCommander=a?.type==='Commander', dCommander=d?.type==='Commander';
- let aOrigin=aFeature?(aCommander?'calc(50% - 118px)':'calc(50% - 116px)'):(aKind==='magic'?'calc(2% + 250px)':'calc(2% + 292px)');
- let dOrigin=dFeature?(dCommander?'calc(50% + 112px)':'calc(50% + 126px)'):(dKind==='magic'?'calc(100% - 250px)':'calc(100% - 292px)');
- let featureShot=aFeature||dFeature;
- let commanderY=aCommander?(aKind==='magic'?'258px':'268px'):(dCommander?'262px':'246px');
- let muzzleY=featureShot?(aCommander?(aKind==='magic'?'260px':'270px'):'260px'):(aKind==='cannon'?'270px':aKind==='magic'?'258px':'274px');
- let shotY=featureShot?(aCommander?(aKind==='magic'?'262px':'272px'):'264px'):(aKind==='cannon'?'276px':aKind==='magic'?'264px':'278px');
- let impact=aKind==='melee'?'50%':(dFeature?(dCommander?'calc(50% + 112px)':'calc(50% + 132px)'):'calc(100% - 156px)');
- let impactY=dFeature?(dCommander?'268px':'258px'):(aKind==='cannon'?'276px':aKind==='magic'?'264px':'276px');
- return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--commander-origin-y:${commanderY};--a-shot-distance:${dFeature?'245px':'42vw'};--d-shot-distance:${aFeature?'-245px':'-42vw'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
+ let aOrigin=aCommander?'calc(50% - 278px)':(aKind==='magic'?'250px':'292px');
+ let dOrigin=dCommander?'calc(50% + 278px)':(dKind==='magic'?'calc(100% - 250px)':'calc(100% - 292px)');
+ let muzzleY=aCommander?(aKind==='magic'?'255px':'272px'):(aKind==='cannon'?'286px':aKind==='magic'?'266px':'286px');
+ let shotY=aCommander?(aKind==='magic'?'257px':'274px'):(aKind==='cannon'?'288px':aKind==='magic'?'268px':'288px');
+ let impact=dCommander?'calc(50% + 278px)':'calc(100% - 172px)';
+ let impactY=dCommander?'270px':(aKind==='magic'?'270px':'286px');
+ let dist=dCommander?'556px':'calc(100vw - 470px)';
+ return `--a-origin-x:${aOrigin};--d-origin-x:${dOrigin};--muzzle-y:${muzzleY};--shot-y:${shotY};--impact-x:${impact};--impact-y:${impactY};--commander-origin-y:${shotY};--a-shot-distance:${dist};--d-shot-distance:-${dist};--grand-shot-distance:${dist};--a-charge-x:${aOrigin};--cmd-charge-y:${aCommander?'238px':'252px'};--a-wave-color:${ap.color||COLORS[factionAssetIndex(a.owner)]};--d-wave-color:${dp.color||COLORS[factionAssetIndex(d.owner)]};`;
 }
 function playBattleActionSfx(a,d,detail){
  let kind=battleActionKind(a);
  sfx(kind==='cannon'?'cannon':kind==='magic'?'spell':kind==='rifle'?'rifle':'steel');
- let lostVisual=detail.damage>0&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d);
- if(lostVisual)setTimeout(()=>sfx('death'),3200);
- if(a.type==='Commander'&&lostVisual)setTimeout(()=>sfxArcadeDefeatCry(d.type==='Commander'),2850);
-}
-function sfxArcadeDefeatCry(isCommander=false){
- if(!audio.sfxOn)return; enableAudio(); if(!audio.ctx)return;
- let ctx=audio.ctx, t=ctx.currentTime+.01, vol=audio.sfxVol*(isCommander?.34:.24);
- let delay=ctx.createDelay(); delay.delayTime.value=isCommander?.17:.12;
- let fb=ctx.createGain(); fb.gain.value=isCommander?.42:.32; delay.connect(fb).connect(delay); delay.connect(ctx.destination);
- let out=ctx.createGain(); out.gain.setValueAtTime(vol,t); out.gain.exponentialRampToValueAtTime(.0001,t+(isCommander?1.25:.95)); out.connect(ctx.destination); out.connect(delay);
- [0,.055,.11].forEach((off,i)=>{let o=ctx.createOscillator(),g=ctx.createGain(),st=t+off; o.type=i===0?'sawtooth':'square'; o.frequency.setValueAtTime(isCommander?420-60*i:520-70*i,st); o.frequency.exponentialRampToValueAtTime(isCommander?95:135,st+(isCommander?.72:.5)); g.gain.setValueAtTime((.24-i*.055)*vol,st); g.gain.exponentialRampToValueAtTime(.0001,st+(isCommander?.9:.65)); o.connect(g).connect(out); o.start(st); o.stop(st+(isCommander?1.05:.78));});
- // noisy fall tail
- let n=ctx.createBufferSource(), buffer=ctx.createBuffer(1,ctx.sampleRate*.28,ctx.sampleRate), data=buffer.getChannelData(0); for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length); n.buffer=buffer; let ng=ctx.createGain(); ng.gain.setValueAtTime(.08*vol,t+.18); ng.gain.exponentialRampToValueAtTime(.0001,t+.62); n.connect(ng).connect(out); n.start(t+.18);
+ let before=squadCount(d), after=squadCount(d,Math.max(0,d.hp-detail.damage));
+ if(detail.damage>0&&after<before)setTimeout(()=>sfx('death'),3200);
+ if(a.type==='Commander'&&d.type!=='Commander'&&after<before)setTimeout(()=>sfxDramaticDefeatCry(.42),2500);
+ if(a.type==='Commander'&&d.type==='Commander'&&d.hp-detail.damage<=0)setTimeout(()=>sfxDramaticDefeatCry(.75),2100);
 }
 function battleDamageLabelPosition(a,d){
  let left=battleUsesFeatureSprite(d)?'calc(50% + 125px)':'calc(91% - 125px)';
@@ -1614,102 +1619,99 @@ function battleSpriteWidthClass(u){
  if(machineLike(u))return {cls:'heavyUnit ',w:132};
  return {cls:'largeUnit ',w:122};
 }
-function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0){
+function battlePlanFor(u,side,i,count,seedBase,sceneKind,pairLane=0,targetFeature=false,sourceFeature=false){
  let spec=battleSpriteWidthClass(u), cols=count>=7?4:count>=5?3:count>=3?3:2;
  let rank=Math.floor(i/cols), col=i%cols;
  let r=(label,min,max)=>battleRandRange(min,max,seedBase,side,i,label);
- let jitterX=Math.round(r('jx',-8,8)), jitterY=Math.round(r('jy',-7,7));
- let sideDepth=78+col*36+rank*18+jitterX;
- let lineLeft=side==='left'?`${sideDepth}px`:`calc(100% - ${sideDepth+spec.w}px)`;
- let entryLeft=side==='left'?`-${spec.w+72}px`:`calc(100% + ${spec.w+72}px)`;
- let laneSpread=(pairLane-3.5)*12;
- let closeNoise=Math.round(r('close',-9,9));
- let clashLeft=side==='left'?`calc(50% - ${116-laneSpread-closeNoise}px)`: `calc(50% + ${18+laneSpread+closeNoise}px)`;
- let recoilLeft=battleCssAdd(clashLeft, side==='left'?-18:18);
- let skirmishLeft=battleCssAdd(clashLeft, Math.round(r('skirmish',-18,18)));
- let secondWindupLeft=battleCssAdd(clashLeft, side==='left'?-14:14);
- let secondStrikeLeft=battleCssAdd(clashLeft, side==='left'?8:-8);
- let fallLeft=battleCssAdd(clashLeft, side==='left'?22:-22);
- let fireLeft=battleCssAdd(lineLeft, side==='left'?12:-12);
- let hitLeft=battleCssAdd(lineLeft, side==='left'?-10:10);
- // Transform-based travel vars: left stays fixed at formation anchor so animation cannot be pinned by CSS priority.
- let travelBase=side==='left'?r('travel',330,430):-r('travel',330,430);
- let centerDrift=(pairLane-3.5)*10+r('drift',-10,10);
- let clashX=Math.round(travelBase+centerDrift);
- let windX=clashX+(side==='left'?-22:22);
- let strikeX=clashX+(side==='left'?18:-18);
- let recoilX=clashX+(side==='left'?-34:34);
- let skirmishX=clashX+Math.round(r('skx',-26,26));
- let fallX2=clashX+(side==='left'?38:-38);
- let enterX=side==='left'?-(sideDepth+spec.w+95):(sideDepth+spec.w+95);
- let rangeBackX=side==='left'?-20:20, rangeFireX=side==='left'?24:-24, hitX=side==='left'?-26:26;
- let launchMidX=clashX+(side==='left'?64:-64);
- let launchTopX=clashX+(side==='left'?110:-110)+Math.round(r('ltx',-22,22));
- let launchBackX=clashX+(side==='left'?-42:42)+Math.round(r('lbx',-28,28));
- let launchFallX=clashX+(side==='left'?72:-72)+Math.round(r('lfx',-32,32));
- let face=battleFacingScale(u,side==='left'?'left':'right');
  let sideSign=side==='left'?1:-1;
+ let face=battleFacingScale(u,side==='left'?'left':'right');
+ let jitterX=Math.round(r('jx',-9,9)), jitterY=Math.round(r('jy',-8,8));
+ let formationDepth=84+col*42+rank*20+jitterX;
+ let lineX=side==='left'?`${formationDepth}px`:`calc(100% - ${formationDepth+spec.w}px)`;
+ let startX=side==='left'?`-${spec.w+95}px`:`calc(100% + ${spec.w+95}px)`;
+ let lineY=330-rank*34+Math.round(r('ly',-8,8));
+ let laneSpread=(pairLane-3.5)*15;
+ let contactNoise=Math.round(r('cxn',-8,8));
+ let contactX;
+ if(sceneKind==='melee'){
+   if(side==='left') contactX=targetFeature?`calc(50% + ${48+laneSpread+contactNoise}px)`: `calc(50% - ${110-laneSpread-contactNoise}px)`;
+   else contactX=targetFeature?`calc(50% - ${48-laneSpread-contactNoise}px)`: `calc(50% - ${42-laneSpread-contactNoise}px)`;
+ }else{
+   contactX=lineX;
+ }
+ let contactY=lineY + Math.round(r('cy',-12,12));
+ let windupX=`calc(${contactX} + ${-22*sideSign}px)`, strikeX=`calc(${contactX} + ${14*sideSign}px)`, recoilX=`calc(${contactX} + ${-16*sideSign}px)`;
+ let skirmishX=`calc(${contactX} + ${Math.round(r('skx',-16,16))}px)`;
+ let secondWindupX=`calc(${contactX} + ${-18*sideSign}px)`, secondStrikeX=`calc(${contactX} + ${18*sideSign}px)`;
+ let fallX=`calc(${contactX} + ${26*sideSign + Math.round(r('fx',-7,7))}px)`;
+ let rangeBackX=`calc(${lineX} + ${-14*sideSign}px)`, rangeFireX=`calc(${lineX} + ${14*sideSign}px)`, hitX=`calc(${lineX} + ${10*sideSign}px)`;
+ let groundY=lineY+76, fallY=lineY+28;
+ let duration=r('dur',5.35,6.15).toFixed(2)+'s';
+ let delay=(r('delay',0,.32)+i*.045+(rank*.08)).toFixed(2)+'s';
+ let doubleStrike=r('double',0,1)>.58 && sceneKind==='melee';
  let strike=Math.round(r('strike',32,52))*sideSign;
  let windup=-Math.round(r('windup',30,48))*sideSign;
  let secondStrike=Math.round(r('strike2',28,44))*sideSign;
  let secondWindup=-Math.round(r('windup2',26,40))*sideSign;
- let approach=Math.round(r('approach',-5,5));
- let duration=r('dur',4.45,5.05).toFixed(2)+'s';
- let delay=(r('delay',0,.24)+i*.035).toFixed(2)+'s';
- let doubleStrike=r('double',0,1)>.54 && sceneKind==='melee';
- let baseBottom=18+rank*28+Math.round(r('by',-3,5));
- let muzzleX=side==='left'?battleCssAdd(lineLeft, spec.w*.66|0):battleCssAdd(lineLeft, spec.w*.28|0);
- let muzzleY=`${260-rank*25+Math.round(r('mzy',-5,4))}px`;
- return {rank,col,width:spec.w,cls:spec.cls,lineLeft,entryLeft,clashLeft,recoilLeft,skirmishLeft,secondWindupLeft,secondStrikeLeft,fallLeft,fireLeft,hitLeft,face,duration,delay,doubleStrike,baseBottom,muzzleX,muzzleY,style:
-   `--entry-left:${entryLeft};--line-left:${lineLeft};--enter-x:${Math.round(enterX)}px;--clash-x:${Math.round(clashX)}px;--wind-x:${Math.round(windX)}px;--strike-x:${Math.round(strikeX)}px;--recoil-x:${Math.round(recoilX)}px;--skirmish-x:${Math.round(skirmishX)}px;--second-wind-x:${Math.round(clashX+(side==='left'?-18:18))}px;--second-strike-x:${Math.round(clashX+(side==='left'?30:-30))}px;--fall-x2:${Math.round(fallX2)}px;--range-back-x:${rangeBackX}px;--range-fire-x:${rangeFireX}px;--hit-x:${hitX}px;--launch-mid-x:${Math.round(launchMidX)}px;--launch-top-x:${Math.round(launchTopX)}px;--launch-back-x:${Math.round(launchBackX)}px;--launch-fall-x:${Math.round(launchFallX)}px;--clash-left:${clashLeft};--recoil-left:${recoilLeft};--skirmish-left:${skirmishLeft};--second-windup-left:${secondWindupLeft};--second-strike-left:${secondStrikeLeft};--fall-left:${fallLeft};--fire-left:${fireLeft};--hit-left:${hitLeft};--base-bottom:${baseBottom}px;--unit-z:${38+rank*3+col};--unit-duration:${duration};--entry-delay:${delay};--jitter-y:${jitterY}px;--rush-y:${Math.round(r('rushy',-10,12))}px;--skirmish-y:${Math.round(r('skimy',-6,8))}px;--face:${face};--approach-rot:${approach}deg;--windup-rot:${windup}deg;--strike-rot:${strike}deg;--recover-rot:${Math.round(r('recover',-7,7))}deg;--idle-rot:${Math.round(r('idle',-3,3))}deg;--second-windup-rot:${secondWindup}deg;--second-strike-rot:${secondStrike}deg;--range-windup-rot:${-18*sideSign+Math.round(r('rwr',-5,5))}deg;--range-fire-rot:${12*sideSign+Math.round(r('rfr',-4,4))}deg;--range-settle-rot:${3*sideSign}deg;--hit-rot:${5*sideSign}deg;--hit-recoil-rot:${-7*sideSign}deg;--lose-mid-rot:${18*sideSign+Math.round(r('lmr',-12,12))}deg;--lose-fall-rot:${52*sideSign+Math.round(r('lfr',-14,14))}deg;`};
+ let muzzleX=side==='left'?`calc(${lineX} + ${Math.round(spec.w*.68)}px)`:`calc(${lineX} + ${Math.round(spec.w*.30)}px)`;
+ let muzzleY=`${lineY+Math.round(spec.w*.36)}px`;
+ let launchTopX=`calc(${lineX} + ${Math.round(r('ltx',-40,40))}px)`;
+ let launchBackX=side==='left'?`calc(${lineX} - ${Math.round(r('lbx',95,155))}px)`:`calc(${lineX} + ${Math.round(r('lbx',95,155))}px)`;
+ let launchLandX=`calc(${lineX} + ${Math.round(r('llx',-36,36))}px)`;
+ let launchBounceX=`calc(${launchLandX} + ${Math.round(r('lbx2',-18,18))}px)`;
+ let spin=(Math.round(r('spin',520,940))*sideSign)+'deg';
+ let skew=(Math.round(r('skew',10,18))*sideSign)+'deg';
+ return {rank,col,width:spec.w,cls:spec.cls,lineLeft:lineX,entryLeft:startX,clashLeft:contactX,face,duration,delay,doubleStrike,muzzleX,muzzleY,style:
+   `--start-x:${startX};--start-y:${lineY}px;--line-x:${lineX};--line-y:${lineY}px;--contact-x:${contactX};--contact-y:${contactY}px;--regroup-x:${lineX};--regroup-y:${lineY}px;--windup-x:${windupX};--windup-y:${contactY-18}px;--strike-x:${strikeX};--strike-y:${contactY+16}px;--recoil-x:${recoilX};--recoil-y:${contactY+3}px;--skirmish-x:${skirmishX};--skirmish-y:${contactY+Math.round(r('sky',-5,8))}px;--second-windup-x:${secondWindupX};--second-windup-y:${contactY-14}px;--second-strike-x:${secondStrikeX};--second-strike-y:${contactY+13}px;--fall-x:${fallX};--fall-y:${fallY}px;--ground-y:${groundY}px;--range-back-x:${rangeBackX};--range-back-y:${lineY-7}px;--range-fire-x:${rangeFireX};--range-fire-y:${lineY-2}px;--hit-x:${hitX};--hit-y:${lineY+4}px;--unit-z:${52+rank*4+col};--unit-duration:${duration};--entry-delay:${delay};--face:${face};--approach-rot:${Math.round(r('approach',-5,5))}deg;--windup-rot:${windup}deg;--strike-rot:${strike}deg;--recover-rot:${Math.round(r('recover',-8,8))}deg;--idle-rot:${Math.round(r('idle',-3,3))}deg;--second-windup-rot:${secondWindup}deg;--second-strike-rot:${secondStrike}deg;--range-windup-rot:${-18*sideSign+Math.round(r('rwr',-5,5))}deg;--range-fire-rot:${12*sideSign+Math.round(r('rfr',-4,4))}deg;--hit-recoil-rot:${-8*sideSign+Math.round(r('hrr',-3,3))}deg;--lose-mid-rot:${18*sideSign+Math.round(r('lmr',-12,12))}deg;--lose-fall-rot:${52*sideSign+Math.round(r('lfr',-14,14))}deg;--launch-top-x:${launchTopX};--launch-back-x:${launchBackX};--launch-land-x:${launchLandX};--launch-bounce-x:${launchBounceX};--launch-land-y:${lineY+84}px;--launch-bounce-y:${lineY+38}px;--launch-spin:${spin};--launch-skew:${skew};`};
 }
 function battleSkirmishHtml(a,d,detail){
  let aMax=squadMax(a.type), dMax=squadMax(d.type);
  let aFeature=battleUsesFeatureSprite(a), dFeature=battleUsesFeatureSprite(d);
- let aCount=aFeature?0:Math.min(8,squadCount(a),aMax), dBefore=dFeature?0:Math.min(8,squadCount(d),dMax), dAfter=dFeature?0:Math.min(8,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
+ let aCount=aFeature?0:Math.min(8,Math.max(1,squadCount(a)),aMax), dBefore=dFeature?0:Math.min(8,Math.max(1,squadCount(d)),dMax), dAfter=dFeature?0:Math.min(8,squadCount(d,Math.max(0,d.hp-detail.damage)),dMax);
  let aKind=battleActionKind(a), dKind=battleActionKind(d), sceneKind=aKind==='melee'?'melee':'ranged', impact=aKind==='cannon'?'cannon':aKind==='magic'?'magic':aKind==='rifle'?'rifle':'clash';
  let unitSrc=u=>battleConsoleSpriteSrc(u,false), seedBase=[state?.seed||'IK',state?.turn||0,a.id,d.id,a.type,d.type,detail.damage,sceneKind].join(':');
  let maxPairs=Math.max(1,aCount,dBefore,1);
- let pairFor=(i,count)=> count?((i+Math.floor(battleRandRange(0,count,seedBase,'pair',i)))%count):0;
  let laneFor=i=>i%Math.max(1,Math.min(8,maxPairs));
  let aPlans=[], dPlans=[];
- for(let i=0;i<aCount;i++)aPlans.push(battlePlanFor(a,'left',i,aCount,seedBase,sceneKind,laneFor(i)));
- for(let i=0;i<dBefore;i++)dPlans.push(battlePlanFor(d,'right',i,dBefore,seedBase,sceneKind,laneFor(i)));
- let html=`<div class="battleSkirmishLayer ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
+ for(let i=0;i<aCount;i++)aPlans.push(battlePlanFor(a,'left',i,aCount,seedBase,sceneKind,laneFor(i),dFeature,aFeature));
+ for(let i=0;i<dBefore;i++)dPlans.push(battlePlanFor(d,'right',i,dBefore,seedBase,sceneKind,laneFor(i),aFeature,dFeature));
+ let html=`<div class="battleSkirmishLayer reliableScene ${sceneKind}Scene" style="${battleEffectAnchorVars(a,d,aKind,dKind)}">`;
  for(let i=0;i<aCount;i++){
    let p=aPlans[i], src=unitSrc(a), dbl=p.doubleStrike?'doubleStrike ':'';
-   html+=`<img class="battleSkirmishUnit attacker ${sceneKind} ${dbl}${p.cls}unit-${assetSlug(a.type)} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(a.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(a)}'">`;
+   html+=`<img class="battleSkirmishUnit attacker ${sceneKind} ${dbl}${p.cls}unit-${assetSlug(a.type)} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(a.type)}" loading="eager" data-plan="${i}" onerror="this.onerror=null;this.src='${battleFallbackSrc(a)}'">`;
  }
+ let launched=0;
  for(let i=0;i<dBefore;i++){
    let p=dPlans[i], loser=i>=dAfter, src=unitSrc(d), dbl=p.doubleStrike?'doubleStrike ':'';
    let commanderLaunch=loser&&a.type==='Commander'&&d.type!=='Commander';
-   let launchCls=commanderLaunch?' commanderLaunched':'';
-   html+=`<img class="battleSkirmishUnit defender ${sceneKind==='melee'?'melee':'target'} ${dbl}${p.cls}unit-${assetSlug(d.type)} ${loser?'loser':''}${launchCls} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(d.type)}" loading="eager" onerror="this.onerror=null;this.src='${battleFallbackSrc(d)}'">`;
+   if(commanderLaunch)launched++;
+   html+=`<img class="battleSkirmishUnit defender ${sceneKind==='melee'?'melee':'target'} ${dbl}${p.cls}unit-${assetSlug(d.type)} ${loser?'loser':''}${commanderLaunch?' commanderLaunched':''} forceVisible" style="${p.style}" src="${src}" alt="${escapeHtml(d.type)}" loading="eager" data-plan="${i}" onerror="this.onerror=null;this.src='${battleFallbackSrc(d)}'">`;
    if(commanderLaunch){
-     let dustDelay=(3.95+i*.11+battleRandRange(0,.16,seedBase,'dust',i)).toFixed(2)+'s';
-     let sparkDelay=(2.83+i*.07+battleRandRange(0,.12,seedBase,'spark',i)).toFixed(2)+'s';
-     html+=`<span class="battleBarrierSpark" style="--spark-left:${p.lineLeft};--spark-delay:${sparkDelay}"></span><span class="battleGroundSlam" style="--dust-left:${p.lineLeft};--dust-bottom:${p.baseBottom+2}px;--dust-delay:${dustDelay}"></span>`;
+     html+=`<span class="battleGroundSlam" style="--dust-x:${p.launchLandX||p.lineLeft};--dust-y:${(330-p.rank*34+92)}px;--dust-delay:${(3.75+i*.12).toFixed(2)}s"></span>`;
    }
  }
  if(sceneKind==='ranged'){
    let shots=Math.min(Math.max(1,aFeature?1:aCount),Math.max(1,dFeature?1:dBefore),6), shotKind=aKind==='magic'?'magic':aKind==='cannon'?'cannon':'rifle';
    for(let i=0;i<shots;i++){
-     let ai=aCount?i%aCount:0, di=dBefore?pairFor(i,dBefore):0, ap=aPlans[ai], dp=dPlans[di];
-     let startX=aFeature?'var(--a-origin-x)':(ap?ap.muzzleX:'calc(50% - 120px)');
-     let startY=aFeature?'var(--shot-y)':(ap?ap.muzzleY:'270px');
-     let endX=dFeature?'var(--impact-x)':(dp?battleCssAdd(dp.lineLeft, dp.width*.45|0):'calc(50% + 150px)');
-     let endY=dFeature?'var(--impact-y)':(dp?`${262-dp.rank*25+Math.round(battleRandRange(-5,5,seedBase,'ey',i))}px`:'266px');
-     let delay=(1.15 + i*.28 + battleRandRange(0,.16,seedBase,'shotDelay',i)).toFixed(2)+'s';
+     let ai=aCount?i%aCount:0, di=dBefore?i%dBefore:0, ap=aPlans[ai], dp=dPlans[di];
+     let startX=aFeature?'var(--a-origin-x)':(ap?ap.muzzleX:'calc(50% - 280px)');
+     let startY=aFeature?'var(--shot-y)':(ap?ap.muzzleY:'286px');
+     let endX=dFeature?'var(--impact-x)':(dp?`calc(${dp.lineLeft} + ${Math.round(dp.width*.45)}px)`:'calc(100% - 172px)');
+     let endY=dFeature?'var(--impact-y)':(dp?`${parseInt((dp.muzzleY||'286px'),10)+8}px`:'286px');
+     let delay=(1.22 + i*.30 + battleRandRange(0,.18,seedBase,'shotDelay',i)).toFixed(2)+'s';
      html+=`<span class="battleMuzzleUnit ${shotKind}" style="--muzzle-x:${startX};--muzzle-y:${startY};--shot-delay:${delay}"></span>`;
      html+=`<span class="battleProjectileUnit ${shotKind}" style="--shot-start-x:${startX};--shot-start-y:${startY};--shot-end-x:${endX};--shot-end-y:${endY};--shot-delay:${delay}"></span>`;
    }
  }
  if(a.type==='Commander'){
-   let projKind=aKind==='magic'?'magic':aKind==='cannon'?'cannon':aKind==='rifle'?'rifle':'melee';
-   html+=`<span class="commanderChargeAura ${projKind}"></span><span class="commanderOriginFlash ${projKind}"></span><span class="commanderTrail ${projKind}"></span><span class="commanderGrandProjectile ${projKind}"></span><span class="commanderImpactRing ${projKind}"></span><span class="commanderImpactCore ${projKind}"></span><span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
+   html+=`<span class="battleCommanderCharge"></span><span class="battleCommanderOriginFlash"></span><span class="battleCommanderTrail"></span><span class="battleCommanderGrandShot"></span><span class="battleCommanderImpactCore"></span><span class="battleCommanderImpactRing"></span>`;
+   if(d.type==='Commander')html+=`<span class="battleCommanderParry"></span>`;
  }
- if(d.type==='Commander')html+=`<span class="commanderParryBurst"></span><span class="battleCommanderWave defender" style="--wave-color:var(--d-wave-color)"></span>`;
+ if(a.type==='Commander')html+=`<span class="battleCommanderWave attacker" style="--wave-color:var(--a-wave-color)"></span>`;
+ if(d.type==='Commander')html+=`<span class="battleCommanderWave defender" style="--wave-color:var(--d-wave-color)"></span>`;
  html+=`<span class="battleImpact ${impact}"></span>`;
+ if((aCount===0&&!aFeature)||(dBefore===0&&!dFeature))console.warn('[Battle diagnostics] Expected skirmish sprites missing',{attacker:a.type,defender:d.type,aCount,dBefore,aFeature,dFeature});
+ if(a.type==='Commander'&&d.type!=='Commander'&&dBefore>dAfter&&launched===0)console.warn('[Battle diagnostics] Commander casualty launch expected but no launched sprites were created',{dBefore,dAfter});
  return html+'</div>';
 }
 function typeSprite(type,owner=state?state.current:0,cls='miniSprite'){let fake={type,owner,commanderClass:state&&state.players[owner]?state.players[owner].commanderClass:'Steam Marshal'};return unitSprite(fake,cls)}
@@ -1836,10 +1838,6 @@ function showBattleView(a,d,detail,isCounter){
  let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return Promise.resolve();
  return new Promise(resolve=>{
  let token=++battleViewToken; startMusic('battle'); box.classList.toggle('battleFast',mode==='Fast');
- let primaryKind=battleActionKind(a), defenderKind=battleActionKind(d), commanderInvolved=a.type==='Commander'||d.type==='Commander';
- box.classList.toggle('commanderRangedBattle',commanderInvolved&&primaryKind!=='melee');
- box.classList.toggle('commanderMeleeBattle',commanderInvolved&&primaryKind==='melee');
- box.classList.toggle('commanderSpectacle',a.type==='Commander');
  $('battleBg').style.backgroundImage=`url(assets/battle_backgrounds/${battleTerrainKey(d)}.png)`;
  let ap=state.players[a.owner], dp=state.players[d.owner], atkBase=UNITS[a.type]||UNITS.Infantry, defBase=UNITS[d.type]||UNITS.Infantry;
  $('battleAttackerName').textContent=`${ap.name} ${a.type}`;
@@ -1859,7 +1857,7 @@ function showBattleView(a,d,detail,isCounter){
  let attPanel=$('battleAttackerPanel'), defPanel=$('battleDefenderPanel'), fg=$('battleForegroundLayer');
  if(attPanel){attPanel.innerHTML=battlePanelHtml(a);attPanel.style.borderColor=ap.color||COLORS[0];}
  if(defPanel){defPanel.innerHTML=battlePanelHtml(d);defPanel.style.borderColor=dp.color||COLORS[1];}
- if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',a.type==='Commander',false)+battleHudFighterHtml(d,'right',d.type==='Commander',a.type==='Commander'&&d.type==='Commander'&&d.hp-detail.damage<=0)+battleSkirmishHtml(a,d,detail);
+ if(fg)fg.innerHTML=battleHudFighterHtml(a,'left',a.type==='Commander',false)+battleHudFighterHtml(d,'right',d.type==='Commander'||(a.type==='Commander'&&d.type==='Commander'),a.type==='Commander'&&d.type==='Commander'&&d.hp-detail.damage<=0)+battleSkirmishHtml(a,d,detail);
  let attImg=$('battleAttackerImg'), defImg=$('battleDefenderImg');
  attImg.onerror=()=>{attImg.onerror=null;attImg.src=battleFallbackSrc(a)}; defImg.onerror=()=>{defImg.onerror=null;defImg.src=battleFallbackSrc(d)}
  attImg.src=battleUnitSrc(a); defImg.src=battleUnitSrc(d,true); attImg.style.display='none'; defImg.style.display='none';
@@ -1873,12 +1871,49 @@ function showBattleView(a,d,detail,isCounter){
  let dmgPos=battleDamageLabelPosition(a,d);
  dmg.textContent='-'+detail.damage; dmg.style.left=dmgPos.left; dmg.style.top=dmgPos.top; dmg.style.display='block';
  ov.classList.add('show');
+ if(a.type==='Commander'){box.classList.remove('commanderImpactShake'); void box.offsetWidth; box.classList.add('commanderImpactShake');}
  playBattleActionSfx(a,d,detail);
+ setTimeout(()=>battleRuntimeDiagnostics(a,d,detail),1350);
  let closeDelay=mode==='Fast'?5600:6800;
  setTimeout(()=>{if(token===battleViewToken){fx.style.display='none';dmg.style.display='none';hideBattleView(token);} resolve();},closeDelay);
  });
 }
 
+
+function battleRuntimeDiagnostics(a,d,detail){
+ try{
+  let layer=document.querySelector('.battleSkirmishLayer.reliableScene'); if(!layer){console.warn('[Battle diagnostics] No reliable skirmish layer found.'); return;}
+  let sprites=[...layer.querySelectorAll('.battleSkirmishUnit')], rect=layer.getBoundingClientRect();
+  if(!sprites.length && (a.type!=='Commander'||d.type!=='Commander'))console.warn('[Battle diagnostics] No skirmish sprites were created for battle.',{attacker:a.type,defender:d.type});
+  sprites.forEach((sp,idx)=>{let r=sp.getBoundingClientRect(), cs=getComputedStyle(sp); if(cs.visibility==='hidden'||cs.display==='none'||parseFloat(cs.opacity)===0)console.warn('[Battle diagnostics] Sprite hidden after formation phase',idx,sp.className,cs.opacity); if(r.right<rect.left-10||r.left>rect.right+10||r.bottom<rect.top-10||r.top>rect.bottom+120)console.warn('[Battle diagnostics] Sprite appears outside battle stage',idx,sp.className,{sprite:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},stage:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom}});});
+  if(a.type==='Commander'&&d.type!=='Commander'&&squadCount(d,Math.max(0,d.hp-detail.damage))<squadCount(d)&&!layer.querySelector('.commanderLaunched'))console.warn('[Battle diagnostics] Commander killed squad members but no commanderLaunched elements exist.');
+  if(battleActionKind(a)==='melee'){
+   let left=sprites.find(s=>s.classList.contains('attacker')), right=sprites.find(s=>s.classList.contains('defender'));
+   if(left&&right){let lr=left.getBoundingClientRect(), rr=right.getBoundingClientRect(); let gap=rr.left-lr.right; if(Math.abs(gap)>110)console.warn('[Battle diagnostics] Melee contact positions may still be too far apart.',{gap});}
+  }
+ }catch(err){console.warn('[Battle diagnostics] runtime check failed',err);}
+}
+function makeDebugBattleUnit(type,owner,hp=null,extra={}){let base=UNITS[type]||UNITS.Infantry; return {id:1000+owner*100+Math.floor(Math.random()*50),type,owner,x:owner?7:6,y:5,hp:hp??base.hp,maxHp:base.hp,xp:0,veteran:0,moved:false,acted:false,squadMax:base.squad||1,...extra};}
+function ensureDebugBattleState(){
+ if(!state){state={version:VERSION,seed:'debug-battle',size:'Debug',w:12,h:8,turn:1,current:0,nextUnitId:999,players:[],map:[],units:[],log:[],weather:'Clear',turnEvents:[]}; for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++)state.map.push({x,y,t:'plains',s:null,owner:null});}
+ if(!state.players||state.players.length<2){state.players=[{id:0,name:'Debug Brass',color:COLORS[0],gold:0,alive:true,observer:false,influence:0,kind:'Human',aiDifficulty:'Soldier',commanderClass:'Steam Marshal',commanderName:'Debug Marshal'},{id:1,name:'Debug Blue',color:COLORS[2],gold:0,alive:true,observer:false,influence:0,kind:'Human',aiDifficulty:'Soldier',commanderClass:'Archmage',commanderName:'Debug Mage'}];}
+ if(!state.map||!state.map.length){state.w=12;state.h=8;state.map=[];for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++)state.map.push({x,y,t:'plains',s:null,owner:null});}
+}
+function debugBattleDetail(a,d,damage){return {damage,atk:UNITS[a.type]?.atk||30,baseDef:UNITS[d.type]?.def||8,terrainDef:0,terrainReduction:0,counter:'',mult:1,coverName:'Debug Field',heavy:a.type==='Commander'||['Artillery','Steam Tank'].includes(a.type)};}
+window.debugBattleTest=function(type='infantry'){
+ ensureDebugBattleState(); enableAudio();
+ let cases={
+  infantry:['Infantry','Infantry',38], pikecav:['Pikemen','Cavalry',45], rifle:['Riflemen','Infantry',42], mage:['Mage','Infantry',55],
+  commanderSquad:['Commander','Infantry',82], commanderCommander:['Commander','Commander',190], commanderMelee:['Infantry','Commander',44], artillery:['Artillery','Infantry',78], tank:['Steam Tank','Infantry',64]
+ };
+ let cfg=cases[type]||cases.infantry;
+ let a=makeDebugBattleUnit(cfg[0],0,null,cfg[0]==='Commander'?{commanderClass:'Steam Marshal'}:{});
+ let d=makeDebugBattleUnit(cfg[1],1,null,cfg[1]==='Commander'?{commanderClass:'Archmage'}:{});
+ let detail=debugBattleDetail(a,d,cfg[2]);
+ console.log('[Battle debug] running',type,{a,d,detail});
+ return showBattleView(a,d,detail,false);
+};
+window.runBattleAnimationSelfTest=async function(){for(let t of ['infantry','pikecav','rifle','mage','commanderSquad','commanderCommander','commanderMelee','artillery','tank']){console.log('[Battle self-test]',t); await window.debugBattleTest(t); await sleep(850);}};
 async function animateCombat(a,d,detail,isCounter){
  await showBattleView(a,d,detail,isCounter);
  let speed=$('animSpeed')?.value||'Normal';
