@@ -354,6 +354,83 @@ body.console-remake #cloudPanel{inset:50px 4vw 112px;grid-template-columns:minma
   height:138px;
 }
 
+
+/* Battle Speed + 45-Degree Wind-Up Strike Patch */
+/* 25% faster than the prior half-speed pass: durations are 80% of that patch's values. */
+.battleSkirmishUnit{transform-origin:50% 82%;}
+.battleHudFighter.attacker{animation:battleForegroundLungeL 2.32s ease-in-out;}
+.battleHudFighter.defender{animation:battleForegroundLungeR 2.32s ease-in-out;}
+.battleHudArt.hasAttack .battleMapSprite{animation:battleNormalSwap 2.32s steps(1,end);}
+.battleHudArt.hasAttack .battleAttackSprite{animation:battleAttackSwap 2.32s steps(1,end);}
+.battleDamage{animation-duration:1.36s;}
+.battleFxImg{animation-duration:.88s;}
+.battleSkirmishUnit.attacker{animation-duration:4.096s;animation-delay:calc(var(--i,0) * .0496s);}
+.battleSkirmishUnit.defender{animation-duration:4.096s;animation-delay:calc(var(--i,0) * .0496s);}
+.battleSkirmishLayer.rangedAttacker .battleSkirmishUnit.attacker{animation-duration:4.096s;}
+.battleSkirmishLayer.rangedDefender .battleSkirmishUnit.defender{animation-duration:4.096s;}
+.battleSkirmishUnit.loser{animation-duration:4.096s;}
+.battleProjectile.attacker{animation-duration:1.44s;animation-delay:1.168s;}
+.battleProjectile.defender{animation-duration:1.44s;animation-delay:1.168s;}
+.battleMuzzle.attacker{animation:muzzleFlash .368s steps(2,end) 3 .96s;}
+.battleMuzzle.defender{animation:muzzleFlash .368s steps(2,end) 3 .96s;}
+.battleCommanderWave.attacker{animation:commanderWaveA 1.68s ease-out .992s;}
+.battleCommanderWave.defender{animation:commanderWaveD 1.68s ease-out 1.152s;}
+.battleImpact.clash{animation:impactFlash .896s ease-out 1.84s;}
+.battleImpact.rifle{animation:impactFlash .768s ease-out 1.904s;}
+.battleImpact.cannon{animation:impactFlash 1.168s ease-out 1.904s;}
+.battleImpact.magic{animation:impactFlash 1.248s ease-out 1.904s;}
+.battleFast .battleDamage{animation-duration:.72s;}
+@keyframes skirmishChargeA{
+  0%{transform:scaleX(var(--face,1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,1)) translateX(-36px) translateY(-36px) rotate(-45deg) scale(.96);opacity:1}
+  43%{transform:scaleX(var(--face,1)) translateX(118px) translateY(18px) rotate(18deg) scale(1.05)}
+  54%,64%{transform:scaleX(var(--face,1)) translateX(142px) translateY(22px) rotate(24deg) scale(1.08)}
+  73%{opacity:1;transform:scaleX(var(--face,1)) translateX(90px) translateY(6px) rotate(5deg) scale(1)}
+  100%{transform:scaleX(var(--face,1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishChargeD{
+  0%{transform:scaleX(var(--face,-1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,-1)) translateX(-36px) translateY(-36px) rotate(45deg) scale(.96);opacity:1}
+  43%{transform:scaleX(var(--face,-1)) translateX(118px) translateY(18px) rotate(-18deg) scale(1.05)}
+  54%,64%{transform:scaleX(var(--face,-1)) translateX(142px) translateY(22px) rotate(-24deg) scale(1.08)}
+  73%{opacity:1;transform:scaleX(var(--face,-1)) translateX(90px) translateY(6px) rotate(-5deg) scale(1)}
+  100%{transform:scaleX(var(--face,-1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishRangedA{
+  0%{transform:scaleX(var(--face,1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,1)) translateX(-24px) translateY(-24px) rotate(-35deg) scale(.97)}
+  42%,62%{transform:scaleX(var(--face,1)) translateX(46px) translateY(10px) rotate(12deg) scale(1.03)}
+  72%{opacity:1;transform:scaleX(var(--face,1)) translateX(24px) translateY(3px) rotate(3deg) scale(1)}
+  100%{transform:scaleX(var(--face,1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishRangedD{
+  0%{transform:scaleX(var(--face,-1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,-1)) translateX(-24px) translateY(-24px) rotate(35deg) scale(.97)}
+  42%,62%{transform:scaleX(var(--face,-1)) translateX(46px) translateY(10px) rotate(-12deg) scale(1.03)}
+  72%{opacity:1;transform:scaleX(var(--face,-1)) translateX(24px) translateY(3px) rotate(-3deg) scale(1)}
+  100%{transform:scaleX(var(--face,-1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:1}
+}
+@keyframes skirmishLoseD{
+  0%{transform:scaleX(var(--face,-1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,-1)) translateX(-32px) translateY(-28px) rotate(38deg) scale(.96)}
+  44%{transform:scaleX(var(--face,-1)) translateX(112px) translateY(14px) rotate(-16deg) scale(1.04)}
+  58%{transform:scaleX(var(--face,-1)) translateX(132px) translateY(0) rotate(-8deg) scale(1.04);opacity:1}
+  80%,100%{transform:scaleX(var(--face,-1)) translateX(132px) translateY(58px) rotate(-42deg) scale(.72);opacity:0}
+}
+@keyframes skirmishLoseA{
+  0%{transform:scaleX(var(--face,1)) translateX(0) translateY(0) rotate(0deg) scale(.9);opacity:0}
+  12%{opacity:1}
+  27%{transform:scaleX(var(--face,1)) translateX(-32px) translateY(-28px) rotate(-38deg) scale(.96)}
+  44%{transform:scaleX(var(--face,1)) translateX(112px) translateY(14px) rotate(16deg) scale(1.04)}
+  58%{transform:scaleX(var(--face,1)) translateX(132px) translateY(0) rotate(8deg) scale(1.04);opacity:1}
+  80%,100%{transform:scaleX(var(--face,1)) translateX(132px) translateY(58px) rotate(42deg) scale(.72);opacity:0}
+}
+
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -547,7 +624,7 @@ const DEFAULT_AI_LEVELS=['Captain','Soldier','Captain','Warlord','Soldier','Capt
 const COMMANDER_ORDER=Object.keys(COMMANDERS);
 function commanderColor(commanderClass,fallbackOwner=0){let idx=COMMANDER_ORDER.indexOf(commanderClass); return COLORS[(idx>=0?idx:fallbackOwner)%COLORS.length];}
 function playerCommanderColor(owner){let p=state?.players?.[owner]; return commanderColor(p?.commanderClass,owner);}
-let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null, commandTargetMode=null, commandPopupContext=null, movementAnimating=false, aiFocusUnitId=null;
+let state=null, selected=null, highlights=[], rng=Math.random, lastTile=null, lastTurnSummary=null, commandTargetMode=null, commandPopupContext=null, movementAnimating=false, battleActionInProgress=false, turnAdvanceBusy=false, aiFocusUnitId=null;
 let cloud={enabled:false,busy:false,gameCode:'',joinSecret:'',lastUpdated:'',pollTimer:null,status:'Not connected',statusClass:'',row:null,localPlayerId:'',displayName:'',setupOpen:false,lastSeenRevision:0,activeLock:null,claimNoticeDismissed:false};
 const SUPABASE_URL_DEFAULT='';
 const SUPABASE_ANON_KEY_DEFAULT='';
@@ -678,7 +755,53 @@ function isMyCloudTurn(){if(!state||!cloud.enabled)return true; let p=player(); 
 function localCanControlCurrent(silent=false){if(!state)return false; let p=player(); if(!p){if(!silent)showTurnToast('No active kingdom. Start or load a game first.'); return false;} if(p.kind==='AI'){if(!silent)showTurnToast(`${p.name} is computer controlled.`); return false;} if(!cloud.enabled)return true; let i=claimedPlayerIndex(); if(i<0){if(!silent)showTurnToast('Claim your kingdom slot before taking actions.'); return false;} if(i!==state.current){if(!silent)showTurnToast(`Waiting for ${p.name}. You are ${state.players[i]?.name||'an unclaimed kingdom'}.`); return false;} return true;}
 function cloudClaimStatusText(){if(!state||!Array.isArray(state.players)||!cloud.enabled)return ''; let i=claimedPlayerIndex(); if(i<0)return 'Cloud game joined — claim your kingdom slot below.'; if(i===state.current)return `Your turn: ${state.players[i].name}.`; return `Waiting for ${player().name}. You are ${state.players[i].name}; viewing your own fog of war.`;}
 function cloudClaimBanner(){if(!state||!cloud.enabled)return ''; let i=claimedPlayerIndex(); if(i<0)return `<div class="waitingBanner needClaim"><b>Claim a kingdom to play.</b><br>Pick the slot the host named for you. Until then, you can view the shared game but cannot act.</div>`; if(i===state.current)return `<div class="waitingBanner yourTurn"><b>Your turn: ${state.players[i].name}</b><br>Move, attack, recruit, then End Turn to upload to the cloud.</div>`; return `<div class="waitingBanner"><b>Waiting for ${player().name}</b><br>You are ${state.players[i].name}. Fog of war is shown from your kingdom's view. Enjoy the waiting music until your turn arrives.</div>`;}
-function endTurn(){if(!state)return; if(player().kind==='Human'&&!localCanControlCurrent(false))return; if(state.aiRunning&&player().kind!=='AI')return; if(!finishPendingActionForSave('ending the turn'))return; finishAllCurrentActions(); selected=null; highlights=[]; checkDefeats(); let outgoing=player(); let summary={from:outgoing.name,turn:state.turn,events:[...(state.turnEvents||[])],next:''}; let winner=state.players.filter(p=>p.alive).length===1?state.players.find(p=>p.alive):null; if(winner){log(`🏆 ${winner.name} wins the War of Brass!`); startMusic('victory'); sfx('win'); render(); cloudUploadState('victory'); alert(`${winner.name} wins!`); return;} do{state.current=(state.current+1)%state.players.length; if(state.current===0)state.turn++; startTurn();}while(!player().alive && state.players.some(p=>p.alive)); summary.next=player().name; lastTurnSummary=summary; state.lastTurnSummary=summary; state.cloudRevision=(state.cloudRevision||0)+1; setThemeForCurrent(); log(`Turn handoff: ${summary.from} should save and post the file for ${summary.next}.`); render(); cloudUploadState('end turn'); maybeRunAI();}
+
+async function cloudEnsureFreshTurnBeforeAdvance(){
+ if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state)return true;
+ try{
+  let rows=await supabaseFetch(cloudGamePath());
+  if(!rows||!rows.length){cloudSetStatus('Cloud game not found. Turn was not advanced.','bad');return false;}
+  let row=rows[0], rev=Number(row.cloud_revision||0), localRev=Number(cloud.lastSeenRevision||0);
+  let remoteTurn=Number(row.turn_number||state.turn||1), remoteCurrent=Number(row.current_player_index||0);
+  let localTurn=Number(state.turn||1), localCurrent=Number(state.current||0);
+  if(rev>localRev||remoteTurn!==localTurn||remoteCurrent!==localCurrent){
+   await cloudApplyRow(row,false);
+   cloudSetStatus(`Cloud had a newer turn state. Downloaded latest instead of ending an outdated turn. ${cloudClaimStatusText()||''}`,'warn');
+   selected=null; highlights=[]; render(); maybeRunAI(); return false;
+  }
+  cloud.row=row; cloud.lastUpdated=row.updated_at||cloud.lastUpdated; cloud.lastSeenRevision=rev||localRev;
+  return true;
+ }catch(err){cloudSetStatus('Could not verify latest cloud turn: '+err.message,'bad');return false;}
+}
+async function endTurn(){
+ if(!state||turnAdvanceBusy)return;
+ let active=player();
+ if(!active)return;
+ if(active.kind==='Human'&&!localCanControlCurrent(false))return;
+ if(state.aiRunning&&active.kind!=='AI')return;
+ if(!finishPendingActionForSave('ending the turn'))return;
+ turnAdvanceBusy=true;
+ try{
+  if(cloud.enabled&&active.kind==='Human'){
+   let fresh=await cloudEnsureFreshTurnBeforeAdvance();
+   if(!fresh)return;
+   let locked=await cloudClaimLock();
+   if(!locked)return;
+  }
+  let expectedRevision=cloud.enabled?Number(cloud.lastSeenRevision||0):0;
+  finishAllCurrentActions(); selected=null; highlights=[]; checkDefeats();
+  let outgoing=player();
+  let summary={from:outgoing.name,turn:state.turn,events:[...(state.turnEvents||[])],next:''};
+  let winner=state.players.filter(p=>p.alive).length===1?state.players.find(p=>p.alive):null;
+  if(winner){log(`🏆 ${winner.name} wins the War of Brass!`); startMusic('victory'); sfx('win'); render(); await cloudUploadState('victory',{expectedRevision}); alert(`${winner.name} wins!`); return;}
+  do{state.current=(state.current+1)%state.players.length; if(state.current===0)state.turn++; startTurn();}while(!player().alive && state.players.some(p=>p.alive));
+  summary.next=player().name; lastTurnSummary=summary; state.lastTurnSummary=summary; state.cloudRevision=(state.cloudRevision||0)+1; setThemeForCurrent();
+  log(`Turn handoff: ${summary.from} should save and post the file for ${summary.next}.`);
+  render();
+  await cloudUploadState('end turn',{expectedRevision});
+  maybeRunAI();
+ }finally{turnAdvanceBusy=false;}
+}
 function checkDefeats(){state.players.forEach(p=>{if(!p.alive)return; let cmdAlive=state.units.some(u=>u.owner===p.id&&u.type==='Commander'&&u.hp>0); let cities=state.map.some(t=>t.owner===p.id&&t.s==='city'); if(!cmdAlive&&!cities){p.alive=false;p.observer=true;p.influence+=3;log(`${p.name} is defeated and becomes an Observer with 3 Influence.`)}})}
 function render(){ $('versionBadge').textContent=`Build ${VERSION}`; renderCloudPanel(); let tb=$('turnBadge'); if(!state){tb.textContent='No game'; tb.classList.remove('turnBadgeAI','kingdomTurnBadge'); $('saveBadge').textContent='Discord Hotseat JSON · Cloud Ready'; if($('handoffPanel'))$('handoffPanel').innerHTML='<b>Start or load a game.</b> Cloud Setup is available below the map and in the top bar.'; if($('log'))$('log').innerHTML=''; return;} tb.innerHTML=turnBadgeMarkup(); tb.classList.add('kingdomTurnBadge'); tb.classList.toggle('turnBadgeAI',player().kind==='AI'); $('saveBadge').textContent=`${state.players.length}P · ${state.players.filter(p=>p.kind==='AI').length} AI · ${state.weather||'Clear'} · Save for ${player().name}`; renderMap(); renderPanels(); renderLog();}
 function visibleSet(pid){let set=new Set(); state.units.filter(u=>u.owner===pid&&u.hp>0).forEach(u=>{for(let y=u.y-4;y<=u.y+4;y++)for(let x=u.x-4;x<=u.x+4;x++){if(x>=0&&y>=0&&x<state.w&&y<state.h&&Math.abs(x-u.x)+Math.abs(y-u.y)<=4)set.add(`${x},${y}`)}}); state.map.forEach(t=>{if(t.owner===pid&&t.s){for(let y=t.y-2;y<=t.y+2;y++)for(let x=t.x-2;x<=t.x+2;x++)if(x>=0&&y>=0&&x<state.w&&y<state.h)set.add(`${x},${y}`)}}); return set;}
@@ -752,7 +875,7 @@ function tileVariant(t,count=16){let seed=(state?.seed||'IK').split('').reduce((
 function tileArt(t){let slug=assetSlug(t.t); if(t.t==='plains')return `<img class="tilePng" src="assets/tiles/plains_${tileVariant(t)}.png" alt="${t.t}" loading="eager" onerror="this.onerror=null;this.src='assets/tiles/plains.png'">`; if(['roads','water','forest','hills','mountains'].includes(t.t)){return `<img class="tilePng" src="assets/tiles/${slug}_${terrainMask(t)}.png" alt="${t.t}" loading="eager">`;} return `<img class="tilePng" src="assets/tiles/${slug}.png" alt="${t.t}" loading="eager">`; }
 function structureArt(s,owner){let folder=owner!==null?factionAssetSlug(owner):'steam_marshal'; return `<img class="structureSprite structPng" src="assets/structures/${folder}/${assetSlug(s)}.png" alt="${STRUCTS[s].name}" loading="eager">`;}
 function unitIcon(u){return unitSprite(u,'miniSprite');}
-async function tileClick(x,y){if(!state||movementAnimating)return; enableAudio(); lastTile={x,y}; let u=unitAt(x,y); let h=highlights.find(h=>h.x==x&&h.y==y);
+async function tileClick(x,y){if(!state||movementAnimating||battleActionInProgress)return; enableAudio(); lastTile={x,y}; let u=unitAt(x,y); let h=highlights.find(h=>h.x==x&&h.y==y);
  if(!localCanControlCurrent(true)){
    commandTargetMode=null;
    commandPopupContext=null;
@@ -775,7 +898,7 @@ async function tileClick(x,y){if(!state||movementAnimating)return; enableAudio()
      else showTurnToast('Moved — choose an attack target or Wait.');
      render(); renderPanels(); return;
    }
-   if(h.type==='attack'&&u&&u.owner!==selected.owner){commandTargetMode=null; attack(selected,u); selected=null; highlights=[]; return;}
+   if(h.type==='attack'&&u&&u.owner!==selected.owner){commandTargetMode=null; await attack(selected,u); selected=null; highlights=[]; return;}
  }
  if(u&&u.owner===state.current&&player().alive&&!u.acted){
    commandTargetMode=null;
@@ -794,7 +917,52 @@ function finishPendingActionForSave(reason='continue'){if(hasPendingAction()){le
 function finishAllCurrentActions(){if(!state)return; state.units.filter(u=>u.owner===state.current&&u.moved&&!u.acted).forEach(u=>{u.acted=true;}); selected=null; highlights=[];}
 function canEnter(u,x,y){let tt=tile(x,y), occupied=unitAt(x,y); if(occupied)return false; if(tt.t==='water' && !UNITS[u.type].tags.includes('air') && !UNITS[u.type].tags.includes('gyro'))return false; if(tt.t==='mountains' && !UNITS[u.type].tags.includes('air') && !UNITS[u.type].tags.includes('gyro') && UNITS[u.type].mv<4)return false; return true;}
 function canCapture(u){return UNITS[u.type].capture}
-function attack(a,d){if(!a||!d||a.owner===d.owner)return; let preA={...a}, preD={...d}; let detail=calcDamageDetail(a,d); let dmg=detail.damage; d.hp-=dmg; a.acted=true; a.moved=true; animateCombat(preA,preD,detail,false); log(`${state.players[a.owner].name}'s ${a.type} hits ${d.type} for ${dmg}${detail.terrainReduction>0?` (${detail.coverName} absorbed ${detail.terrainReduction})`:''}.`); if(state.turnEvents)state.turnEvents.push(`${a.type} attacked ${d.type} for ${dmg}.`); let defenderDestroyed=d.hp<=0; if(defenderDestroyed){log(`${d.type} destroyed.`); a.xp+=35; sfx(detail.heavy?'heavy':'hit'); setTimeout(()=>{removeDead(); checkDefeats(); vetCheck(a); render();}, animDelay()); return;} if(dist(a,d)<=UNITS[d.type].range){let cdetail=calcDamageDetail(d,a); let cd=Math.max(3,Math.floor(cdetail.damage*0.55)); a.hp-=cd; animateCombat(preD,preA,{...cdetail,damage:cd},true); log(`${d.type} counterattacks for ${cd}${cdetail.terrainReduction>0?` (${cdetail.coverName} absorbed ${cdetail.terrainReduction})`:''}.`); if(a.hp<=0)log(`${a.type} destroyed by counterattack.`); d.xp+=10; } a.xp+=20; sfx(detail.heavy?'heavy':'hit'); setTimeout(()=>{vetCheck(a); removeDead(); checkDefeats(); render();}, animDelay()); render();}
+async function attack(a,d){
+ if(!a||!d||a.owner===d.owner||battleActionInProgress)return;
+ battleActionInProgress=true;
+ try{
+   let preA={...a}, preD={...d};
+   let detail=calcDamageDetail(a,d);
+   let dmg=detail.damage;
+   d.hp-=dmg;
+   a.acted=true;
+   a.moved=true;
+   log(`${state.players[a.owner].name}'s ${a.type} hits ${d.type} for ${dmg}${detail.terrainReduction>0?` (${detail.coverName} absorbed ${detail.terrainReduction})`:''}.`);
+   if(state.turnEvents)state.turnEvents.push(`${a.type} attacked ${d.type} for ${dmg}.`);
+   await animateCombat(preA,preD,detail,false);
+
+   let defenderDestroyed=d.hp<=0;
+   if(defenderDestroyed){
+     log(`${d.type} destroyed.`);
+     a.xp+=35;
+     removeDead();
+     checkDefeats();
+     vetCheck(a);
+     render();
+     return;
+   }
+
+   if(dist(a,d)<=UNITS[d.type].range){
+     let counterAttacker={...d};
+     let counterDefender={...a};
+     let cdetail=calcDamageDetail(d,a);
+     let cd=Math.max(3,Math.floor(cdetail.damage*0.55));
+     a.hp-=cd;
+     log(`${d.type} counterattacks for ${cd}${cdetail.terrainReduction>0?` (${cdetail.coverName} absorbed ${cdetail.terrainReduction})`:''}.`);
+     if(a.hp<=0)log(`${a.type} destroyed by counterattack.`);
+     d.xp+=10;
+     await animateCombat(counterAttacker,counterDefender,{...cdetail,damage:cd},true);
+   }
+
+   a.xp+=20;
+   vetCheck(a);
+   removeDead();
+   checkDefeats();
+   render();
+ } finally {
+   battleActionInProgress=false;
+ }
+}
 function calcDamage(a,d){return calcDamageDetail(a,d).damage}
 function terrainDefenseAt(t){if(!t)return 0; let val=TERRAIN[t.t].def||0; if(t.s==='town')val=Math.max(val,2); if(t.s==='city')val=Math.max(val,3); if(t.s==='fortress')val=Math.max(val,4); return val;}
 function calcDamageDetail(a,d){let ab=UNITS[a.type], db=UNITS[d.type], hpScale=Math.max(.25,a.hp/a.maxHp), mult=1, counter=''; for(let at of ab.tags){if(COUNTERS[at]) for(let dt of db.tags) if(COUNTERS[at][dt]&&COUNTERS[at][dt]>mult){mult=COUNTERS[at][dt];counter=`${at} beats ${dt}`;}}
@@ -816,8 +984,9 @@ function squadCount(u,hp=u.hp){let m=u.squadMax||squadMax(u.type); if(m<=1)retur
 function machineLike(u){return ['Artillery','Steam Tank','Airship','Gyrocopter'].includes(u.type);}
 function renderBattleSquad(el,u,beforeHp,afterHp,side){if(!el)return; let before=squadCount(u,beforeHp), after=squadCount(u,afterHp), lost=Math.max(0,before-after); let src=battleUnitSrc(u), cls=machineLike(u)?'machine':''; let hero=u.type==='Commander'; let html=''; for(let i=0;i<before;i++){let casualty=i>=after; html+=`<img class="battleMember ${hero?'hero':(before<=5?'large':'')} ${cls} ${casualty?'pendingCasualty':''}" src="${src}" alt="${u.type}">`;} el.innerHTML=html; el.classList.remove('attack','hit'); void el.offsetWidth; if(side==='attacker')el.classList.add('attack'); else el.classList.add('hit'); setTimeout(()=>{el.querySelectorAll('.pendingCasualty').forEach(x=>x.classList.add('casualty'));},360);}
 function showBattleView(a,d,detail,isCounter){
- let mode=battleViewSetting(); if(mode==='Off')return;
- let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return;
+ let mode=battleViewSetting(); if(mode==='Off')return Promise.resolve();
+ let ov=$('battleOverlay'), box=$('battleBox'); if(!ov||!box)return Promise.resolve();
+ return new Promise(resolve=>{
  let token=++battleViewToken; startMusic('battle'); box.classList.toggle('battleFast',mode==='Fast');
  $('battleBg').style.backgroundImage=`url(assets/battle_backgrounds/${battleTerrainKey(d)}.png)`;
  let ap=state.players[a.owner], dp=state.players[d.owner], atkBase=UNITS[a.type]||UNITS.Infantry, defBase=UNITS[d.type]||UNITS.Infantry;
@@ -853,11 +1022,19 @@ function showBattleView(a,d,detail,isCounter){
  dmg.textContent='-'+detail.damage; dmg.style.left=dmgPos.left; dmg.style.top=dmgPos.top; dmg.style.display='block';
  ov.classList.add('show');
  playBattleActionSfx(a,d,detail);
- let closeDelay=mode==='Fast'?5600:6800;
- setTimeout(()=>{if(token!==battleViewToken)return; fx.style.display='none';dmg.style.display='none';hideBattleView(token);},closeDelay);
+ let closeDelay=mode==='Fast'?4480:5440;
+ setTimeout(()=>{if(token===battleViewToken){fx.style.display='none';dmg.style.display='none';hideBattleView(token);} resolve();},closeDelay);
+ });
 }
 
-function animateCombat(a,d,detail,isCounter){showBattleView(a,d,detail,isCounter);let speed=$('animSpeed')?.value||'Normal'; if(speed==='Off')return; setTimeout(()=>{let attacker=document.querySelector(`[data-unit-id="${a.id}"]`); if(attacker){attacker.classList.add('attackLunge'); setTimeout(()=>attacker.classList.remove('attackLunge'),420)}},isCounter?320:40); setTimeout(()=>{let defender=document.querySelector(`[data-unit-id="${d.id}"]`); if(defender){defender.classList.add('hitFlash'); setTimeout(()=>defender.classList.remove('hitFlash'),420)} burstFx(d.x,d.y,detail.heavy); floatingText(d.x,d.y,`${isCounter?'Counter ':''}-${detail.damage}`,'damage'); if(detail.terrainReduction>0)floatingText(d.x,d.y,`Cover -${detail.terrainReduction}`,'terrain'); if(detail.counter)floatingText(d.x,d.y,'Counter bonus','counter'); if(detail.heavy){let m=$('map'); if(m){m.classList.add('shake'); setTimeout(()=>m.classList.remove('shake'),260)}}},isCounter?520:220);}
+async function animateCombat(a,d,detail,isCounter){
+ await showBattleView(a,d,detail,isCounter);
+ let speed=$('animSpeed')?.value||'Normal';
+ if(speed==='Off')return;
+ setTimeout(()=>{let attacker=document.querySelector(`[data-unit-id="${a.id}"]`); if(attacker){attacker.classList.add('attackLunge'); setTimeout(()=>attacker.classList.remove('attackLunge'),420)}},isCounter?320:40);
+ setTimeout(()=>{let defender=document.querySelector(`[data-unit-id="${d.id}"]`); if(defender){defender.classList.add('hitFlash'); setTimeout(()=>defender.classList.remove('hitFlash'),420)} burstFx(d.x,d.y,detail.heavy); floatingText(d.x,d.y,`${isCounter?'Counter ':''}-${detail.damage}`,'damage'); if(detail.terrainReduction>0)floatingText(d.x,d.y,`Cover -${detail.terrainReduction}`,'terrain'); if(detail.counter)floatingText(d.x,d.y,'Counter bonus','counter'); if(detail.heavy){let m=$('map'); if(m){m.classList.add('shake'); setTimeout(()=>m.classList.remove('shake'),260)}}},isCounter?520:220);
+ await sleep(isCounter?1120:900);
+}
 function removeDead(){state.units=state.units.filter(u=>u.hp>0)} function vetCheck(u){if(u.xp>=100){u.xp-=100;u.veteran++;u.maxHp+=8;u.hp+=8;log(`${u.type} becomes Veteran ${u.veteran}.`)}}
 function renderPanels(){let pHtml=cloudClaimBanner(); state.players.forEach((p,i)=>{let owned=state.map.filter(t=>t.owner===p.id&&t.s).length; let income=state.map.filter(t=>t.owner===p.id&&t.s).reduce((s,t)=>s+STRUCTS[t.s].income,0); let claim=p.kind==='Human'?(p.cloudClaimId?` · Claimed by ${p.cloudClaimName||'player'}`:' · Unclaimed'):''; pHtml+=`<div class="playerLine ${p.kind==='AI'?'ai':'human'} ${cloud.enabled&&i===claimedPlayerIndex()?'mine':''}"><span><span class="swatch" style="background:${p.color}"></span>${i===state.current?'➤ ':''}${p.name}</span><span>${p.kind}${p.kind==='AI'?` · ${p.aiDifficulty}`:''}${claim} · ${p.alive?'Alive':'Observer'} · ${p.gold}g · +${income}/turn · ${owned} sites</span></div>`}); $('playerInfo').innerHTML=pHtml+(player().kind==='AI'&&state.aiRunning?'<div class="aiThinking">AI turn in progress — the brass engines are thinking...</div>':'');
  let u=selected; $('unitInfo').innerHTML=u?unitCard(u):'Select a unit.'; renderTerrainInfo(); renderHandoffPanel(); renderCloudPanel(); let cmd=state.units.find(c=>c.owner===state.current&&c.type==='Commander'); let cp=player(); let danger=cmd&&state.units.some(e=>e.owner!==state.current&&e.hp>0&&dist(e,cmd)<=UNITS[e.type].range+1); if(danger&&cp.kind==='Human'&&audio.theme!=='danger')startMusic('danger'); $('commanderInfo').innerHTML=cmd?`<div class="card"><img class="portraitWide" src="${commanderPortraitSrc(cp.commanderClass)}" alt="${cp.commanderName}"><div class="commanderName">${cp.commanderName}</div><b>${commanderClassSprite(cp.commanderClass,state.current,'miniSprite')} ${cp.commanderClass}</b><br>${COMMANDERS[cp.commanderClass].desc}<br>HP ${cmd.hp}/${cmd.maxHp}<br>Aura radius: 3<br><span class="pill good">Aura: +${COMMANDERS[cp.commanderClass].atk} Atk / +${COMMANDERS[cp.commanderClass].def} Def / +${COMMANDERS[cp.commanderClass].heal} heal</span>${cp.kind==='AI'?`<span class="pill difficultyPill">AI ${cp.aiDifficulty}</span>`:''}${danger?'<div class="warnBox">Commander danger: enemies are near attack range.</div>':''}</div>`:`<span class="danger">Commander dead.</span>`; renderRecruit(); renderObserver();}
@@ -881,12 +1058,12 @@ function observerPower(name,cost){let p=player(); if(!p.observer||p.influence<co
 
 function normalizeLoadedState(){if(!state)return; state.version=state.version||VERSION; state.aiRunning=false; state.players=(state.players||[]).filter(Boolean); if(!state.players.length)state.players=[{id:0,name:'Player 1',color:COLORS[0],gold:1000,alive:true,observer:false,influence:0,kind:'Human',aiDifficulty:'Soldier',commanderClass:'Steam Marshal',commanderName:COMMANDERS['Steam Marshal'].name}]; state.current=Math.max(0,Math.min(Number.isInteger(state.current)?state.current:0,state.players.length-1)); state.map=Array.isArray(state.map)?state.map:[]; state.units=Array.isArray(state.units)?state.units:[]; state.log=Array.isArray(state.log)?state.log:[]; state.players.forEach((p,i)=>{p.id=i; p.name=p.name||`Kingdom ${i+1}`; p.gold=Number.isFinite(p.gold)?p.gold:1000; p.kind=p.kind||'Human'; p.aiDifficulty=p.aiDifficulty||'Soldier'; p.commanderClass=p.commanderClass||COMMANDER_ORDER[i%COMMANDER_ORDER.length]; p.color=commanderColor(p.commanderClass,i); p.commanderName=p.commanderName||COMMANDERS[p.commanderClass]?.name||p.commanderClass; if(typeof p.alive!=='boolean')p.alive=true; if(typeof p.observer!=='boolean')p.observer=false; if(typeof p.influence!=='number')p.influence=0;}); (state.units||[]).forEach(u=>{u.squadMax=u.squadMax||squadMax(u.type); if(!u.commanderClass&&u.type==='Commander')u.commanderClass=state.players[u.owner]?.commanderClass||'Steam Marshal';}); state.turnEvents=state.turnEvents||[]; state.cloudSchemaVersion=state.cloudSchemaVersion||2; (state.units||[]).forEach(u=>{if(u.acted)u.moved=true;});}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function maybeRunAI(){if(!state)return; let p=player(); if(!p||!p.alive||p.kind!=='AI'||state.aiRunning)return; state.aiRunning=true; selected=null; highlights=[]; setThemeForCurrent(); render(); showTurnToast(`${p.name} (${p.aiDifficulty}) is taking its turn...`); setTimeout(()=>runAiTurn(),450);}
-async function runAiTurn(){let p=player(); if(!state||!p||p.kind!=='AI'){if(state)state.aiRunning=false;return;} let level=AI_LEVELS[p.aiDifficulty]||AI_LEVELS.Soldier; log(`${p.name} AI (${p.aiDifficulty}) begins planning.`); showTurnToast(`${p.name} is studying the battlefield...`); aiRecruit(p,level); render(); await sleep(850); let units=state.units.filter(u=>u.owner===p.id&&u.hp>0&&!u.acted).sort((a,b)=>(a.type==='Commander')-(b.type==='Commander')); let limit=0; for(let u of units){let current=player(); if(!state||!current||current.id!==p.id||!u||u.hp<=0)continue; await aiActUnit(u,level); render(); await sleep(Math.max(650,animDelay()+520)); if(++limit>20)break;} aiFocusUnitId=null; state.aiRunning=false; log(`${p.name} AI ends turn.`); showTurnToast(`${p.name} ends its turn.`); await sleep(650); endTurn();}
+function maybeRunAI(){if(!state)return; let p=player(); if(!p||!p.alive||p.kind!=='AI'||state.aiRunning)return; if(cloud.enabled){cloudLocalIdentity(false); if(!state.cloudHostId||state.cloudHostId!==cloud.localPlayerId){cloudSetStatus(`${p.name} is an AI kingdom. Waiting for the host browser to process the AI turn.`, 'warn'); renderCloudPanel(); return;}} state.aiRunning=true; selected=null; highlights=[]; setThemeForCurrent(); render(); showTurnToast(`${p.name} (${p.aiDifficulty}) is taking its turn...`); setTimeout(()=>runAiTurn(),450);}
+async function runAiTurn(){let p=player(); if(!state||!p||p.kind!=='AI'){if(state)state.aiRunning=false;return;} let level=AI_LEVELS[p.aiDifficulty]||AI_LEVELS.Soldier; log(`${p.name} AI (${p.aiDifficulty}) begins planning.`); showTurnToast(`${p.name} is studying the battlefield...`); aiRecruit(p,level); render(); await sleep(850); let units=state.units.filter(u=>u.owner===p.id&&u.hp>0&&!u.acted).sort((a,b)=>(a.type==='Commander')-(b.type==='Commander')); let limit=0; for(let u of units){let current=player(); if(!state||!current||current.id!==p.id||!u||u.hp<=0)continue; await aiActUnit(u,level); render(); await sleep(Math.max(650,animDelay()+520)); if(++limit>20)break;} aiFocusUnitId=null; state.aiRunning=false; log(`${p.name} AI ends turn.`); showTurnToast(`${p.name} ends its turn.`); await sleep(650); await endTurn();}
 function aiRecruit(p,level){let cities=state.map.filter(t=>t.owner===p.id&&t.s==='city'); for(let c of cities){let choice=aiChooseRecruit(p,level); if(choice)aiRecruitAt(p,c,choice);}}
 function aiChooseRecruit(p,level){let roster=['Infantry','Pikemen','Riflemen','Cavalry']; if(level.rank>=2)roster.push('Mage','Assassin'); if(level.rank>=3)roster.push('Artillery','Gyrocopter'); if(level.rank>=4)roster.push('Steam Tank','Airship'); let enemies=state.units.filter(u=>u.owner!==p.id&&u.hp>0), air=enemies.filter(u=>UNITS[u.type].tags.includes('air')).length, tanks=enemies.filter(u=>UNITS[u.type].tags.includes('tank')).length, cav=enemies.filter(u=>UNITS[u.type].tags.includes('cavalry')).length; let pref=air?'Riflemen':tanks?'Artillery':cav?'Pikemen':roster[Math.floor(rng()*roster.length)]; if(UNITS[pref]&&p.gold>=UNITS[pref].cost)return pref; return roster.filter(x=>p.gold>=UNITS[x].cost).sort((a,b)=>UNITS[b].cost-UNITS[a].cost)[0];}
 function aiRecruitAt(p,c,type){let b=UNITS[type]; if(!b||p.gold<b.cost)return; let spots=[[c.x+1,c.y],[c.x-1,c.y],[c.x,c.y+1],[c.x,c.y-1],[c.x,c.y]]; let pos=spots.find(s=>s[0]>=0&&s[1]>=0&&s[0]<state.w&&s[1]<state.h&&!unitAt(s[0],s[1])&&canEnter({type},s[0],s[1])); if(!pos)return; p.gold-=b.cost; addUnit(type,p.id,pos[0],pos[1]); let nu=state.units[state.units.length-1]; nu.moved=true;nu.acted=true; log(`${p.name} recruits ${type}.`);}
-async function aiActUnit(u,level){aiFocusUnitId=u.id; lastTile={x:u.x,y:u.y}; renderMap(); showTurnToast(`${state.players[u.owner].name}'s ${u.type} is thinking...`); await sleep(Math.max(500,animDelay()+260)); let plan=aiBestMoveAttack(u,level); if(plan){ if(plan.x!==u.x||plan.y!==u.y){log(`${state.players[u.owner].name}'s ${u.type} maneuvers to ${plan.x},${plan.y}.`); await animateUnitMove(u,plan.x,plan.y,170); u.moved=true; await sleep(260);} aiFocusUnitId=u.id; renderMap(); await sleep(220); attack(u,plan.target); aiFocusUnitId=null; return;} let target=aiBestAttack(u,level); if(target){showTurnToast(`${state.players[u.owner].name}'s ${u.type} chooses an attack.`); await sleep(320); attack(u,target); aiFocusUnitId=null; return;} let dest=aiBestMove(u,level); if(dest&&(dest.x!==u.x||dest.y!==u.y)){log(`${state.players[u.owner].name}'s ${u.type} advances to ${dest.x},${dest.y}.`); await animateUnitMove(u,dest.x,dest.y,170); u.moved=true; if(canCapture(u)){let tt=tile(u.x,u.y); if(tt.s&&tt.owner!==u.owner){tt.owner=u.owner; log(`${state.players[u.owner].name} captures ${STRUCTS[tt.s].name}.`);}}} u.acted=true; u.moved=true; aiFocusUnitId=null;}
+async function aiActUnit(u,level){aiFocusUnitId=u.id; lastTile={x:u.x,y:u.y}; renderMap(); showTurnToast(`${state.players[u.owner].name}'s ${u.type} is thinking...`); await sleep(Math.max(500,animDelay()+260)); let plan=aiBestMoveAttack(u,level); if(plan){ if(plan.x!==u.x||plan.y!==u.y){log(`${state.players[u.owner].name}'s ${u.type} maneuvers to ${plan.x},${plan.y}.`); await animateUnitMove(u,plan.x,plan.y,170); u.moved=true; await sleep(260);} aiFocusUnitId=u.id; renderMap(); await sleep(220); await attack(u,plan.target); aiFocusUnitId=null; return;} let target=aiBestAttack(u,level); if(target){showTurnToast(`${state.players[u.owner].name}'s ${u.type} chooses an attack.`); await sleep(320); await attack(u,target); aiFocusUnitId=null; return;} let dest=aiBestMove(u,level); if(dest&&(dest.x!==u.x||dest.y!==u.y)){log(`${state.players[u.owner].name}'s ${u.type} advances to ${dest.x},${dest.y}.`); await animateUnitMove(u,dest.x,dest.y,170); u.moved=true; if(canCapture(u)){let tt=tile(u.x,u.y); if(tt.s&&tt.owner!==u.owner){tt.owner=u.owner; log(`${state.players[u.owner].name} captures ${STRUCTS[tt.s].name}.`);}}} u.acted=true; u.moved=true; aiFocusUnitId=null;}
 function aiBestMoveAttack(u,level){let candidates=[{x:u.x,y:u.y}]; if(!u.moved){for(let y=0;y<state.h;y++)for(let x=0;x<state.w;x++){let d=Math.abs(x-u.x)+Math.abs(y-u.y); if(d>0&&d<=UNITS[u.type].mv&&canEnter(u,x,y))candidates.push({x,y});}} let best=null; for(let c of candidates){let ghost={...u,x:c.x,y:c.y}; let targets=state.units.filter(e=>e.owner!==u.owner&&e.hp>0&&dist(ghost,e)<=UNITS[u.type].range); for(let t of targets){let score=aiAttackScore(ghost,t,level)-(Math.abs(c.x-u.x)+Math.abs(c.y-u.y))*.35; if(!best||score>best.score)best={x:c.x,y:c.y,target:t,score};}} if(best&&best.score>8)return best; return null;}
 function aiBestAttack(u,level){let targets=state.units.filter(e=>e.owner!==u.owner&&e.hp>0&&dist(u,e)<=UNITS[u.type].range); if(!targets.length)return null; targets.sort((a,b)=>aiAttackScore(u,b,level)-aiAttackScore(u,a,level)); let best=targets[0]; if(level.rank<=1&&rng()<.25)return targets[Math.floor(rng()*targets.length)]; return best;}
 function aiAttackScore(u,e,level){let p=combatPreview(u,e), score=p.detail.damage*level.aggression; if(p.afterD<=0)score+=45; if(e.type==='Commander')score+=70; if(e.hp/e.maxHp<.4)score+=18; if(p.counter)score-=p.cd*level.caution; if(p.detail.counter)score+=25; score-=terrainDefenseAt(tile(e.x,e.y))*2; return score;}
@@ -905,11 +1082,44 @@ async function supabaseFetch(path,options={}){let c=cloudStoredConfig(); if(!c.u
 function cloudGamePath(){return `cloud_games?game_code=eq.${encodeURIComponent(cloud.gameCode)}&join_secret=eq.${encodeURIComponent(cloud.joinSecret)}&select=*`;}
 function cloudGenerateCode(){return 'BRASS-'+Math.floor(1000+Math.random()*9000)}
 function cloudGenerateSecret(){return Math.random().toString(36).slice(2,8).toUpperCase()+'-'+Math.random().toString(36).slice(2,8).toUpperCase()}
-function cloudStateSnapshot(){let snap=JSON.parse(JSON.stringify(state)); snap.version=VERSION; snap.cloudSchemaVersion=2; snap.aiRunning=false; snap.cloudGameCode=cloud.gameCode||snap.cloudGameCode||''; return snap;}
-async function hostCloudGame(){try{if(!state||!player()){alert('Start a New Game first, then host it in the cloud.');return;} if(hasPendingAction()&&!finishPendingActionForSave('hosting a cloud game'))return; if(!cloudHasConfig()){cloud.setupOpen=true; cloudSetStatus('Supabase config missing. Paste URL and anon key first. Local and JSON play still work.','warn'); return;} cloudLocalIdentity(); cloud.busy=true; cloudSetStatus('Syncing: creating cloud game...','warn'); let code=cloudGenerateCode(), secret=cloudGenerateSecret(); let payload={game_code:code,join_secret:secret,game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),lock_owner:null,lock_until:null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,20),cloud_revision:1}; let row=await supabaseFetch('cloud_games',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)}); cloud.gameCode=code; cloud.joinSecret=secret; cloud.enabled=true; cloud.row=row&&row[0]; cloud.lastUpdated=cloud.row?.updated_at||new Date().toISOString(); cloud.lastSeenRevision=cloud.row?.cloud_revision||1; localStorage.setItem('ik_cloud_last',JSON.stringify({gameCode:code,joinSecret:secret})); cloudStartPolling(); cloudSetStatus(`Connected. Hosted ${code}. Share code + secret with friends.`, 'good'); log(`Cloud game hosted: ${code}.`); render();}catch(err){cloudSetStatus('Error: '+err.message,'bad')}finally{cloud.busy=false;}}
+function cloudStateSnapshot(){let snap=JSON.parse(JSON.stringify(state)); snap.version=VERSION; snap.cloudSchemaVersion=2; snap.aiRunning=false; snap.cloudGameCode=cloud.gameCode||snap.cloudGameCode||''; snap.cloudHostId=snap.cloudHostId||state?.cloudHostId||''; return snap;}
+async function hostCloudGame(){try{if(!state||!player()){alert('Start a New Game first, then host it in the cloud.');return;} if(hasPendingAction()&&!finishPendingActionForSave('hosting a cloud game'))return; if(!cloudHasConfig()){cloud.setupOpen=true; cloudSetStatus('Supabase config missing. Paste URL and anon key first. Local and JSON play still work.','warn'); return;} cloudLocalIdentity(); state.cloudHostId=cloud.localPlayerId; cloud.busy=true; cloudSetStatus('Syncing: creating cloud game...','warn'); let code=cloudGenerateCode(), secret=cloudGenerateSecret(); let payload={game_code:code,join_secret:secret,game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),lock_owner:null,lock_until:null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,20),cloud_revision:1}; let row=await supabaseFetch('cloud_games',{method:'POST',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)}); cloud.gameCode=code; cloud.joinSecret=secret; cloud.enabled=true; cloud.row=row&&row[0]; cloud.lastUpdated=cloud.row?.updated_at||new Date().toISOString(); cloud.lastSeenRevision=cloud.row?.cloud_revision||1; localStorage.setItem('ik_cloud_last',JSON.stringify({gameCode:code,joinSecret:secret})); cloudStartPolling(); cloudSetStatus(`Connected. Hosted ${code}. Share code + secret with friends.`, 'good'); log(`Cloud game hosted: ${code}.`); render();}catch(err){cloudSetStatus('Error: '+err.message,'bad')}finally{cloud.busy=false;}}
 async function joinCloudGame(){try{if(!cloudHasConfig()){cloud.setupOpen=true; cloudSetStatus('Supabase config missing. Paste URL and anon key first.','warn'); return;} cloudLocalIdentity(); let last={}; try{last=JSON.parse(localStorage.getItem('ik_cloud_last')||'{}')}catch(e){} let code=(prompt('Enter cloud game code:', last.gameCode||'BRASS-')||'').trim().toUpperCase(); if(!code)return; let secret=(prompt('Enter join secret:', last.joinSecret||'')||'').trim(); if(!secret)return; cloud.gameCode=code; cloud.joinSecret=secret; cloud.busy=true; cloudSetStatus('Syncing: joining cloud game...','warn'); let rows=await supabaseFetch(cloudGamePath()); if(!rows||!rows.length)throw new Error('No cloud game found for that code/secret.'); await cloudApplyRow(rows[0],true); cloud.enabled=true; localStorage.setItem('ik_cloud_last',JSON.stringify({gameCode:code,joinSecret:secret})); cloudStartPolling(); cloudSetStatus(`Connected to ${code}. Turn ${state.turn}: ${player().name}.`,'good'); log(`Joined cloud game ${code}.`); render(); maybeRunAI();}catch(err){cloudSetStatus('Error: '+err.message,'bad')}finally{cloud.busy=false;}}
-async function cloudUploadState(reason='sync'){if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state||cloud.busy)return; try{if(hasPendingAction()){cloudSetStatus('Cloud upload paused: finish moved unit first.','warn');return;} cloud.busy=true; let rev=(cloud.lastSeenRevision||0)+1; let payload={game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),updated_at:new Date().toISOString(),lock_owner:null,lock_until:null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,30),cloud_revision:rev}; let rows=await supabaseFetch(`cloud_games?game_code=eq.${encodeURIComponent(cloud.gameCode)}&join_secret=eq.${encodeURIComponent(cloud.joinSecret)}`,{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)}); let row=rows&&rows[0]; if(row){cloud.row=row; cloud.lastUpdated=row.updated_at; cloud.lastSeenRevision=row.cloud_revision||rev;} cloudSetStatus(`Upload successful (${reason}). ${cloudClaimStatusText()||('Waiting for '+currentPlayerName('the next kingdom')+'.')}`,'good');}catch(err){cloudSetStatus('Cloud upload failed: '+err.message,'bad')}finally{cloud.busy=false;}}
-async function cloudPoll(){if(!cloud.enabled||cloud.busy||!cloud.gameCode||!cloud.joinSecret)return; try{let rows=await supabaseFetch(cloudGamePath()); if(!rows||!rows.length){cloudSetStatus('Cloud game not found.','bad');return;} let row=rows[0], rev=row.cloud_revision||0; cloud.activeLock={owner:row.lock_owner,until:row.lock_until}; if(rev>(cloud.lastSeenRevision||0)||(!cloud.lastUpdated||row.updated_at>cloud.lastUpdated)){ if(hasPendingAction()){cloudSetStatus('New cloud turn detected, but local unit is pending. Finish attack or Wait first.','warn');return;} await cloudApplyRow(row,false); cloudSetStatus(`Downloaded latest turn. ${cloudClaimStatusText()||currentPlayerName('Next kingdom')+' is up.'}`, 'good'); setThemeForCurrent({force:true}); render(); maybeRunAI(); } else {cloudSetStatus(cloudWaitingMessage(row), ''); renderCloudPanel();} }catch(err){cloudSetStatus('Cloud poll error: '+err.message,'bad');}}
+async function cloudUploadState(reason='sync',opts={}){
+ if(!cloud.enabled||!cloud.gameCode||!cloud.joinSecret||!state||cloud.busy)return false;
+ try{
+  if(hasPendingAction()){cloudSetStatus('Cloud upload paused: finish moved unit first.','warn');return false;}
+  cloud.busy=true;
+  let expectedRev=Number(opts.expectedRevision??cloud.lastSeenRevision??0);
+  let latestRows=await supabaseFetch(cloudGamePath());
+  if(!latestRows||!latestRows.length)throw new Error('Cloud game not found.');
+  let latest=latestRows[0], latestRev=Number(latest.cloud_revision||0);
+  if(expectedRev&&latestRev>expectedRev){
+   await cloudApplyRow(latest,false);
+   selected=null; highlights=[]; render();
+   cloudSetStatus('Cloud upload blocked: a newer turn was already saved. Downloaded latest state instead.','warn');
+   return false;
+  }
+  if(!expectedRev)expectedRev=latestRev;
+  let rev=(latestRev||expectedRev||0)+1;
+  let payload={game_version:VERSION,turn_number:state.turn||1,current_player_index:state.current||0,current_player_name:currentPlayerName('Unknown kingdom'),updated_at:new Date().toISOString(),lock_owner:null,lock_until:null,state_json:cloudStateSnapshot(),event_log:(state.log||[]).slice(0,30),cloud_revision:rev};
+  let path=`cloud_games?game_code=eq.${encodeURIComponent(cloud.gameCode)}&join_secret=eq.${encodeURIComponent(cloud.joinSecret)}${latestRev?`&cloud_revision=eq.${latestRev}`:''}`;
+  let rows=await supabaseFetch(path,{method:'PATCH',headers:{'Prefer':'return=representation'},body:JSON.stringify(payload)});
+  let row=rows&&rows[0];
+  if(!row){
+   let freshRows=await supabaseFetch(cloudGamePath());
+   if(freshRows&&freshRows[0])await cloudApplyRow(freshRows[0],false);
+   selected=null; highlights=[]; render();
+   cloudSetStatus('Cloud upload blocked by a simultaneous save. Downloaded latest state instead.','warn');
+   return false;
+  }
+  cloud.row=row; cloud.lastUpdated=row.updated_at; cloud.lastSeenRevision=row.cloud_revision||rev;
+  cloudSetStatus(`Upload successful (${reason}). ${cloudClaimStatusText()||('Waiting for '+currentPlayerName('the next kingdom')+'.')}`,'good');
+  return true;
+ }catch(err){cloudSetStatus('Cloud upload failed: '+err.message,'bad');return false;}
+ finally{cloud.busy=false;}
+}
+async function cloudPoll(){if(!cloud.enabled||cloud.busy||turnAdvanceBusy||!cloud.gameCode||!cloud.joinSecret)return; try{let rows=await supabaseFetch(cloudGamePath()); if(!rows||!rows.length){cloudSetStatus('Cloud game not found.','bad');return;} let row=rows[0], rev=row.cloud_revision||0; cloud.activeLock={owner:row.lock_owner,until:row.lock_until}; if(rev>(cloud.lastSeenRevision||0)||(!cloud.lastUpdated||row.updated_at>cloud.lastUpdated)){ if(hasPendingAction()){cloudSetStatus('New cloud turn detected, but local unit is pending. Finish attack or Wait first.','warn');return;} await cloudApplyRow(row,false); cloudSetStatus(`Downloaded latest turn. ${cloudClaimStatusText()||currentPlayerName('Next kingdom')+' is up.'}`, 'good'); setThemeForCurrent({force:true}); render(); maybeRunAI(); } else {cloudSetStatus(cloudWaitingMessage(row), ''); renderCloudPanel();} }catch(err){cloudSetStatus('Cloud poll error: '+err.message,'bad');}}
 function cloudWaitingMessage(row){if(!state)return 'Connected. Join/host complete; waiting for game state.'; let lock=row.lock_owner&&row.lock_until&&new Date(row.lock_until)>new Date(); if(lock&&row.lock_owner!==cloud.localPlayerId&&isMyCloudTurn())return `Waiting: ${row.current_player_name||currentPlayerName('current kingdom')} turn locked by another browser.`; return cloudClaimStatusText()||`Waiting for ${row.current_player_name||currentPlayerName('current kingdom')}.`;}
 async function cloudApplyRow(row,force=false){if(!row||!row.state_json)throw new Error('Cloud row has no state_json.'); state=typeof row.state_json==='string'?JSON.parse(row.state_json):row.state_json; normalizeLoadedState(); selected=null; highlights=[]; rng=seeded(state.seed||'cloud'); for(let i=0;i<state.turn*97+state.current*13;i++)rng(); cloud.row=row; cloud.lastUpdated=row.updated_at||new Date().toISOString(); cloud.lastSeenRevision=row.cloud_revision||cloud.lastSeenRevision||0; setThemeForCurrent();}
 function cloudStartPolling(){if(cloud.pollTimer)clearInterval(cloud.pollTimer); cloud.pollTimer=setInterval(cloudPoll,7000);}
