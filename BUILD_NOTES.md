@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass - Direct Unit Command Flow
 
-Build: v0.26.06.12.1825
+Build: v0.26.06.12.1840
 
 This patch reduces command-popup interruption by making unit selection map-first while preserving local play, manual JSON, recruitment, move-then-attack, and Supabase cloud multiplayer flows.
 
@@ -17,7 +17,10 @@ This patch reduces command-popup interruption by making unit selection map-first
 - Recruited/map/battle unit sprites now use the selected commander faction for that player instead of always using the default player-number faction.
 - Recruit options now require a recruit-capable structure-using unit or commander on an owned city or fortress.
 - Commander battle foreground sprites can temporarily swap to `<commander>_attacking.png` during the strike window, with fallback to the normal commander image when an attack frame is not present.
-- Commander attack-frame swaps now apply only to the acting commander, not the defending commander, and try `_attacking_mirrored.png` as a fallback for incomplete attack-frame sets.
+- Commander attack-frame swaps now apply to both the acting commander and a defending commander so commander duels look like an exchange rather than a passive hit reaction; `_attacking_mirrored.png` remains the fallback for incomplete attack-frame sets.
+- Defender-side ranged/cannon/magic effects now render when the defender's unit type supports them.
+- Commanders emit faction-colored energy wave effects during battle exchanges.
+- Renamed faction asset folders from `p0`/`p1` style labels to commander/faction names for easier art cleanup: `steam_marshal`, `archmage`, `sky_admiral`, `iron_priest`, `thorn_regent`, `cinder_khan`, `dusk_corsair`, and `frost_matriarch`.
 - Feature-scale battle sprites now enter from just outside the battle camera, strike, and retreat back toward their side.
 - Occupied map tiles allow unit sprite overflow so cleaned-up or slightly oversized unit PNGs are not clipped by tile square bounds.
 - AI-controlled kingdoms now pause between decisions and show a visible thinking pulse on the unit being evaluated.

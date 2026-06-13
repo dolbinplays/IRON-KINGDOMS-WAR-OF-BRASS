@@ -1,4 +1,4 @@
-# UI Layout Guide - v0.26.06.12.1825
+# UI Layout Guide - v0.26.06.12.1840
 
 ## Design goal
 
@@ -14,6 +14,7 @@ Keep Iron Kingdoms feeling like a late-era console tactics game: the map is the 
 - Command popup: stays hidden for normal movement/attack selection and appears only when Capture or Recruit creates a real post-move choice.
 - Asset language: kingdom crests identify claim slots and player rows; turn chips mark the active kingdom; tile overlays, aura rings, and status icons are decorative and never intercept map clicks.
 - Unit art: recruited, map, and battle unit sprites follow the selected commander faction for each player, not just the numeric player slot.
+- Asset folders: faction-specific art folders are named after commander/faction slugs, such as `steam_marshal`, `archmage`, `sky_admiral`, and `frost_matriarch`, instead of numeric `p0`/`p1` labels.
 - Sprite bounds: occupied map tiles allow sprite overflow so taller cleaned-up PNGs can extend beyond the square without clipping.
 
 ## Hidden/secondary systems
@@ -52,7 +53,8 @@ Tile highlight PNGs are layered with `pointer-events: none`, so movement and att
 - Commanders and Steam Tanks remain single feature combatants for hero-vs-squad and vehicle-vs-squad scenes.
 - Rifle, cannon, magic, melee, and casualty visuals are action-linked and anchored to the acting side and target side.
 - Battle-side facing uses per-unit overrides so left and right formations face each other even when source crops are inconsistent.
-- Acting commander feature sprites swap to `_attacking.png` frames during their strike window and then return to their standard stance.
+- Commander feature sprites swap to `_attacking.png` frames during battle exchange windows and then return to their standard stance.
+- Commander exchanges can emit faction-colored energy waves; defender-side ranged/cannon/magic effects render when the defender can answer back.
 - The battle background stays behind all combatants, projectiles, and damage numbers.
 
 ## Philosophy

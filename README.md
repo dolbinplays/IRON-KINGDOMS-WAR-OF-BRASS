@@ -1,6 +1,6 @@
 # Iron Kingdoms: War of Brass
 
-Build: v0.26.06.12.1825
+Build: v0.26.06.12.1840
 
 Iron Kingdoms: War of Brass is a browser-playable fantasy steampunk turn-based strategy game with local play, AI players, manual Discord JSON save handoff, and Supabase cloud sync.
 
@@ -50,6 +50,8 @@ supabase_cloud_games_setup.sql
 
 After uploading, hard refresh the page with Ctrl+F5.
 
-## v0.26.06.12.1825 Direct Unit Command Flow Notes
+## v0.26.06.12.1840 Direct Unit Command Flow Notes
 
-This build keeps the map-first retro console tactics layout, generated asset integrations, slower AI turn pacing, enlarged battle formations, intro CRT treatment, and cleaned-up road generation. Unit selection now defaults to direct map actions: select a unit to see movement and attack ranges, click blue tiles to move, click red enemies to attack, and only use the command popup when capture or recruitment creates a real choice. Recruited/map/battle units now follow the selected commander faction art, and acting commander battle sprites use matching `_attacking.png` frames during their strike window when present.
+This build keeps the map-first retro console tactics layout, generated asset integrations, slower AI turn pacing, enlarged battle formations, intro CRT treatment, and cleaned-up road generation. Unit selection now defaults to direct map actions: select a unit to see movement and attack ranges, click blue tiles to move, click red enemies to attack, and only use the command popup when capture or recruitment creates a real choice. Recruited/map/battle units now follow the selected commander faction art, and commander battle sprites use matching `_attacking.png` frames during exchange windows when present.
+
+Faction asset folders now use commander names instead of player-number labels. Update unit art under `assets/units/<commander_slug>/`, map structures under `assets/structures/<commander_slug>/`, map commander variants under `assets/commanders/<commander_slug>/`, and battle unit art under `assets/battle_console/units/<commander_slug>/`.
