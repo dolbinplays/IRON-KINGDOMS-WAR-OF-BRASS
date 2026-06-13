@@ -544,6 +544,23 @@ body.console-remake #log{
   80%,100%{transform:translateX(138px) translateY(60px) scaleX(var(--face,1)) rotate(var(--lose-fall-rot,42deg)) scale(.72);opacity:0}
 }
 
+/* Comprehensive Instructions Modal Patch */
+#helpModal .modalBox{width:min(1080px,94vw);}
+.instructionsIntro{border:2px solid #9b7440;background:linear-gradient(90deg,#21160f,#120b07);border-radius:8px;padding:10px 12px;margin:8px 0 12px;color:#ffe8be;line-height:1.35;}
+.instructionsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0;}
+.instructionsSection{border:1px solid #624422;border-radius:8px;background:#140e0a;padding:10px;line-height:1.35;}
+.instructionsSection h3{margin:0 0 6px;color:#ffd478;font-size:16px;text-transform:uppercase;letter-spacing:.4px;}
+.instructionsSection h4{margin:8px 0 4px;color:#fff2bd;font-size:14px;}
+.instructionsSection p{margin:5px 0;}
+.instructionsSection ul,.instructionsSection ol{margin:5px 0 5px 20px;padding:0;}
+.instructionsSection li{margin:3px 0;}
+.instructionsTable{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;}
+.instructionsTable th,.instructionsTable td{border:1px solid #4e351b;padding:4px 5px;vertical-align:top;}
+.instructionsTable th{background:#22160e;color:#ffd478;text-align:left;}
+.instructionsCallout{border:1px dashed #d6a84f;border-radius:7px;background:#211608;padding:7px;margin-top:7px;color:#ffe8be;}
+.instructionsFooter{display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:-16px;background:linear-gradient(#241811,#0d0805);padding:10px 0 0;margin-top:8px;}
+@media(max-width:900px){.instructionsGrid{grid-template-columns:1fr;}#helpModal .modalBox{width:94vw;}}
+
 </style>
 </head>
 <body class="console-remake map-focus">
@@ -591,6 +608,7 @@ body.console-remake #log{
   <div class="toolbar consoleHudBtns">
     <button onclick="openNewGame()">New War</button>
     <button onclick="openConsoleMenu()">Menu</button>
+    <button onclick="showInstructions()">Instructions</button>
     <button onclick="saveGame()">Save</button>
     <button onclick="document.getElementById('loadFile').click()">Load</button>
     <input id="loadFile" type="file" accept="application/json,.json" style="display:none" onchange="loadGameFile(event)">
@@ -635,7 +653,7 @@ body.console-remake #log{
     <button onclick="closeModal('consoleMenuModal');openOptionsDrawer()">Options</button>
     <button onclick="closeModal('consoleMenuModal');openLogModal()">War Log</button>
     <button onclick="closeModal('consoleMenuModal');toggleInspector()">Inspector</button>
-    <button onclick="closeModal('consoleMenuModal');showHelp()">Help</button>
+    <button onclick="closeModal('consoleMenuModal');showInstructions()">Instructions</button>
   </div>
   <p class="small">Map Focus Mode keeps the battlefield dominant. Use contextual command windows, modal menus, and the bottom message box for console-style play.</p>
   <button onclick="closeModal('consoleMenuModal')">Close</button>
@@ -677,16 +695,188 @@ body.console-remake #log{
   </div>
 </div></div>
 
-<div class="modal" id="helpModal"><div class="modalBox">
-  <h2>Weekend Multiplayer Rules</h2>
-  <p><b>Turn handoff:</b> take your turn, press End Turn, press Save Game, and post the JSON file to Discord. The next player downloads and loads it. Solo mode works by setting extra slots to AI.</p>
-  <p><b>Commander selection:</b> choose a heroic commander in New Game. Each has a unique portrait, identity, aura emphasis, and AI flavor.</p><p><b>Commander aura:</b> units within 3 tiles heal at turn start and gain class-specific attack/defense bonuses.</p>
-  <p><b>Observer influence:</b> defeated players gain tokens each round and can use small but meaningful powers to keep playing.</p>
-  <p><b>Counter examples:</b> Pikemen punish Cavalry, Cavalry overrun Artillery, Artillery cracks Steam Tanks, Riflemen shoot Airships, Assassins hunt Mages, Steam Tanks crush Infantry.</p>
-  <p><b>Terrain combat:</b> Forests, hills, mountains, towns, cities, and fortresses reduce incoming damage. Roads and plains provide little cover.</p><p><b>Squads:</b> troop units represent 10 individuals, heavy units represent 5 vehicles/sections, and commanders are heroes. Casualties are shown in zoomed battle scenes as HP falls.</p>
-  <p><b>Audio:</b> press Enable Audio once if your browser blocks autoplay. This branch includes your complete imported ElevenLabs MP3 soundtrack files in /assets/audio/music, alternate takes for every major theme, a soundtrack set selector, plus the fixed single-track music controller and WebAudio SFX fallback.</p>
-  <button onclick="closeModal('helpModal')">Close</button>
+<div class="modal" id="helpModal"><div class="modalBox instructionsBox">
+  <h2>Instructions — IRON KINGDOMS: WAR OF BRASS</h2>
+  <div class="instructionsIntro">
+    <b>Goal:</b> be the last kingdom standing. Build armies, capture towns and cities, protect or reforge your commander, and use terrain, counters, and cloud turn handoff to outmaneuver the other players.
+  </div>
+
+  <div class="instructionsGrid">
+    <div class="instructionsSection">
+      <h3>1. Starting a War</h3>
+      <ol>
+        <li>Press <b>New War</b>.</li>
+        <li>Choose map size and optional seed.</li>
+        <li>Set each slot to <b>Human</b>, <b>AI</b>, or <b>Closed</b>.</li>
+        <li>Pick each kingdom's commander and name.</li>
+        <li>Start the game. Human-only games work for Discord/cloud hotseat. Mixed games can include AI kingdoms.</li>
+      </ol>
+      <p>Turn order follows the active player slots in setup order. Defeated observer kingdoms are skipped for normal turns, but still gain observer influence.</p>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>2. Winning and Defeat</h3>
+      <p>A kingdom wins when it is the last living kingdom left.</p>
+      <p>A kingdom is not automatically dead when its commander falls. Instead, it becomes <b>Leaderless</b> if it still controls at least one <b>City</b> or <b>Fortress</b>.</p>
+      <div class="instructionsCallout"><b>Defeat rule:</b> if your commander is defeated and you control no City or Fortress capable of reforging them, your kingdom becomes an Observer.</div>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>3. Turn Flow</h3>
+      <ol>
+        <li>At the start of your turn, you collect income from controlled structures.</li>
+        <li>Commander healing, aura healing, and pending commander reforge events resolve.</li>
+        <li>Select a ready unit, move it, then attack or wait.</li>
+        <li>Recruit from controlled Cities/Fortresses when eligible.</li>
+        <li>Press <b>End Turn</b> when finished.</li>
+      </ol>
+      <p>Units that can still act are highlighted by their ready animation and status icons.</p>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>4. Moving and Acting</h3>
+      <ul>
+        <li>Select one of your ready units to show movement and attack highlights.</li>
+        <li>Move to a highlighted movement tile.</li>
+        <li>After moving, the unit may attack any highlighted enemy in range, or use <b>Wait / Finish Unit</b>.</li>
+        <li>A unit that has moved cannot move again that turn.</li>
+        <li>Flying units can cross difficult terrain more freely than ground units.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>5. Combat and Battle Scenes</h3>
+      <p>Attacking uses unit attack, defender defense, attacker HP, terrain cover, veteran bonuses, commander aura bonuses, and matchup counters.</p>
+      <ul>
+        <li>Zoomed battle scenes show the strike before map-side effects resume.</li>
+        <li>Counterattacks occur when the defender survives and the attacker is within the defender's range.</li>
+        <li>Casualty counts in battle scenes are visualized from unit HP.</li>
+        <li>Cloud games now post mid-turn battle updates so waiting players can see results during another player's turn.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>6. Terrain and Structures</h3>
+      <table class="instructionsTable">
+        <tr><th>Tile / Site</th><th>Main Effect</th></tr>
+        <tr><td>Plains / Roads</td><td>Low cover, easy movement.</td></tr>
+        <tr><td>Forest / Hills / Mountains</td><td>Better cover, slower movement for most ground troops.</td></tr>
+        <tr><td>Town</td><td>Income, capture target, commander structure healing bonus.</td></tr>
+        <tr><td>City</td><td>Higher income, recruitment, commander reforge location.</td></tr>
+        <tr><td>Fortress</td><td>Strong cover, recruitment, commander reforge location.</td></tr>
+      </table>
+      <p>Capture-capable units can claim neutral or enemy structures by standing on them at turn start.</p>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>7. Commanders</h3>
+      <ul>
+        <li>Commanders are powerful hero units with 160 base HP.</li>
+        <li>Friendly units within 3 tiles of a living commander receive that commander's aura benefits.</li>
+        <li>Commanders heal <b>+5 HP</b> at the start of their turn.</li>
+        <li>If on a controlled structure, commanders heal extra: <b>Town +8</b>, <b>City +15</b>, <b>Fortress +20</b>.</li>
+        <li>Commander self-healing cannot raise them above <b>75% HP</b> unless they are on a controlled Town, City, or Fortress.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>8. Recover Action</h3>
+      <p>A commander may use <b>Recover</b> instead of attacking.</p>
+      <ul>
+        <li>Recover normally heals <b>+20 HP</b>.</li>
+        <li>Recover on a controlled City or Fortress heals <b>+30 HP</b>.</li>
+        <li>Recover uses the commander's action for the turn.</li>
+      </ul>
+      <p>This lets commanders survive chip damage, but they still need friendly territory to recover beyond the field healing cap.</p>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>9. Leaderless Kingdoms and Reforging</h3>
+      <p>If your commander is defeated but you still control a City or Fortress, your kingdom becomes <b>Leaderless</b>.</p>
+      <ul>
+        <li>You remain in the game, but lose your commander aura.</li>
+        <li>A non-commander unit can visit a controlled City or Fortress and spend <b>1000 gold</b> to begin <b>Reforging the Commander</b>.</li>
+        <li>The commander returns at that structure on your next turn with <b>50% HP</b>.</li>
+        <li>The reforged commander cannot act on the turn they return.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>10. Unit Roles and Counters</h3>
+      <table class="instructionsTable">
+        <tr><th>Unit</th><th>Role</th></tr>
+        <tr><td>Infantry</td><td>Cheap capture troops and frontline bodies.</td></tr>
+        <tr><td>Pikemen</td><td>Defensive troops that punish Cavalry.</td></tr>
+        <tr><td>Cavalry</td><td>Fast attackers that pressure Artillery and Riflemen.</td></tr>
+        <tr><td>Riflemen</td><td>Ranged troops that threaten Airships and Gyrocopters.</td></tr>
+        <tr><td>Artillery</td><td>Longer-range siege units that crack Steam Tanks.</td></tr>
+        <tr><td>Steam Tank</td><td>Durable heavy unit that crushes Infantry.</td></tr>
+        <tr><td>Airship / Gyrocopter</td><td>Mobile air threats and flanking units.</td></tr>
+        <tr><td>Mage / Assassin</td><td>Specialist units; Assassins are especially dangerous to Mages.</td></tr>
+      </table>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>11. Observers</h3>
+      <p>Defeated players become Observers instead of being removed from the session.</p>
+      <ul>
+        <li>Observers gain Influence over time.</li>
+        <li>Observer powers can heal weak kingdoms, sabotage leaders, shift weather, ready exhausted units, reveal information, or fund mercenaries.</li>
+        <li>Observers are meant to keep eliminated players involved without fully controlling the outcome.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>12. Cloud Multiplayer</h3>
+      <ul>
+        <li>Use the <b>Cloud</b> button to create or join a shared game.</li>
+        <li>Each human player should claim their kingdom slot.</li>
+        <li>If it is not your turn, your browser should pull updates but not push a stale full game state over the active player's turn.</li>
+        <li>Battle updates are sent mid-turn so waiting players can stay in the loop.</li>
+        <li>Force Sync for waiting players is guarded to prevent undoing active-player battles.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>13. Saving, Loading, and Handoff</h3>
+      <ul>
+        <li><b>Save</b> exports the current game as a JSON file.</li>
+        <li><b>Load</b> imports a saved JSON game.</li>
+        <li>Manual JSON files remain a backup for Discord hotseat games.</li>
+        <li>The handoff strip shows whose turn it is and the suggested save filename.</li>
+      </ul>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>14. Useful Buttons</h3>
+      <table class="instructionsTable">
+        <tr><th>Button</th><th>Use</th></tr>
+        <tr><td>New War</td><td>Start a new solo, AI, hotseat, or cloud war.</td></tr>
+        <tr><td>Menu</td><td>Open the console-style command deck.</td></tr>
+        <tr><td>Instructions</td><td>Open this rules and controls guide.</td></tr>
+        <tr><td>Save / Load</td><td>Export or import JSON saves.</td></tr>
+        <tr><td>End Turn</td><td>Finish the current player's turn.</td></tr>
+        <tr><td>Cloud</td><td>Create, join, claim, and sync cloud games.</td></tr>
+        <tr><td>Options</td><td>Recruitment, audio, observer powers, and game feel options.</td></tr>
+        <tr><td>Inspect</td><td>Open unit, player, terrain, and commander details.</td></tr>
+      </table>
+    </div>
+
+    <div class="instructionsSection">
+      <h3>15. Strategy Tips</h3>
+      <ul>
+        <li>Do not overextend your commander unless you have a retreat path or a reforge-ready structure.</li>
+        <li>Use cheap capture units to expand income early.</li>
+        <li>Fight from forests, hills, towns, cities, and fortresses whenever possible.</li>
+        <li>Use counters instead of raw numbers: the right unit matchup can swing a battle.</li>
+        <li>If a rival commander falls, pressure their Cities and Fortresses before they can reforge.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="instructionsFooter"><button onclick="closeModal('helpModal')">Close Instructions</button></div>
 </div></div>
+
 
 <script>
 'use strict';
@@ -831,7 +1021,7 @@ function slotSetupRow(i){let kind=DEFAULT_SLOT_KINDS[i]||'Closed', lvl=DEFAULT_A
 function updateSlotRows(){for(let i=0;i<8;i++){let kind=$(`slotKind${i}`)?.value||'Closed', row=$(`slotRow${i}`); if(row)row.classList.toggle('closedSlot',kind==='Closed'); if($(`slotDiff${i}`))$(`slotDiff${i}`).disabled=kind!=='AI'; if($(`slotCmd${i}`))$(`slotCmd${i}`).disabled=kind==='Closed'; if($(`slotName${i}`))$(`slotName${i}`).disabled=kind==='Closed';}}
 function updateCommanderPreview(i){}
 function readGameSetup(){let slots=[]; for(let i=0;i<8;i++){let kind=$(`slotKind${i}`)?.value||DEFAULT_SLOT_KINDS[i]||'Closed'; if(kind==='Closed')continue; let commanderClass=$(`slotCmd${i}`)?.value||COMMANDER_ORDER[i%COMMANDER_ORDER.length]; let aiDifficulty=$(`slotDiff${i}`)?.value||'Soldier'; let name=($(`slotName${i}`)?.value||`Kingdom ${i+1}`).trim()||`Kingdom ${i+1}`; slots.push({id:slots.length,slot:i,kind,aiDifficulty,commanderClass,name});} if(!slots.length)slots.push({id:0,slot:0,kind:'Human',aiDifficulty:'Captain',commanderClass:'Steam Marshal',name:'Player 1'}); if(!slots.some(s=>s.kind==='Human'))slots[0].kind='Human'; return slots;}
-function closeModal(id){$(id).classList.remove('show')} function showHelp(){$('helpModal').classList.add('show')}
+function closeModal(id){$(id).classList.remove('show')} function showInstructions(){$('helpModal').classList.add('show')} function showHelp(){showInstructions()}
 function startNewGame(){let configs=readGameSetup();let p=configs.length;let size=$('ngSize').value;let seed=$('ngSeed').value||String(Date.now()); rng=seeded(seed); const dims={Small:[12,10],Medium:[16,12],Large:[22,16]}[size];
  state={version:VERSION,seed,size,w:dims[0],h:dims[1],turn:1,current:0,nextUnitId:1,players:[],map:[],units:[],log:[],weather:'Clear',turnEvents:[],lastIncome:0,aiRunning:false};
  for(let y=0;y<state.h;y++){for(let x=0;x<state.w;x++){state.map.push({x,y,t:randomTerrain(x,y),s:null,owner:null})}}
